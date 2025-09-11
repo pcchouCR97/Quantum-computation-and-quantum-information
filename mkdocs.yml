@@ -177,7 +177,7 @@ plugins:
   - mkdocs-jupyter
   - glightbox
   - search
-  - mermaid2
+#  - mermaid2
 #TODO fix 
 #  - open-in-new-tab #(cannot be installed in ci.yml) 
 #  - mathjax
