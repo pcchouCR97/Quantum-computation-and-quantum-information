@@ -98,7 +98,9 @@ nav:
   
   - Quantum information:
       - Quantum noise and quantum operations: quantum_infomation/qnoise_n_qoperation.md
-      - Quantum error-correction: quantum_infomation/qerror_correction.md
+      - Quantum error-correction: 
+        - Quantum error-correction: quantum_infomation/qerror_correction.md
+        - The stabilizer formalism: quantum_infomation/qerror_correction_stabilizer_formalism.md
 
   #- Cryptography:
   #    - Fundamentals: cryptography/fundamentals.md
@@ -175,7 +177,7 @@ plugins:
   - mkdocs-jupyter
   - glightbox
   - search
-#  - mermaid2
+  - mermaid2
 #TODO fix 
 #  - open-in-new-tab #(cannot be installed in ci.yml) 
 #  - mathjax
