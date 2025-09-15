@@ -34,7 +34,7 @@ we see that the corresponding eigenvalues are $e^{i\theta}$ and $e^{i(2\pi - \th
 See below circuit, 
 
 <div style="text-align: center;">
-    <img src="../../quantum_computation/images/quantum_counting_circuit.png" alt="quantum_counting_circuit" style="width: 725px; height: auto;">
+    <img src="../../quantum_computation/images/quantum_counting_circuit.png" alt="quantum_counting_circuit" style="width: auto; height: auto;">
     <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
         Circuit for performing approximate quantum counting on a quantum computer
     </p>

@@ -3,7 +3,7 @@
 $\lvert 0 \rangle$
 
 <div style="text-align: center;">
-    <img src="/QuantumOpt/images_ML/QSVM_0.png" alt="Description of the image" style="width: 400px; height: 300px;">
+    <img src="/QuantumOpt/images_ML/QSVM_0.png" alt="Description of the image" style="width: auto; height: auto;">
     <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
         The line \((5/4, -1) \cdot \overrightarrow{x} + 0 = 0 \), which is \( y= (5/4)x \), can be used to divide the real plane into two disjoint categories.
     </p>

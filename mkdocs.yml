@@ -97,11 +97,11 @@ nav:
         - P and NP problem: Cs/P_NP.md
   
   - Quantum information:
-      - Quantum noise and quantum operations: quantum_infomation/qnoise_n_qoperation.md
+      - Quantum noise and quantum operations: quantum_information/qnoise_n_qoperation.md
       - Quantum error-correction: 
-        - Quantum error-correction: quantum_infomation/qerror_correction.md
-        - The stabilizer formalism: quantum_infomation/qerror_correction_stabilizer_formalism.md
-
+        - Quantum error-correction: quantum_information/qerror_correction.md
+        - The stabilizer formalism: quantum_information/qerror_correction_stabilizer_formalism.md
+        - Stabilizer codes: quantum_information/qerror_correction_stabilizer_codes.md
   #- Cryptography:
   #    - Fundamentals: cryptography/fundamentals.md
   #    - Symmetric Cryptography: cryptography/symmetric.md
@@ -143,7 +143,12 @@ nav:
           - QHybrid Intro: QuantumOpt/QML/QHyb.md
         - Quantum Generative Adversarial Networks (QGAN): 
           - QGANS Intro: QuantumOpt/QML/QGANS.md
-
+      - Variational Algorithm Design:
+          - Variational Algorithm: QuantumOpt/QVE_variational_algorithm.md
+          - Ansatz and variational forms: QuantumOpt/jupyter_QVC/(Variational_design)_Ansatz_and_variational_forms.ipynb
+          - Cost functions: QuantumOpt/jupyter_QVC/(Varitaional_design)_cost_functions.ipynb
+          - Optimization loops: QuantumOpt/jupyter_QVC/(Variational_design)_Optimization_loops.ipynb
+          - Instances and extensions: QuantumOpt/jupyter_QVC/(Variational_design)_Instances_and_extensions.ipynb
   #- Classical ML and Optimization:
   #  - Optimization Algorithms:
   #    - Gradient descent: ClscOptML/COpt/Gradient.md
