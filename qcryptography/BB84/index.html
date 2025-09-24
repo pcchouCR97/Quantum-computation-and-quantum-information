@@ -1,0 +1,5479 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of my learnings and projects on Quantum Computing and Information.">
+      
+      
+        <meta name="author" content="Po-Chih Chou">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>BB84 - Quantum Computation and Quantum Information</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#all-possible-cases-for-n-2-general-expansion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Quantum Computation and Quantum Information" class="md-header__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum Computation and Quantum Information
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              BB84
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Quantum_Algorithm_101/quantum_state_space_basics/" class="md-tabs__link">
+          
+  
+  
+  Quantum Algorithm 101
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../quantum_computation/fourier_transformation/" class="md-tabs__link">
+          
+  
+  
+  Quantum Computation
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cs/computational_complexity/" class="md-tabs__link">
+          
+  
+  
+  Computer Science
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../quantum_information/qnoise_n_qoperation/" class="md-tabs__link">
+          
+  
+  
+  Quantum information
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../QuantumOpt/QOpt/QUBO/" class="md-tabs__link">
+          
+  
+  
+  Quantum ML and Optimization
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-tabs__link">
+          
+  
+  
+  Real-world Problems
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Quantum Computation and Quantum Information" class="md-nav__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Quantum Computation and Quantum Information
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Algorithm 101
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Algorithm 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_state_space_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum State Space Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Sup_Entg_Rev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Superposition, Entanglement and Reversibility
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Qubit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit(s)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Quantum_logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/TheBlochSphereAndRotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Bloch sphere and rotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/measurement_in_quantum_mechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Measurement in Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_postulate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Postulate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Bloch_sphere/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloch sphere
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/born_rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Born Rule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/computational_basis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational Basis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/hilbert_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hilbert Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logic Gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linear Algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/linear_algebr_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/matrices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matrices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/vector_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Vector Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/space_transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Space Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/modular_arithmetic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modular Arithmetic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8">
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Probability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/probability_theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Embeding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_feature_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Feature Map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/qubit_dimensionality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit Dimensionality
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/qiskit_primitives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qiskit Primitives
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/variational_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_paralleslism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Paralleslism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Linear_algebra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_16">
+        
+          
+          <label class="md-nav__link" for="__nav_2_16" id="__nav_2_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Test
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_16">
+            <span class="md-nav__icon md-icon"></span>
+            Test
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/test_level/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Test level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1">
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Fourier Transform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Fourier Transform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/fourier_transformation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fourier Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/order_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Order-finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/factoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factoring (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/period_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Period finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Learning hub
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning hub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/jupyter_qc/adder0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calculating 1+1 using quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/jupyter_qc/Shor%27s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Building Shor’s Algorithm from Scratch: Factoring 15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Algorithms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/phase_kickback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Phase kickback
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/computation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5">
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Search Algorithm
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Search Algorithm
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_q_search_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Quantum Search Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_quantum_counting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Counting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_NP_complete_problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quadratic speed up NP-complete problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_black_box_limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Block box algorithm limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6">
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum computer
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum computer
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conditions for quantum computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_neutral_atom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Neural atom quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_hoscillator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic oscillator quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_optphoto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical photo quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_optcavity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical cavity quantum electrodynamics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_iontrap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ion traps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_nuclearmag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nuclear magnetic resonance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Computer Science
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Science
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cs/computational_complexity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational complexity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cs/P_NP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P and NP problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum information
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum information
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qnoise_n_qoperation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum noise and quantum operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2">
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum error-correction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction_stabilizer_formalism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The stabilizer formalism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction_stabilizer_codes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stabilizer codes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum ML and Optimization
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum ML and Optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Algorithms
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Algorithms
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_1">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_1" id="__nav_6_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quadratic Unconstrained Binary Optimization (QUBO)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quadratic Unconstrained Binary Optimization (QUBO)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/QUBO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QUBO Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_1_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start QUBO with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_example_knapsack_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knapsack problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_example_max_cut_and_tsp_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Max-Cut and Traveler Saleman Problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_2" id="__nav_6_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/AQQA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AQQA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/AQQA_D-WAVE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working AQQA with D-wave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Approximate Optimization Algorithm (QAOA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Approximate Optimization Algorithm (QAOA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/QAOA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QAOA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QAOA_D-Wave.ipynb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solving QUBO problems with QAOA in Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QAOA_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using QAOA with PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_4" id="__nav_6_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Grover Adaptive Search (GAS)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Grover Adaptive Search (GAS)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/GAS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GAS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/GAS_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using GAS with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_5" id="__nav_6_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Quantum Eignesolver (VQE)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Quantum Eignesolver (VQE)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/VQEIntro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VQE Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/VQE_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using VQE with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Machine Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Machine Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/MachineLearningRefresher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning Refresher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machines (QSVM)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Support Vector Machines (QSVM)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QSVM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QSVM Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QML/%28C%29load_wine_QSVM_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machine in PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Neural Networks (QNN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Neural Networks (QNN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QNN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QNN Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Hybrid Architectures (QHybrid)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Hybrid Architectures (QHybrid)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QHyb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QHybrid Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5" id="__nav_6_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Generative Adversarial Networks (QGAN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Generative Adversarial Networks (QGAN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QGANS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QGANS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Algorithm Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QVE_variational_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Ansatz_and_variational_forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ansatz and variational forms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Varitaional_design%29_cost_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cost functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Optimization_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local and Global Optimizers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Instances_and_extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instances and extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Real-world Problems
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Real-world Problems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Scheduling and Logistics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Scheduling and Logistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nurse Scheduling Problem Using Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/jupyter_Opt/%28C%29Air_Traffic_Control_1_Runway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Air Traffic Control Problem - Optimal Runway Allocation for Single-Plane Assignments in a Multi-Runway Airport
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Finance
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1" id="__nav_7_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Amplitude Estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_iterative_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterative Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Q_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Constructing Quantum Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_conv_accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Convergence and Accuracy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Var_n_CVaR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VaR and CVaR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_2" id="__nav_7_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Credit Risk Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_credit_risk_problem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_credit_risk_glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_Portfolio_Optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_Portfolio_Diversification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Diversification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3">
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Biology
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Biology
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_RNA_Folding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RNA Folding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About Me
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#all-possible-cases-for-n-2-general-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      All Possible Cases for n = 2 : General Expansion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicit-calculation-of-tensor-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explicit Calculation of Tensor Products
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explicit Calculation of Tensor Products">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-a-00-b-00a-00-b-00" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: a = 00, b = 00a = 00, b = 00
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-a-01-b-01a-01-b-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: a = 01, b = 01a = 01, b = 01
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-a-10-b-10a-10-b-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: a = 10, b = 10a = 10, b = 10
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      General Formula
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#base-shifting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Base shifting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Base shifting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-basis-shifting" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Basis Shifting?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-basis-shifting-happen" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Does Basis Shifting Happen?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detecting-eavesdropping-with-basis-shifting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detecting Eavesdropping with Basis Shifting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-of-eavesdropping-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example of Eavesdropping Detection
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example of Eavesdropping Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-eavesdropping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Without Eavesdropping:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-eavesdropping" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Eavesdropping:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detection:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#q-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q &amp; A
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q &amp; A">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q1-isnt-bob-and-eve-face-the-same-challenge-they-dont-knew-the-encoding-basis-alice-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q1. Isn't Bob and Eve face the same challenge: they don't knew the encoding basis Alice used?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q1. Isn't Bob and Eve face the same challenge: they don't knew the encoding basis Alice used?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-between-bob-and-eves-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Differences Between Bob and Eve's Roles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-errors-are-introduced-by-eve" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Errors Are Introduced by Eve
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-detection-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Detection Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-bob-can-detect-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Bob Can Detect Errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-eavesdropping_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Without Eavesdropping:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-eavesdropping_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Eavesdropping:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-rates-and-eavesdropping-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Rates and Eavesdropping Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q2-what-is-a-normal-part-of-the-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q2 what is a normal part of the protocol?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q2 what is a normal part of the protocol?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-quantum-measurement-only-disturbs-the-state-if-the-basis-is-incorrect" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Quantum Measurement Only Disturbs the State if the Basis is Incorrect
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bobs-random-measurement-does-not-always-disturb-the-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Bob's Random Measurement Does Not Always Disturb the State
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-eves-measurement-always-disturbs-the-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Eve's Measurement Always Disturbs the State
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-why-the-protocol-design-prevents-state-disturbance" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Why the Protocol Design Prevents State Disturbance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-real-world-noise-and-error-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Real-World Noise and Error Correction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q3-so-bob-doesnt-know-the-basis-alice-used-before-he-measure-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q3 So Bob doesn't know the basis Alice used before he measure it?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q3 So Bob doesn't know the basis Alice used before he measure it?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-why-bob-cannot-know-the-basis-before-measuring" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Why Bob Cannot Know the Basis Before Measuring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-how-bob-chooses-a-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. How Bob Chooses a Basis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-basis-matching-in-the-bb84-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Basis Matching in the BB84 Protocol
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-why-this-ensures-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Why This Ensures Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-what-happens-if-bob-always-used-a-single-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. What Happens if Bob Always Used a Single Basis?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q4-can-eve-copy-the-message-and-measure-it-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q4 Can Eve copy the message and measure it later?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Q4 Can Eve copy the message and measure it later?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#if-eve-tries-to-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      If Eve Tries to Copy:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Correction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privacy-amplification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Privacy Amplification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p>In the BB84 quantum key distribution protocol, Alice and Bob establish a secure key by transmitting qubits and measuring them in randomly chosen bases (Z or X). After the transmission, they compare their chosen bases over a public, authenticated channel without revealing the actual measurement results. Only qubits where their bases match are retained for the key. To detect eavesdropping, they reveal a subset of the matching qubits and compare their values. If Alice and Bob used the same basis (e.g., Z-basis), but their results differ (e.g., Alice sent 0, but Bob measured 1), they can infer that an eavesdropper (Eve) has interfered, as Eve's random basis guesses would disturb the quantum states and introduce detectable errors. This process ensures the security of the final key and the detection of any unauthorized interception.</p>
+<p>adding picutre</p>
+<hr>
+<p>The BB84 quantum key distribution (QKD) protocol allows two parties (Alice and Bob) to establish a shared secret key securely using quantum mechanics. Let's break down the content of the image step by step to understand the basics:</p>
+<ol>
+<li>
+<p><strong>Key Strings</strong>:</p>
+<ul>
+<li>Alice starts with <strong>two binary strings</strong>,  a  and  b , each of length  n . These strings are random.</li>
+<li>The string  a  determines the <strong>bit values</strong> (0 or 1) Alice wants to send.</li>
+<li>The string  b  determines the <strong>basis</strong> (how the bits will be encoded) for each qubit.</li>
+</ul>
+</li>
+<li>
+<p><strong>Encoding Qubits</strong>:</p>
+<ul>
+<li>Alice encodes her bits <span class="arithmatex"><span class="MathJax_Preview">a_i</span><script type="math/tex">a_i</script></span> and bases <span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span> into quantum states. For each bit, she prepares a qubit  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi_{a_i b_i} \rangle</span><script type="math/tex">\lvert \psi_{a_i b_i} \rangle</script></span>, where:<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_i</span><script type="math/tex">a_i</script></span>  is the  i -th bit of  a  (0 or 1).</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span>  is the  i -th bit of  b  (0 or 1).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Quantum States</strong>:</p>
+<ul>
+<li>
+<p>Based on  <span class="arithmatex"><span class="MathJax_Preview">a_i</span><script type="math/tex">a_i</script></span>  and  <span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span> , Alice uses the following encoding:</p>
+<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert \psi _{00}\rangle</span><script type="math/tex">\lvert \psi _{00}\rangle</script></span>: <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> — A qubit in the <strong>Z-basis</strong> representing 0.</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert \psi _{10}\rangle</span><script type="math/tex">\lvert \psi _{10}\rangle</script></span>: <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span> — A qubit in the <strong>Z-basis</strong> representing 1.</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert \psi _{01}\rangle</span><script type="math/tex">\lvert \psi _{01}\rangle</script></span>: <span class="arithmatex"><span class="MathJax_Preview">\lvert+\rangle</span><script type="math/tex">\lvert+\rangle</script></span> = <span class="arithmatex"><span class="MathJax_Preview">\frac{1}{\sqrt{2}}(\lvert0\rangle + \lvert1\rangle)</span><script type="math/tex">\frac{1}{\sqrt{2}}(\lvert0\rangle + \lvert1\rangle)</script></span>  — A qubit in the <strong>X-basis</strong> representing 0.</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert \psi _{11}\rangle</span><script type="math/tex">\lvert \psi _{11}\rangle</script></span>: <span class="arithmatex"><span class="MathJax_Preview">\lvert-\rangle</span><script type="math/tex">\lvert-\rangle</script></span> = <span class="arithmatex"><span class="MathJax_Preview">\frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)</span><script type="math/tex">\frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)</script></span>  — A qubit in the <strong>X-basis</strong> representing 1.</li>
+</ul>
+</li>
+<li>
+<p>The Z-basis (rectilinear basis) consists of <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span>.</p>
+</li>
+<li>The X-basis (diagonal basis) consists of <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">\lvert -\rangle</span><script type="math/tex">\lvert -\rangle</script></span>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tensor Product</strong>:</p>
+<ul>
+<li>
+<p>Alice prepares a sequence of  n  qubits, each encoded using the tensor product formula:</p>
+<p><span class="arithmatex"><span class="MathJax_Preview">\lvert \psi \rangle = \bigotimes_{i=1}^n \lvert \psi _{a_i b_i}\rangle</span><script type="math/tex">\lvert \psi \rangle = \bigotimes_{i=1}^n \lvert \psi _{a_i b_i}\rangle</script></span></p>
+<p>This means she sends a combined quantum state of all  n  qubits, where each qubit is independently encoded.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Purpose</strong>:</p>
+<ul>
+<li>Bob measures each qubit in a randomly chosen basis (Z-basis or X-basis).</li>
+<li>If Bob's measurement basis matches Alice's encoding basis ( <span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span> ), the measurement result will match  <span class="arithmatex"><span class="MathJax_Preview">a_i</span><script type="math/tex">a_i</script></span>  perfectly.</li>
+<li>If the bases don't match, Bob's measurement result will be random and provide no useful information.</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Extraction</strong>:</p>
+<ul>
+<li>After sending and measuring, Alice and Bob compare their bases ( b ) over a public channel.</li>
+<li>They discard the results where their bases don't match, leaving a shorter string of bits that they use as the secret key.</li>
+</ul>
+</li>
+</ol>
+<p>The security of BB84 relies on the principles of quantum mechanics:</p>
+<ol>
+<li>Any attempt by an eavesdropper (Eve) to intercept or measure the qubits introduces detectable disturbances in the system.</li>
+<li>This ensures the integrity of the communication between Alice and Bob.</li>
+</ol>
+<p>Great question! The reason I didn't initially consider  <span class="arithmatex"><span class="MathJax_Preview">a_1</span><script type="math/tex">a_1</script></span> = 0  or  <span class="arithmatex"><span class="MathJax_Preview">b_2</span><script type="math/tex">b_2</script></span> = 0  is because the example explicitly set  a = 10  and  b = 01 . However, you're absolutely correct that we could (and should) consider <strong>all possible cases</strong> of  <span class="arithmatex"><span class="MathJax_Preview">a_i</span><script type="math/tex">a_i</script></span>  and  <span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span>  when  n = 2 , to explore the full set of scenarios.</p>
+<p>Let's now revisit the problem and explicitly calculate the tensor product for <strong>all combinations</strong> of <span class="arithmatex"><span class="MathJax_Preview">a_1</span><script type="math/tex">a_1</script></span>, <span class="arithmatex"><span class="MathJax_Preview">a_2</span><script type="math/tex">a_2</script></span> and <span class="arithmatex"><span class="MathJax_Preview">b_1</span><script type="math/tex">b_1</script></span>, <span class="arithmatex"><span class="MathJax_Preview">b_2</span><script type="math/tex">b_2</script></span> ,instead of just one specific example.</p>
+<hr>
+<h3 id="all-possible-cases-for-n-2-general-expansion"><strong>All Possible Cases for  n = 2 : General Expansion</strong></h3>
+<p>For  n = 2 , we have two bits  <strong><span class="arithmatex"><span class="MathJax_Preview">a = a_1a_2</span><script type="math/tex">a = a_1a_2</script></span></strong>  and  <strong><span class="arithmatex"><span class="MathJax_Preview">b = b_1b_2</span><script type="math/tex">b = b_1b_2</script></span></strong> . Each qubit state  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi_{a_i b_i}\rangle</span><script type="math/tex">\lvert \psi_{a_i b_i}\rangle</script></span>  is determined as follows:</p>
+<ol>
+<li>
+<p><strong>If <span class="arithmatex"><span class="MathJax_Preview">b_i = 0</span><script type="math/tex">b_i = 0</script></span></strong> (Z-basis):</p>
+<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_i = 0</span><script type="math/tex">a_i = 0</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi _{a_i b_i}\rangle = \lvert0\rangle</span><script type="math/tex">\lvert \psi _{a_i b_i}\rangle = \lvert0\rangle</script></span> </li>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_i = 1</span><script type="math/tex">a_i = 1</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi _{a_i b_i}\rangle = \lvert1\rangle</span><script type="math/tex">\lvert \psi _{a_i b_i}\rangle = \lvert1\rangle</script></span> </li>
+</ul>
+</li>
+<li>
+<p><strong>If <span class="arithmatex"><span class="MathJax_Preview">b_i = 1</span><script type="math/tex">b_i = 1</script></span></strong> (X-basis):</p>
+<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_i = 0</span><script type="math/tex">a_i = 0</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi \rangle_{a_i b_i}\rangle = \lvert+\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle + \lvert1\rangle</span><script type="math/tex">\lvert \psi \rangle_{a_i b_i}\rangle = \lvert+\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle + \lvert1\rangle</script></span>) </li>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_i = 1</span><script type="math/tex">a_i = 1</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi \rangle_{a_i b_i}\rangle = \lvert-\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle</span><script type="math/tex">\lvert \psi \rangle_{a_i b_i}\rangle = \lvert-\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle</script></span>) </li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="explicit-calculation-of-tensor-products"><strong>Explicit Calculation of Tensor Products</strong></h3>
+<p>We calculate the tensor product for <strong>one full combination</strong> as an example, but the method applies to all cases.</p>
+<h4 id="example-a-00-b-00a-00-b-00">Example:  <span class="arithmatex"><span class="MathJax_Preview">a = 00, b = 00</span><script type="math/tex">a = 00, b = 00</script></span></h4>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_1 = 0, b_1 = 0</span><script type="math/tex">a_1 = 0, b_1 = 0</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi \rangle_{a_1 b_1}\rangle = \lvert0\rangle</span><script type="math/tex">\lvert \psi \rangle_{a_1 b_1}\rangle = \lvert0\rangle</script></span></li>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_2 = 0, b_2 = 0</span><script type="math/tex">a_2 = 0, b_2 = 0</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi \rangle_{a_2 b_2}\rangle = \lvert0\rangle</span><script type="math/tex">\lvert \psi \rangle_{a_2 b_2}\rangle = \lvert0\rangle</script></span> </li>
+</ol>
+<p>The total state:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\lvert \psi \rangle = \lvert \psi_{a_1 b_1}\rangle \otimes \lvert \psi_{a_2 b_2}\rangle = \lvert0\rangle \otimes \lvert0\rangle = \lvert00\rangle
+</div>
+<script type="math/tex; mode=display">
+\lvert \psi \rangle = \lvert \psi_{a_1 b_1}\rangle \otimes \lvert \psi_{a_2 b_2}\rangle = \lvert0\rangle \otimes \lvert0\rangle = \lvert00\rangle
+</script>
+</div>
+<hr>
+<h4 id="example-a-01-b-01a-01-b-01">Example:  <span class="arithmatex"><span class="MathJax_Preview">a = 01, b = 01</span><script type="math/tex">a = 01, b = 01</script></span></h4>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_1 = 0, b_1 = 0</span><script type="math/tex">a_1 = 0, b_1 = 0</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi_{a_1 b_1}\rangle = \lvert0\rangle</span><script type="math/tex">\lvert \psi_{a_1 b_1}\rangle = \lvert0\rangle</script></span></li>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_2 = 1, b_2 = 1</span><script type="math/tex">a_2 = 1, b_2 = 1</script></span> :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi_{a_2 b_2}\rangle = \lvert-\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)</span><script type="math/tex">\lvert \psi_{a_2 b_2}\rangle = \lvert-\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)</script></span></li>
+</ol>
+<p>The total state:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\lvert \psi \rangle = \lvert0\rangle \otimes \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)
+</div>
+<script type="math/tex; mode=display">
+\lvert \psi \rangle = \lvert0\rangle \otimes \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)
+</script>
+</div>
+<p>Expand the tensor product:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\lvert \psi \rangle = \frac{1}{\sqrt{2}}(\lvert00\rangle - \lvert01\rangle)
+</div>
+<script type="math/tex; mode=display">
+\lvert \psi \rangle = \frac{1}{\sqrt{2}}(\lvert00\rangle - \lvert01\rangle)
+</script>
+</div>
+<hr>
+<h4 id="example-a-10-b-10a-10-b-10">Example:  <span class="arithmatex"><span class="MathJax_Preview">a = 10, b = 10</span><script type="math/tex">a = 10, b = 10</script></span></h4>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_1 = 1, b_1 = 1 :  \lvert \psi _{a_1 b_1}\rangle = \lvert-\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)</span><script type="math/tex">a_1 = 1, b_1 = 1 :  \lvert \psi _{a_1 b_1}\rangle = \lvert-\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle)</script></span></li>
+<li><span class="arithmatex"><span class="MathJax_Preview">a_2 = 0, b_2 = 0 :  \lvert \psi _{a_2 b_2}\rangle = \lvert0\rangle</span><script type="math/tex">a_2 = 0, b_2 = 0 :  \lvert \psi _{a_2 b_2}\rangle = \lvert0\rangle</script></span></li>
+</ol>
+<p>The total state:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\lvert \psi \rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle) \otimes \lvert0\rangle
+</div>
+<script type="math/tex; mode=display">
+\lvert \psi \rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle - \lvert1\rangle) \otimes \lvert0\rangle
+</script>
+</div>
+<p>Expand the tensor product:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\lvert \psi \rangle = \frac{1}{\sqrt{2}}(\lvert00\rangle - \lvert10\rangle)
+</div>
+<script type="math/tex; mode=display">
+\lvert \psi \rangle = \frac{1}{\sqrt{2}}(\lvert00\rangle - \lvert10\rangle)
+</script>
+</div>
+<hr>
+<h3 id="general-formula"><strong>General Formula</strong></h3>
+<p>For  n = 2 , the state  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi \rangle</span><script type="math/tex">\lvert \psi \rangle</script></span>\rangle  is given by:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\lvert \psi \rangle = \lvert \psi_{a_1 b_1}\rangle \otimes \lvert \psi_{a_2 b_2}\rangle
+</div>
+<script type="math/tex; mode=display">
+\lvert \psi \rangle = \lvert \psi_{a_1 b_1}\rangle \otimes \lvert \psi_{a_2 b_2}\rangle
+</script>
+</div>
+<p>where each  $\lvert \psi_{a_i b_i}\rangle  depends on the values of <span class="arithmatex"><span class="MathJax_Preview">a_i</span><script type="math/tex">a_i</script></span> and <span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span> as:</p>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span> = 0 :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi_{a_i b_i}\rangle = \lvert a_i\rangle</span><script type="math/tex">\lvert \psi_{a_i b_i}\rangle = \lvert a_i\rangle</script></span>  (Z-basis).</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">b_i</span><script type="math/tex">b_i</script></span> = 1 :  <span class="arithmatex"><span class="MathJax_Preview">\lvert \psi_{a_i b_i}\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle + (-1)^{a_i}\lvert1\rangle)</span><script type="math/tex">\lvert \psi_{a_i b_i}\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle + (-1)^{a_i}\lvert1\rangle)</script></span>  (X-basis).</li>
+</ol>
+<hr>
+<h1 id="base-shifting">Base shifting</h1>
+<h2 id="what-is-basis-shifting"><strong>What is Basis Shifting?</strong></h2>
+<p><strong>Basis shifting</strong> refers to changing the representation or measurement basis of a quantum state. In quantum mechanics, qubits are often represented and measured in different bases. The two most commonly used bases are:</p>
+<ol>
+<li>
+<p><strong>Z-basis (Computational Basis):</strong></p>
+<ul>
+<li>States: (<span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span>, <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span>).</li>
+<li>This is the "classical" binary basis used for encoding and measuring.</li>
+</ul>
+</li>
+<li>
+<p><strong>X-basis (Diagonal Basis):</strong></p>
+<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert - \rangle = \frac{\lvert 0 \rangle - \lvert 1 \rangle}{\sqrt{2}}</span><script type="math/tex">\lvert - \rangle = \frac{\lvert 0 \rangle - \lvert 1 \rangle}{\sqrt{2}}</script></span> </li>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert + \rangle = \frac{\lvert 0 \rangle + \lvert 1 \rangle}{\sqrt{2}}</span><script type="math/tex">\lvert + \rangle = \frac{\lvert 0 \rangle + \lvert 1 \rangle}{\sqrt{2}}</script></span></li>
+<li>This basis involves superpositions of the Z-basis states.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Basis shifting</strong> occurs when:</p>
+<ol>
+<li><mark class="critic">A quantum state encoded in one basis is measured in another basis.</mark></li>
+<li>A qubit is deliberately transformed from one basis to another using quantum gates (like the Hadamard gate).</li>
+</ol>
+<hr>
+<h2 id="how-does-basis-shifting-happen"><strong>How Does Basis Shifting Happen?</strong></h2>
+<p>In the BB84 protocol, basis shifting happens due to the <strong>random choice of encoding and measurement bases</strong> by Alice and Bob:</p>
+<ol>
+<li>
+<p><strong>Alice's Encoding</strong>:</p>
+<ul>
+<li>Alice randomly encodes each qubit in either the Z-basis or X-basis:<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">b_i = 0</span><script type="math/tex">b_i = 0</script></span>: Z-basis (<span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle, \lvert 1\rangle</span><script type="math/tex">\lvert 0\rangle, \lvert 1\rangle</script></span>).</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">b_i = 1</span><script type="math/tex">b_i = 1</script></span>: Z-basis (<span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle, \lvert -\rangle</span><script type="math/tex">\lvert +\rangle, \lvert -\rangle</script></span>).</li>
+</ul>
+</li>
+<li>Example: If <span class="arithmatex"><span class="MathJax_Preview">a_i = 1, b_i = 0</span><script type="math/tex">a_i = 1, b_i = 0</script></span>, she encodes <span class="arithmatex"><span class="MathJax_Preview">\lvert 1 \rangle</span><script type="math/tex">\lvert 1 \rangle</script></span>. If <span class="arithmatex"><span class="MathJax_Preview">a_i = 1</span><script type="math/tex">a_i = 1</script></span>, <span class="arithmatex"><span class="MathJax_Preview">b_i = 1</span><script type="math/tex">b_i = 1</script></span> , she encodes  <span class="arithmatex"><span class="MathJax_Preview">\lvert-\rangle</span><script type="math/tex">\lvert-\rangle</script></span>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Bob's Measurement</strong>:</p>
+<ul>
+<li>Bob randomly chooses to measure each qubit in either the Z-basis or X-basis.</li>
+<li>If Bob's measurement basis matches Alice's encoding basis, the result is correct.</li>
+<li>If Bob's measurement basis doesn't match, the result is <strong>random</strong>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="detecting-eavesdropping-with-basis-shifting"><strong>Detecting Eavesdropping with Basis Shifting</strong></h2>
+<p>The BB84 protocol uses basis shifting to detect the presence of an eavesdropper (Eve). Here's how it works:</p>
+<ol>
+<li>
+<p><strong>Eve's Interception</strong>:</p>
+<ul>
+<li>Eve tries to intercept and measure the qubits in transit from Alice to Bob.</li>
+<li>Since Eve doesn't know Alice's encoding basis, she must randomly choose a measurement basis (Z or X) for each qubit.</li>
+</ul>
+</li>
+<li>
+<p><strong>Eve's Disturbance</strong>:</p>
+<ul>
+<li>If Eve measures in the wrong basis (e.g., measures a qubit encoded in the X-basis using the Z-basis), her measurement collapses the quantum state.</li>
+<li>When the qubit is sent to Bob, it no longer matches Alice's original encoding.</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Verification</strong>:</p>
+<ul>
+<li>After Bob measures the qubits, Alice and Bob publicly compare the bases they used (but not the actual measurement results).</li>
+<li>They discard any qubits where their bases didn't match.</li>
+<li>For the remaining qubits (where their bases matched), they compare a subset of their measurement results over a public channel.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error Detection</strong>:</p>
+<ul>
+<li>If there's no eavesdropping, Bob's measurements will match Alice's encoding perfectly (no errors).</li>
+<li>If Eve intercepted the qubits, her random measurements will introduce detectable errors in the shared key.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="example-of-eavesdropping-detection"><strong>Example of Eavesdropping Detection</strong></h2>
+<p>Let's consider an example where <span class="arithmatex"><span class="MathJax_Preview">n = 3</span><script type="math/tex">n = 3</script></span>:</p>
+<h3 id="without-eavesdropping">Without Eavesdropping:</h3>
+<ol>
+<li><strong>Alice's Encoding</strong>:<ul>
+<li>Alice sends: <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span>, <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span>, <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span> (bases: Z, X, Z).</li>
+</ul>
+</li>
+<li><strong>Bob's Measurement</strong>:<ul>
+<li>Bob measures in the same bases: Z, X, Z.</li>
+<li>Results: Bob gets the correct key: 0, 0, 1.</li>
+</ul>
+</li>
+</ol>
+<h3 id="with-eavesdropping">With Eavesdropping:</h3>
+<ol>
+<li><strong>Eve's Interception</strong>:<ul>
+<li>Eve intercepts and randomly measures the qubits in bases: X, Z, X.</li>
+<li>She collapses the qubits into new states: <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span>, <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span>, <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span>.</li>
+</ul>
+</li>
+<li><strong>Bob's Measurement</strong>:<ul>
+<li>Bob measures in bases: Z, X, Z.</li>
+<li>Results: Errors occur because Eve altered the quantum states.</li>
+</ul>
+</li>
+</ol>
+<h3 id="detection">Detection:</h3>
+<ul>
+<li>Alice and Bob compare the results of a subset of their key bits where their bases matched.</li>
+<li>If Eve intercepted, the error rate will be higher than expected, signaling eavesdropping.</li>
+</ul>
+<hr>
+<h3 id="key-takeaways"><strong>Key Takeaways</strong></h3>
+<ul>
+<li>
+<p><strong>Why Basis Shifting Works for Security</strong>:</p>
+<ul>
+<li>Quantum states collapse when measured in the wrong basis.</li>
+<li>This collapse introduces detectable errors if an eavesdropper tries to intercept.</li>
+</ul>
+</li>
+<li>
+<p><strong>How Alice and Bob Detect Eavesdropping</strong>:</p>
+<ul>
+<li>They use random basis shifting (Z-basis and X-basis) to encode and measure.</li>
+<li>Any tampering causes mismatches in their measurement results.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="q-a">Q &amp; A</h1>
+<h2 id="q1-isnt-bob-and-eve-face-the-same-challenge-they-dont-knew-the-encoding-basis-alice-used">Q1. Isn't Bob and Eve face the same challenge: they don't knew the encoding basis Alice used?</h2>
+<p>A: Correct!: they don't know the encoding basis Alice used. However, the key distinction lies in how Bob and Eve's actions affect the quantum states. Here's a step-by-step explanation of how Bob and Alice can detect errors introduced by Eve:</p>
+<hr>
+<h3 id="key-differences-between-bob-and-eves-roles"><strong>Key Differences Between Bob and Eve's Roles</strong></h3>
+<ol>
+<li>
+<p><strong>Bob's Role</strong>:</p>
+<ul>
+<li>Bob is a legitimate participant in the protocol.</li>
+<li>He doesn't need to know Alice's encoding basis in real-time because they later publicly compare their chosen bases after Bob measures the qubits.</li>
+<li>Bob's measurements are a <a href="./#q2-what-is-a-normal-part-of-the-protocol"><strong>normal part of the protocol</strong></a> and do not disturb the quantum state if his basis matches Alice's.</li>
+</ul>
+</li>
+<li>
+<p><strong>Eve's Role</strong>:</p>
+<ul>
+<li>Eve is an eavesdropper who intercepts the qubits mid-transmission.</li>
+<li>Eve cannot communicate with Alice and Bob, so she must guess Alice's encoding basis (Z or X) for each qubit. This guess introduces errors because her measurement collapses the quantum state when she measures in the wrong basis.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="how-errors-are-introduced-by-eve"><strong>How Errors Are Introduced by Eve</strong></h3>
+<ol>
+<li>
+<p><strong>Eve Intercepts and Measures</strong>:</p>
+<ul>
+<li>Eve measures each qubit in a random basis (Z or X). If her basis matches Alice's, she correctly measures the state. If not, her measurement collapses the state into a new random value in the wrong basis.</li>
+</ul>
+</li>
+<li>
+<p><strong><mark class="critic">Eve Resends the Qubit</mark></strong>:</p>
+<ul>
+<li>After measuring, Eve resends the qubit to Bob. However, the qubit's state is now modified based on her measurement, not Alice's original encoding.</li>
+</ul>
+</li>
+<li>
+<p><strong>Bob's Measurement</strong>:</p>
+<ul>
+<li>Bob measures the qubit as usual, but if the qubit was altered by Eve, the likelihood of Bob's result matching Alice's original encoding is reduced.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="error-detection-process"><strong>Error Detection Process</strong></h3>
+<p>Alice and Bob detect the errors introduced by Eve as follows:</p>
+<ol>
+<li>
+<p><strong>Key Exchange</strong>:</p>
+<ul>
+<li>Alice and Bob exchange qubits, with Alice encoding in random bases (Z or X) and Bob measuring in random bases.</li>
+</ul>
+</li>
+<li>
+<p><strong>Basis Comparison</strong>:</p>
+<ul>
+<li>After transmission, Alice and Bob publicly compare their bases (but not their measurement results).</li>
+<li>They discard any qubits where their bases don't match. For example:<ul>
+<li>Alice encodes in Z, Bob measures in Z → Keep.</li>
+<li>Alice encodes in X, Bob measures in Z → Discard.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Check</strong>:</p>
+<ul>
+<li>For the remaining qubits (where bases matched), Alice and Bob publicly reveal the measurement results for a small subset of the key.</li>
+<li>If there is no eavesdropping, the results will match perfectly.</li>
+<li>If Eve intercepted, her random basis choices introduce detectable mismatches in the sample subset.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="why-bob-can-detect-errors"><strong>Why Bob Can Detect Errors</strong></h3>
+<ul>
+<li>Bob and Alice know the bases they used after they compare them.</li>
+<li>Errors introduced by Eve create discrepancies in the results for the cases where Alice and Bob used the same basis.</li>
+<li>Since Eve doesn't know Alice's basis when she measures, her interference causes errors in the subset of qubits Alice and Bob verify.</li>
+</ul>
+<hr>
+<h3 id="example"><strong>Example</strong></h3>
+<h4 id="without-eavesdropping_1">Without Eavesdropping:</h4>
+<ol>
+<li>Alice sends qubits:<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> (Z-basis), <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> (X-basis), <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span> (Z-basis).</li>
+</ul>
+</li>
+<li>Bob measures:<ul>
+<li>Z-basis: <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> → Correct.</li>
+<li>X-basis: <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> → Correct.</li>
+<li>Z-basis: <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span> → Correct.</li>
+</ul>
+</li>
+<li>Sample check:<ul>
+<li>All results match, so no errors.</li>
+</ul>
+</li>
+</ol>
+<h4 id="with-eavesdropping_1">With Eavesdropping:</h4>
+<ol>
+<li>Eve intercepts and measures randomly:<ul>
+<li>Eve measures <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> in X-basis → Collapses to <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> or <span class="arithmatex"><span class="MathJax_Preview">\lvert -\rangle</span><script type="math/tex">\lvert -\rangle</script></span>.</li>
+<li>Eve measures <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> in Z-basis → Collapses to <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> or <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span>.</li>
+<li>Eve measures <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span> in X-basis → Collapses to <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> or <span class="arithmatex"><span class="MathJax_Preview">\lvert -\rangle</span><script type="math/tex">\lvert -\rangle</script></span>.</li>
+</ul>
+</li>
+<li>Eve resends the altered qubits to Bob:<ul>
+<li>Bob's measurements may now mismatch Alice's original encoding.</li>
+</ul>
+</li>
+<li>Sample check:<ul>
+<li>Alice and Bob detect errors in the subset of qubits they verify.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="error-rates-and-eavesdropping-detection"><strong>Error Rates and Eavesdropping Detection</strong></h3>
+<p>If Eve intercepts and measures every qubit:
+- She guesses the correct basis with 50% probability for each qubit.
+- When she guesses incorrectly, the transmitted qubit is altered, introducing errors.
+- If Alice and Bob observe an error rate higher than the expected random noise level (e.g., from equipment imperfections), they conclude that an eavesdropper is present.</p>
+<hr>
+<h3 id="conclusion"><strong>Conclusion</strong></h3>
+<p>While Bob and Eve face the same initial uncertainty about Alice's encoding basis, the protocol structure ensures:
+- Bob's measurements don't introduce errors if his basis matches Alice's.
+- Eve's random basis guesses introduce detectable errors into the key.
+This is how basis shifting helps detect eavesdropping in quantum key distribution protocols like BB84.</p>
+<h2 id="q2-what-is-a-normal-part-of-the-protocol">Q2 what is a normal part of the protocol?</h2>
+<p>The reason why the "normal" part of the BB84 protocol (or any quantum key distribution protocol) does not disturb the quantum state lies in <strong>quantum mechanics and the design of the protocol</strong>. Let's break this down:</p>
+<hr>
+<h3 id="1-quantum-measurement-only-disturbs-the-state-if-the-basis-is-incorrect"><strong>1. Quantum Measurement Only Disturbs the State if the Basis is Incorrect</strong></h3>
+<p>In quantum mechanics:
+- A qubit is represented in a specific basis (e.g., the Z-basis or X-basis).
+- If a qubit is <strong>measured in the same basis in which it was prepared</strong>, the measurement process does not disturb the state. The qubit "collapses" to the same state it was initially in, and the measurement result is consistent with the encoding.</p>
+<p>Example:
+- Alice sends a qubit in the Z-basis:
+  - <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span>: If Bob measures in the Z-basis, the result is 0 and the state is not disturbed.
+  - <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span>: If Bob measures in the Z-basis, the result is 1 and the state is not disturbed.</p>
+<p>However:
+- If Bob measures in a different basis (e.g., the X-basis), the quantum state is projected onto the X-basis ( \lvert+\rangle, \lvert-\rangle ). This projection collapses the original state into a new state, introducing randomness and effectively "disturbing" the original quantum information.</p>
+<hr>
+<h3 id="2-bobs-random-measurement-does-not-always-disturb-the-state"><strong>2. Bob's Random Measurement Does Not Always Disturb the State</strong></h3>
+<p>In the BB84 protocol:
+- Bob measures each qubit in a randomly chosen basis (Z or X).
+- If Bob happens to measure in the <strong>same basis</strong> that Alice used to prepare the qubit, the measurement does not disturb the state.
+- If Bob measures in the <strong>wrong basis</strong>, the state collapses to a random outcome in the measurement basis.</p>
+<p>Example:
+- Alice sends <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> (prepared in the X-basis).
+- If Bob measures in the X-basis, he gets the correct result  + , and the state remains <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span>.
+- If Bob measures in the Z-basis, he gets a random result ( 0  or  1 ), and the state is disturbed.</p>
+<p>The randomness of Bob's measurement is an intentional part of the protocol design. Any mismatches in basis are <strong>discarded later during basis comparison</strong>, ensuring that only measurements in the correct basis contribute to the final key.</p>
+<hr>
+<h3 id="3-eves-measurement-always-disturbs-the-state"><strong>3. Eve's Measurement Always Disturbs the State</strong></h3>
+<p>Eve, unlike Bob, introduces detectable disturbances because:
+1. <strong>Eve Measures First</strong>:
+   - Eve measures the qubit in a random basis (Z or X), collapsing the quantum state to one consistent with her chosen basis.
+2. <strong>Eve Sends a New State</strong>:
+   - After measurement, Eve prepares and sends a new qubit to Bob. If her basis matches Alice's, the state sent to Bob will be correct.
+   - If her basis doesn't match Alice's, the state sent to Bob is incorrect, introducing detectable errors.</p>
+<p>Key Difference:
+- Bob's basis is publicly compared with Alice's after measurement, so mismatches can be discarded.
+- Eve's interference affects the quantum states, even when Alice and Bob's bases match, introducing measurable errors.</p>
+<hr>
+<h3 id="4-why-the-protocol-design-prevents-state-disturbance"><strong>4. Why the Protocol Design Prevents State Disturbance</strong></h3>
+<p>The BB84 protocol minimizes disturbance as part of its design:
+1. <strong>Basis Matching</strong>:
+   - Alice and Bob only use qubits where their preparation and measurement bases matched (e.g., both Z-basis or both X-basis). This ensures the key bits come from undisturbed quantum states.</p>
+<ol>
+<li><strong>Basis Comparison and Key Reconciliation</strong>:</li>
+<li>
+<p>The basis comparison step allows Alice and Bob to identify mismatches and discard them. Any remaining bits are guaranteed to have been measured without disturbance.</p>
+</li>
+<li>
+<p><strong>Eavesdropping Detection</strong>:</p>
+</li>
+<li>Eve's measurement in the wrong basis introduces detectable errors when Alice and Bob compare a sample of their results. These errors reveal Eve's presence.</li>
+</ol>
+<hr>
+<h3 id="5-real-world-noise-and-error-correction"><strong>5. Real-World Noise and Error Correction</strong></h3>
+<p>In real implementations, noise in the quantum channel (e.g., photon loss, environmental disturbances) may introduce small errors even without an eavesdropper. These errors are mitigated using:
+1. <strong>Error Correction</strong>:
+   - Alice and Bob reconcile their keys to correct errors caused by noise.
+2. <strong>Privacy Amplification</strong>:
+   - They apply mathematical techniques to distill a shorter, perfectly secure key from the reconciled key, even in the presence of small errors.</p>
+<hr>
+<h3 id="summary"><strong>Summary</strong></h3>
+<ul>
+<li>Bob's measurements in the correct basis do not disturb the quantum state because the state collapses to the same value as it was prepared in.</li>
+<li>Mismatched bases are part of the protocol's design and are discarded later during basis comparison.</li>
+<li>Eve's interference is detectable because her random measurements disturb the state in a way that creates errors, even when Alice and Bob's bases match.</li>
+</ul>
+<h2 id="q3-so-bob-doesnt-know-the-basis-alice-used-before-he-measure-it">Q3 So Bob doesn't know the basis Alice used before he measure it?</h2>
+<p>Exactly! <strong>Bob cannot know the basis Alice used to prepare the qubit before he measures it.</strong> This is a fundamental aspect of quantum mechanics and the BB84 protocol design. Here's why and how it works:</p>
+<hr>
+<h3 id="1-why-bob-cannot-know-the-basis-before-measuring"><strong>1. Why Bob Cannot Know the Basis Before Measuring</strong></h3>
+<p>In quantum mechanics: 
+1. A qubit doesn't "carry" classical information about the basis in which it was prepared. Instead, it exists as a quantum state. 
+2. To extract information from a quantum state, Bob must perform a measurement. The result of this measurement depends on the basis he chooses.</p>
+<p>If Bob measures in the wrong basis:</p>
+<ol>
+<li>The qubit's state will collapse to a random value in the chosen basis, and the original information will be lost.</li>
+</ol>
+<p>Example:</p>
+<ol>
+<li>Alice prepares <span class="arithmatex"><span class="MathJax_Preview">\lvert +\rangle</span><script type="math/tex">\lvert +\rangle</script></span> (X-basis).</li>
+<li>If Bob measures in the Z-basis, he gets <span class="arithmatex"><span class="MathJax_Preview">\lvert 0\rangle</span><script type="math/tex">\lvert 0\rangle</script></span> or <span class="arithmatex"><span class="MathJax_Preview">\lvert 1\rangle</span><script type="math/tex">\lvert 1\rangle</script></span> randomly, with equal probabilities.</li>
+</ol>
+<hr>
+<h3 id="2-how-bob-chooses-a-basis"><strong>2. How Bob Chooses a Basis</strong></h3>
+<p>In the BB84 protocol:
+1. <strong>Random Choice</strong>:
+    - Bob chooses a measurement basis (Z or X) randomly for each qubit.
+    - He doesn't know if his choice matches Alice's basis until they compare later.</p>
+<ol>
+<li><strong>After Measurement</strong>:<ul>
+<li>Bob records both his measurement result and the basis he used (e.g., "Measured 1 in the Z-basis").</li>
+<li>The result may or may not match Alice's encoded value, depending on whether his basis matches hers.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-basis-matching-in-the-bb84-protocol"><strong>3. Basis Matching in the BB84 Protocol</strong></h3>
+<p>After Bob measures all the qubits:
+1. <strong>Classical Communication</strong>:
+   - Alice and Bob communicate over a public, authenticated channel to compare their bases for each qubit.
+   - They do not reveal the measurement results or the original values encoded.</p>
+<ol>
+<li><strong>Discarding Mismatches</strong>:</li>
+<li>If Bob's basis matches Alice's basis for a given qubit, the measurement result is retained as part of the key.</li>
+<li>If the bases don't match, the result is discarded because it's unreliable.</li>
+</ol>
+<p>Example:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{\lvertc\lvertc\lvertc\lvertc\lvertc\lvertc\lvert}
+\hline
+\text{Qubit} &amp; \text{Alice's Basis} &amp; \text{Bob's Basis} &amp; \text{Alice's Bit} &amp; \text{Bob's Result} &amp; \text{Retain?} \\
+\hline
+1 &amp; Z &amp; Z &amp; 0 &amp; 0 &amp; Yes \\
+1 &amp; X &amp; Z &amp; + &amp; \text{Random} &amp; \text{No} \\
+1 &amp; Z &amp; X &amp; 1 &amp; \text{Random} &amp; \text{No} \\
+1 &amp; X &amp; X &amp; - &amp; - &amp; \text{Yes} \\
+\hline
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{\lvertc\lvertc\lvertc\lvertc\lvertc\lvertc\lvert}
+\hline
+\text{Qubit} & \text{Alice's Basis} & \text{Bob's Basis} & \text{Alice's Bit} & \text{Bob's Result} & \text{Retain?} \\
+\hline
+1 & Z & Z & 0 & 0 & Yes \\
+1 & X & Z & + & \text{Random} & \text{No} \\
+1 & Z & X & 1 & \text{Random} & \text{No} \\
+1 & X & X & - & - & \text{Yes} \\
+\hline
+\end{array}
+</script>
+</div>
+<hr>
+<h3 id="4-why-this-ensures-security"><strong>4. Why This Ensures Security</strong></h3>
+<p>The inability of Bob (or anyone) to know the basis before measurement is what makes the BB84 protocol secure:
+1. <strong>Eve's Challenge</strong>:
+    - Eve, like Bob, doesn't know Alice's basis. If she tries to measure the qubits, her random basis choices will disturb the quantum states, introducing errors detectable by Alice and Bob.</p>
+<ol>
+<li>
+<p><strong>Legitimate Measurement</strong>:</p>
+<ul>
+<li>Bob's random basis choices don't introduce errors because mismatched measurements are discarded during basis comparison.</li>
+</ul>
+</li>
+<li>
+<p><strong>Quantum Uncertainty</strong>:</p>
+<ul>
+<li>The quantum no-cloning theorem prevents Eve from perfectly copying the qubit to measure it in both bases. This ensures that any eavesdropping attempt disturbs the quantum state and is detectable.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="5-what-happens-if-bob-always-used-a-single-basis"><strong>5. What Happens if Bob Always Used a Single Basis?</strong></h3>
+<p>If Bob only used one basis (e.g., always Z or always X):</p>
+<ol>
+<li>He would miss half of Alice's qubits prepared in the other basis.</li>
+<li>Eve could exploit this by always measuring in the same basis as Bob, reducing her detection risk.</li>
+<li>Randomly choosing the measurement basis ensures that mismatches with Alice's encoding are spread out, making Eve's presence detectable.</li>
+</ol>
+<hr>
+<h3 id="key-takeaways_1"><strong>Key Takeaways</strong></h3>
+<ol>
+<li>Bob cannot know the basis Alice used to prepare a qubit before he measures it. He chooses his basis randomly.</li>
+<li>After measurement, Alice and Bob publicly compare their bases and discard mismatches.</li>
+<li>This randomness is essential for the security of the BB84 protocol, as it ensures that any eavesdropping attempt by Eve introduces detectable errors.</li>
+</ol>
+<h2 id="q4-can-eve-copy-the-message-and-measure-it-later">Q4 Can Eve copy the message and measure it later?</h2>
+<p>A: No, Eve cannot be in possession of a copy of the qubits sent to Bob, by the <a href="../../quantum_mechanics/No-cloing/">no-cloning theorem</a>, unless she has made measurements. The <strong>no-cloning theorem</strong> is a fundamental principle in quantum mechanics that states it is <strong>impossible to create an exact copy of an arbitrary unknown quantum state</strong>. This is a cornerstone of the security in quantum key distribution protocols like BB84.</p>
+<hr>
+<h3 id="if-eve-tries-to-copy">If Eve Tries to Copy:</h3>
+<ul>
+<li>Suppose Eve tries to create a copy of the qubit before deciding how to proceed.</li>
+<li>The <a href="../../quantum_mechanics/No-cloing/">no-cloning theorem</a> prevents her from duplicating the quantum state. <strong>As a result, she cannot keep one copy and forward another to Bob without disturbing the original state.</strong></li>
+</ul>
+<hr>
+<h3 id="example_1"><strong>Example</strong></h3>
+<p>Suppose Alice sends a qubit <span class="arithmatex"><span class="MathJax_Preview">\lvert+\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle + \lvert1\rangle)</span><script type="math/tex">\lvert+\rangle = \frac{1}{\sqrt{2}}(\lvert0\rangle + \lvert1\rangle)</script></span>:</p>
+<ol>
+<li>Eve intercepts the qubit and wants to copy it.</li>
+<li>The <a href="../../quantum_mechanics/No-cloing/">no-cloning theorem</a> prevents her from creating a second <span class="arithmatex"><span class="MathJax_Preview">\lvert+\rangle</span><script type="math/tex">\lvert+\rangle</script></span> qubit.</li>
+<li>If she measures <span class="arithmatex"><span class="MathJax_Preview">\lvert+\rangle</span><script type="math/tex">\lvert+\rangle</script></span> in the Z-basis, the qubit collapses to <span class="arithmatex"><span class="MathJax_Preview">\lvert0\rangle</span><script type="math/tex">\lvert0\rangle</script></span> or <span class="arithmatex"><span class="MathJax_Preview">\lvert1\rangle</span><script type="math/tex">\lvert1\rangle</script></span>, destroying the original <span class="arithmatex"><span class="MathJax_Preview">\lvert+\rangle</span><script type="math/tex">\lvert+\rangle</script></span> state.</li>
+<li>When Bob measures the forwarded qubit in the correct X-basis, the result will not match Alice's original encoding, introducing detectable errors.</li>
+</ol>
+<hr>
+<h3 id="summary_1"><strong>Summary</strong></h3>
+<p>The <a href="../../quantum_mechanics/No-cloing/">no-cloning theorem</a> ensures that an eavesdropper (Eve) cannot copy quantum states sent by Alice to Bob. This prevents Eve from duplicating qubits to analyze later while sending identical ones to Bob. Any attempt by Eve to measure the qubits introduces disturbances, creating detectable errors when Alice and Bob compare their results. This makes quantum key distribution protocols like BB84 fundamentally secure. Let me know if you'd like further clarification!</p>
+<p>After Alice and Bob determine that the <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span>undisclosed key elements have an error rate <span class="arithmatex"><span class="MathJax_Preview">e</span><script type="math/tex">e</script></span> and that a potential eavesdropper (Eve) may have acquired up to <span class="arithmatex"><span class="MathJax_Preview">I_E</span><script type="math/tex">I_E</script></span> bits of information about the key, they proceed with <strong>key distillation</strong>. This involves two main steps: <strong>error correction</strong> and <strong>privacy amplification</strong>. In error correction, Alice and Bob reconcile their keys using classical communication to ensure they hold identical keys, correcting any discrepancies due to noise or eavesdropping. Following this, privacy amplification reduces Eve's knowledge of the key to negligible levels by hashing the reconciled key into a shorter, secure final key. These steps ensure that even if Eve intercepted some information, the final key shared by Alice and Bob is both secret and error-free.</p>
+<hr>
+<h2 id="error-correction"><strong>Error Correction</strong></h2>
+<p>Error correction in quantum key distribution (QKD) ensures that Alice and Bob hold identical keys by detecting and correcting discrepancies caused by noise in the quantum channel or eavesdropping attempts. After comparing their measurement bases, Alice and Bob identify the bits where they used the same basis but may still have mismatches due to channel imperfections or interference. They use classical communication protocols, such as parity checks or advanced error-correcting codes like the <a href="https://cascade-python.readthedocs.io/en/latest/protocol.html">Cascade protocol</a>, to reconcile their keys without revealing the entire key. Error correction ensures that both parties share an identical key, forming the basis for further secure key distillation steps.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/qkd-alice-bob-eve.webp" data-desc-position="bottom"><img alt="qkd-alice-bob-eve" src="../images/qkd-alice-bob-eve.webp"></a>
+resource: <a href="https://cascade-python.readthedocs.io/en/latest/protocol.html">Cascade-python</a></p>
+<hr>
+<h2 id="privacy-amplification"><strong>Privacy Amplification</strong></h2>
+<p>Privacy amplification is the process of reducing an eavesdropper's potential knowledge of the shared key to a negligible level. After error correction, Alice and Bob assume that a potential eavesdropper (Eve) has partial information about the reconciled key due to intercepted qubits or classical leakage during error correction. To counter this, <mark class="critic">they use a publicly agreed hash function to compress the reconciled key into a shorter, final key</mark>. This hashing process eliminates any correlations between the final key and Eve's information, ensuring the shared key remains secure for cryptographic purposes.</p>
+<p>The price to pay for privacy amplification to work is that the output (secret) key must be smaller than the input (partially secret) key. The reduction in size is roughly equal to the number of bits known to Eve, and the resulting key size is thus l − IE − |M| bits. To maximize the key length and perhaps to avoid Eve knowing everything about the key (e.g., l − IE − |M| = 0), it is important that the reconciliation discloses as little information as possible, just enough to make Alice and Bob able to correct all their errors.</p>
+<ol>
+<li>For instance, they can statistically estimate that Eve knows no more than, say, IE bits on the l key elements</li>
+<li>with |M| the number of parity bits disclosed during the reconciliation.</li>
+<li>l undisclosed key elements</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2024-2025 <a href="https://github.com/pcchouCR97" target="_blank" rel="noopener">Po-Chih Chou</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pcchouCR97/mkdocs-material-tutorial" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/po-chih-chou-0638941ab/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "search.highlight", "search.share", "math", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

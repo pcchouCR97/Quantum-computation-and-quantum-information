@@ -1,0 +1,4925 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of my learnings and projects on Quantum Computing and Information.">
+      
+      
+        <meta name="author" content="Po-Chih Chou">
+      
+      
+      
+        <link rel="prev" href="../fourier_transformation/">
+      
+      
+        <link rel="next" href="../factoring/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Order-finding (Shor's Algorithm) - Quantum Computation and Quantum Information</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phase-estimation-applications-order-finding-and-factoring" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Quantum Computation and Quantum Information" class="md-header__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum Computation and Quantum Information
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Order-finding (Shor's Algorithm)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Quantum_Algorithm_101/quantum_state_space_basics/" class="md-tabs__link">
+          
+  
+  
+  Quantum Algorithm 101
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../fourier_transformation/" class="md-tabs__link">
+          
+  
+  
+  Quantum Computation
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cs/computational_complexity/" class="md-tabs__link">
+          
+  
+  
+  Computer Science
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../quantum_information/qnoise_n_qoperation/" class="md-tabs__link">
+          
+  
+  
+  Quantum information
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../QuantumOpt/QOpt/QUBO/" class="md-tabs__link">
+          
+  
+  
+  Quantum ML and Optimization
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-tabs__link">
+          
+  
+  
+  Real-world Problems
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Quantum Computation and Quantum Information" class="md-nav__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Quantum Computation and Quantum Information
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Algorithm 101
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Algorithm 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_state_space_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum State Space Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Sup_Entg_Rev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Superposition, Entanglement and Reversibility
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Qubit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit(s)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Quantum_logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/TheBlochSphereAndRotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Bloch sphere and rotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/measurement_in_quantum_mechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Measurement in Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_postulate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Postulate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Bloch_sphere/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloch sphere
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/born_rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Born Rule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/computational_basis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational Basis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/hilbert_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hilbert Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logic Gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linear Algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/linear_algebr_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/matrices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matrices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/vector_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Vector Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/space_transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Space Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/modular_arithmetic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modular Arithmetic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8">
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Probability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/probability_theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Embeding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_feature_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Feature Map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/qubit_dimensionality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit Dimensionality
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/qiskit_primitives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qiskit Primitives
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/variational_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/quantum_paralleslism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Paralleslism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/Linear_algebra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_16">
+        
+          
+          <label class="md-nav__link" for="__nav_2_16" id="__nav_2_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Test
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_16">
+            <span class="md-nav__icon md-icon"></span>
+            Test
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Quantum_Algorithm_101/test_level/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Test level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Fourier Transform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Fourier Transform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fourier_transformation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fourier Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Order-finding (Shor's Algorithm)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Order-finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#order-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order finding
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Order finding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requriements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requriements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-exponentiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modular Exponentiation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-continued-fraction-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      The continued fraction expansion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-continued-fractions-algorithm-number-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      The continued fractions algorithm (number theory)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithm overview
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../factoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factoring (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../period_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Period finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Learning hub
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning hub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jupyter_qc/adder0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calculating 1+1 using quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jupyter_qc/Shor%27s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Building Shor’s Algorithm from Scratch: Factoring 15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Algorithms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phase_kickback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Phase kickback
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../computation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5">
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Search Algorithm
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Search Algorithm
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qsa_q_search_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Quantum Search Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qsa_quantum_counting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Counting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qsa_NP_complete_problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quadratic speed up NP-complete problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qsa_black_box_limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Block box algorithm limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6">
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum computer
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum computer
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conditions for quantum computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_neutral_atom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Neural atom quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_hoscillator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic oscillator quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_optphoto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical photo quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_optcavity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical cavity quantum electrodynamics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_iontrap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ion traps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../q_computer_nuclearmag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nuclear magnetic resonance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Computer Science
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Science
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cs/computational_complexity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational complexity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cs/P_NP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P and NP problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum information
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum information
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qnoise_n_qoperation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum noise and quantum operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2">
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum error-correction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction_stabilizer_formalism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The stabilizer formalism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction_stabilizer_codes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stabilizer codes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum ML and Optimization
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum ML and Optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Algorithms
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Algorithms
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_1">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_1" id="__nav_6_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quadratic Unconstrained Binary Optimization (QUBO)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quadratic Unconstrained Binary Optimization (QUBO)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/QUBO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QUBO Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_1_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start QUBO with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_example_knapsack_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knapsack problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_example_max_cut_and_tsp_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Max-Cut and Traveler Saleman Problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_2" id="__nav_6_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/AQQA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AQQA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/AQQA_D-WAVE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working AQQA with D-wave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Approximate Optimization Algorithm (QAOA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Approximate Optimization Algorithm (QAOA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/QAOA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QAOA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QAOA_D-Wave.ipynb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solving QUBO problems with QAOA in Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QAOA_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using QAOA with PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_4" id="__nav_6_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Grover Adaptive Search (GAS)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Grover Adaptive Search (GAS)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/GAS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GAS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/GAS_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using GAS with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_5" id="__nav_6_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Quantum Eignesolver (VQE)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Quantum Eignesolver (VQE)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/VQEIntro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VQE Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/VQE_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using VQE with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Machine Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Machine Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/MachineLearningRefresher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning Refresher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machines (QSVM)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Support Vector Machines (QSVM)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QSVM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QSVM Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QML/%28C%29load_wine_QSVM_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machine in PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Neural Networks (QNN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Neural Networks (QNN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QNN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QNN Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Hybrid Architectures (QHybrid)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Hybrid Architectures (QHybrid)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QHyb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QHybrid Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5" id="__nav_6_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Generative Adversarial Networks (QGAN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Generative Adversarial Networks (QGAN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QGANS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QGANS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Algorithm Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QVE_variational_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Ansatz_and_variational_forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ansatz and variational forms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Varitaional_design%29_cost_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cost functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Optimization_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local and Global Optimizers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Instances_and_extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instances and extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Real-world Problems
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Real-world Problems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Scheduling and Logistics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Scheduling and Logistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nurse Scheduling Problem Using Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/jupyter_Opt/%28C%29Air_Traffic_Control_1_Runway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Air Traffic Control Problem - Optimal Runway Allocation for Single-Plane Assignments in a Multi-Runway Airport
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Finance
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1" id="__nav_7_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Amplitude Estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_iterative_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterative Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Q_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Constructing Quantum Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_conv_accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Convergence and Accuracy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Var_n_CVaR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VaR and CVaR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_2" id="__nav_7_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Credit Risk Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_credit_risk_problem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_credit_risk_glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_Portfolio_Optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_Portfolio_Diversification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Diversification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3">
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Biology
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Biology
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_RNA_Folding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RNA Folding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About Me
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#order-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order finding
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Order finding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requriements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requriements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-exponentiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modular Exponentiation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-continued-fraction-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      The continued fraction expansion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-continued-fractions-algorithm-number-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      The continued fractions algorithm (number theory)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Algorithm overview
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="phase-estimation-applications-order-finding-and-factoring">Phase estimation applications: order-finding and factoring</h1>
+<p>The phase estimation procedure can be used to solve a variety of interesting problems.We now describe two of the most interesting of these problems: the order-finding problem, and the factoring problem.</p>
+<p>To understand the quantum algorithms for factoring and order-finding requires a little background in number theory.</p>
+<h2 id="order-finding">Order finding</h2>
+<p>For positive integers <span class="arithmatex"><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> and <span class="arithmatex"><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>, <span class="arithmatex"><span class="MathJax_Preview">x&lt;N</span><script type="math/tex">x<N</script></span>, with no common factors, the <em>order</em> of <span class="arithmatex"><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> modulo <span class="arithmatex"><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span> is defined to be the least positive integer <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span>, such that <span class="arithmatex"><span class="MathJax_Preview">x^{r} = 1 (\text{mod} \ N)</span><script type="math/tex">x^{r} = 1 (\text{mod} \ N)</script></span>. The order-finding problem is to determine the order for some specified <span class="arithmatex"><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> and <span class="arithmatex"><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>. </p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A quick review of order, showing that the order of <span class="arithmatex"><span class="MathJax_Preview">5^{r} = 1 (\text{mod} \ 21)</span><script type="math/tex">5^{r} = 1 (\text{mod} \ 21)</script></span>, <span class="arithmatex"><span class="MathJax_Preview">r = 6</span><script type="math/tex">r = 6</script></span>
+$$
+5^{6} = 15625, 15625/21 = 744...1.
+$$</p>
+</div>
+<p>The quantum algorithm for order-finding is just the phase estimation algorithm applied to the unitary operator </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+U|y\rangle = |xy(\text{mod}\ N )\rangle,
+</div>
+<script type="math/tex; mode=display">
+U|y\rangle = |xy(\text{mod}\ N )\rangle,
+</script>
+</div>
+<p>with <span class="arithmatex"><span class="MathJax_Preview">y \in \{0,1\}^{L}</span><script type="math/tex">y \in \{0,1\}^{L}</script></span> (this means y is a bitstring with length L). Note that when <span class="arithmatex"><span class="MathJax_Preview">N \leq y\leq 2^{L}-1</span><script type="math/tex">N \leq y\leq 2^{L}-1</script></span>, we use the convention that <span class="arithmatex"><span class="MathJax_Preview">xy(\text{mod}\ N)</span><script type="math/tex">xy(\text{mod}\ N)</script></span> is just <span class="arithmatex"><span class="MathJax_Preview">y</span><script type="math/tex">y</script></span> again. That is, <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> only acts non-trivially when <span class="arithmatex"><span class="MathJax_Preview">0\leq y \leq N-1</span><script type="math/tex">0\leq y \leq N-1</script></span>. This means that we only use the range <span class="arithmatex"><span class="MathJax_Preview">0\leq y \leq N-1</span><script type="math/tex">0\leq y \leq N-1</script></span> for our phase estimation algorithm, we zero-pad or ignore when <span class="arithmatex"><span class="MathJax_Preview">y \geq N</span><script type="math/tex">y \geq N</script></span> since it's redundent. </p>
+<p>From linear algebra, a eignestate of a cyclic shift of length <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span> are </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+|u_{s}\rangle \equiv \frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{-2\pi i sk/r} |x^{k} \text{mod} \ N\rangle,
+</div>
+<script type="math/tex; mode=display">
+|u_{s}\rangle \equiv \frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{-2\pi i sk/r} |x^{k} \text{mod} \ N\rangle,
+</script>
+</div>
+<blockquote>
+<p><span class="arithmatex"><span class="MathJax_Preview">|u_s\rangle</span><script type="math/tex">|u_s\rangle</script></span> is an eigenstate of <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span>, with <span class="arithmatex"><span class="MathJax_Preview">U|u_{s}\rangle = e^{2\pi i s/r}|u_{s}\rangle</span><script type="math/tex">U|u_{s}\rangle = e^{2\pi i s/r}|u_{s}\rangle</script></span></p>
+</blockquote>
+<p>Applying a unitary opreator <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+U|u_{s}\rangle = \frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{-2\pi i sk/r} |x^{k+1} \text{mod} \ N\rangle,
+</div>
+<script type="math/tex; mode=display">
+U|u_{s}\rangle = \frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{-2\pi i sk/r} |x^{k+1} \text{mod} \ N\rangle,
+</script>
+</div>
+<p>set <span class="arithmatex"><span class="MathJax_Preview">j = k+1</span><script type="math/tex">j = k+1</script></span>, when <span class="arithmatex"><span class="MathJax_Preview">k=0, \ j=0</span><script type="math/tex">k=0, \ j=0</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">k = r-1, \ j = r</span><script type="math/tex">k = r-1, \ j = r</script></span>. Thus,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+U|u_{s}\rangle = \frac{1}{\sqrt{r}}\sum_{j=1}^{r} e^{-2\pi i s(j-1)/r} |x^{j} \text{mod} \ N\rangle,
+</div>
+<script type="math/tex; mode=display">
+U|u_{s}\rangle = \frac{1}{\sqrt{r}}\sum_{j=1}^{r} e^{-2\pi i s(j-1)/r} |x^{j} \text{mod} \ N\rangle,
+</script>
+</div>
+<p>factor out the phse term, </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+U|u_{s}\rangle = e^{2 \pi i s/r}\frac{1}{\sqrt{r}}\sum_{j=1}^{r} e^{-2\pi i sj/r} |x^{j} \text{mod} \ N\rangle,
+</div>
+<script type="math/tex; mode=display">
+U|u_{s}\rangle = e^{2 \pi i s/r}\frac{1}{\sqrt{r}}\sum_{j=1}^{r} e^{-2\pi i sj/r} |x^{j} \text{mod} \ N\rangle,
+</script>
+</div>
+<p>here is the key, since <span class="arithmatex"><span class="MathJax_Preview">x^{r} = x^{0} \text{mod}\ N</span><script type="math/tex">x^{r} = x^{0} \text{mod}\ N</script></span>, we relabel <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> as <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> again. </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+U|u_{s}\rangle &amp;= e^{2 \pi i s/r}\frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{-2\pi i sk/r} |x^{k} \text{mod} \ N\rangle,\\
+ &amp; = e^{2 \pi i s/r}|u_{s}\rangle.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+U|u_{s}\rangle &= e^{2 \pi i s/r}\frac{1}{\sqrt{r}}\sum_{k=0}^{r-1} e^{-2\pi i sk/r} |x^{k} \text{mod} \ N\rangle,\\
+ & = e^{2 \pi i s/r}|u_{s}\rangle.
+\end{array}
+</script>
+</div>
+<p>Using the phase estimation procedure allows us to obtain, with high accuracy, the corresponding eigenvalues <span class="arithmatex"><span class="MathJax_Preview">e^{2\pi i s/r}</span><script type="math/tex">e^{2\pi i s/r}</script></span>.</p>
+<details class="note">
+<summary>Relabel <span class="arithmatex"><span class="MathJax_Preview"> j </span><script type="math/tex"> j </script></span> to <span class="arithmatex"><span class="MathJax_Preview"> k </span><script type="math/tex"> k </script></span>? how?</summary>
+<p>You may be confused about relabeling, however, let's set </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+k = j \text{mod}\ r
+</div>
+<script type="math/tex; mode=display">
+k = j \text{mod}\ r
+</script>
+</div>
+<p>when <span class="arithmatex"><span class="MathJax_Preview">j = 1,2,...,r</span><script type="math/tex">j = 1,2,...,r</script></span></p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{c}
+k = 1 \text{mod} \ 1, \ k = 1\\
+k = 2 \text{mod} \ 2, \ k = 2\\
+\vdots \\
+k = 3 \text{mod} \ r, \ k = 0
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{c}
+k = 1 \text{mod} \ 1, \ k = 1\\
+k = 2 \text{mod} \ 2, \ k = 2\\
+\vdots \\
+k = 3 \text{mod} \ r, \ k = 0
+\end{array}
+</script>
+</div>
+<p>thus the range of k is <span class="arithmatex"><span class="MathJax_Preview">0,1,...,r-1</span><script type="math/tex">0,1,...,r-1</script></span></p>
+</details>
+<h3 id="requriements">Requriements</h3>
+<p>There are two key requriements for us to be able to use phase estimation procedure:</p>
+<ol>
+<li>
+<p>We must have efficient procedures to implement a controlled-<span class="arithmatex"><span class="MathJax_Preview">U^{2^{j}}</span><script type="math/tex">U^{2^{j}}</script></span> operation for any integer <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span>, and we must be able to efficiently prepare an eigenstate <span class="arithmatex"><span class="MathJax_Preview">|u_{s}\rangle</span><script type="math/tex">|u_{s}\rangle</script></span> with a non-trivial eigenvalue, or at least a superposition of such eigenstates. To achieve the first requriement, we can use a method called <em>modular exponentiation</em>, which we can implement the entire sequence of controll-<span class="arithmatex"><span class="MathJax_Preview">U^{2^{j}}</span><script type="math/tex">U^{2^{j}}</script></span> operations used by the phase estimation.</p>
+</li>
+<li>
+<p>You may already notice that: there is a <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span> in the <span class="arithmatex"><span class="MathJax_Preview">|u_{s}\rangle</span><script type="math/tex">|u_{s}\rangle</script></span> representation already? So this is out of the question. Fortunnately, there is an observation allows us to workaround this obstacle</p>
+</li>
+</ol>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}|u_{s}\rangle = |1\rangle.
+</div>
+<script type="math/tex; mode=display">
+\frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}|u_{s}\rangle = |1\rangle.
+</script>
+</div>
+<p>If we use <span class="arithmatex"><span class="MathJax_Preview">t = 2L + 1 + \lceil \text{log}(2 + \frac{1}{2\epsilon}) \rceil</span><script type="math/tex">t = 2L + 1 + \lceil \text{log}(2 + \frac{1}{2\epsilon}) \rceil</script></span> qubits in the first register (see <a href="../fourier_transformation/#qft-circuit">Quantum Fourier Transform</a>), and prepare the second register in the state <span class="arithmatex"><span class="MathJax_Preview">|1\rangle</span><script type="math/tex">|1\rangle</script></span>, it follows that for each <span class="arithmatex"><span class="MathJax_Preview">s</span><script type="math/tex">s</script></span> in the range <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span> to <span class="arithmatex"><span class="MathJax_Preview">r-1</span><script type="math/tex">r-1</script></span>, we will obtain an estimate of the phase <span class="arithmatex"><span class="MathJax_Preview">\phi \approx s/r</span><script type="math/tex">\phi \approx s/r</script></span> accurate to <span class="arithmatex"><span class="MathJax_Preview">2L+1</span><script type="math/tex">2L+1</script></span> bits, with probability at least <span class="arithmatex"><span class="MathJax_Preview">(1-\epsilon)/r</span><script type="math/tex">(1-\epsilon)/r</script></span>.</p>
+<p><mark>TODO exercise 5.13/14</mark></p>
+<h3 id="modular-exponentiation">Modular Exponentiation</h3>
+<p>How can we compute the sequence of controlled-<span class="arithmatex"><span class="MathJax_Preview">U^{2^{j}}</span><script type="math/tex">U^{2^{j}}</script></span> operations used by the phase estimation procedure? We wish to compute the transformation</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+|z\rangle|y\rangle&amp; \mapsto |z\rangle U^{z_{t}2^{t-1}}...U^{z_{1}2^{0}}|y\rangle \\
+\ &amp; = |z\rangle |x^{z_{t}2^{t-1}} \times \cdots \times x^{z_{1}2^{0}} y \text{mod} \ N\rangle \\
+\ &amp; = |z\rangle |x^{z}y(\text{mod}\ N)\rangle \\
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+|z\rangle|y\rangle& \mapsto |z\rangle U^{z_{t}2^{t-1}}...U^{z_{1}2^{0}}|y\rangle \\
+\ & = |z\rangle |x^{z_{t}2^{t-1}} \times \cdots \times x^{z_{1}2^{0}} y \text{mod} \ N\rangle \\
+\ & = |z\rangle |x^{z}y(\text{mod}\ N)\rangle \\
+\end{array}
+</script>
+</div>
+<p>Thus the sequence of controlled-<span class="arithmatex"><span class="MathJax_Preview">U^{2^{j}}</span><script type="math/tex">U^{2^{j}}</script></span> operations used in phase estimation is equivalent to multiplying the contents of the second register by the <em>modular exponentiation</em> <span class="arithmatex"><span class="MathJax_Preview">x^{z}(\text{mod}N)</span><script type="math/tex">x^{z}(\text{mod}N)</script></span>, <mark>where <span class="arithmatex"><span class="MathJax_Preview">z</span><script type="math/tex">z</script></span> is the contents of the first register.</mark></p>
+<p>This algorithm for computing the modular exponential has two stages.</p>
+<ol>
+<li>
+<p>Compate <span class="arithmatex"><span class="MathJax_Preview">x^{2}(\text{mod}N)</span><script type="math/tex">x^{2}(\text{mod}N)</script></span>, <span class="arithmatex"><span class="MathJax_Preview">x^{4}(\text{mod}N)</span><script type="math/tex">x^{4}(\text{mod}N)</script></span>, ..., <span class="arithmatex"><span class="MathJax_Preview">x^{2^{j}}(\text{mod}N)</span><script type="math/tex">x^{2^{j}}(\text{mod}N)</script></span>, for all <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> up to <span class="arithmatex"><span class="MathJax_Preview">t-1</span><script type="math/tex">t-1</script></span>. We use <span class="arithmatex"><span class="MathJax_Preview">t = 2L +1 + \lceil\text{log}(2+1/(2\epsilon))\rceil = O(L)</span><script type="math/tex">t = 2L +1 + \lceil\text{log}(2+1/(2\epsilon))\rceil = O(L)</script></span>, so a total of <span class="arithmatex"><span class="MathJax_Preview">t-1 = O(L)</span><script type="math/tex">t-1 = O(L)</script></span> squaring operations is performed at a cost of <span class="arithmatex"><span class="MathJax_Preview">O(L^{2})</span><script type="math/tex">O(L^{2})</script></span> each, for a total cost of <span class="arithmatex"><span class="MathJax_Preview">O(L^{3})</span><script type="math/tex">O(L^{3})</script></span> for the first stage.</p>
+</li>
+<li>
+<p>The second stage is based on the observation we have already noted,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+x^{z}(\text{mod} \ N) = \bigg (x^{z_{t}2^{t-1}}(\text{mod} \ N)\bigg )\bigg (x^{z_{t-1}2^{t-2}}(\text{mod} \ N)\bigg )...\bigg (x^{z_{1}2^{0}}(\text{mod} \ N)\bigg ).
+</div>
+<script type="math/tex; mode=display">
+x^{z}(\text{mod} \ N) = \bigg (x^{z_{t}2^{t-1}}(\text{mod} \ N)\bigg )\bigg (x^{z_{t-1}2^{t-2}}(\text{mod} \ N)\bigg )...\bigg (x^{z_{1}2^{0}}(\text{mod} \ N)\bigg ).
+</script>
+</div>
+<p>Performing <span class="arithmatex"><span class="MathJax_Preview">t-1</span><script type="math/tex">t-1</script></span> modular multiplications with a cost <span class="arithmatex"><span class="MathJax_Preview">O(L^{2})</span><script type="math/tex">O(L^{2})</script></span> each, we see that this product can be computed using <span class="arithmatex"><span class="MathJax_Preview">O(L^{2})</span><script type="math/tex">O(L^{2})</script></span> gates.</p>
+</li>
+</ol>
+<h3 id="the-continued-fraction-expansion">The continued fraction expansion</h3>
+<p>The very last step of obtaining the desire <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span> from the result of the phase estimation (PE), <span class="arithmatex"><span class="MathJax_Preview">\phi \approx s/r</span><script type="math/tex">\phi \approx s/r</script></span>. We only know <span class="arithmatex"><span class="MathJax_Preview">\phi</span><script type="math/tex">\phi</script></span> to <span class="arithmatex"><span class="MathJax_Preview">2L+1</span><script type="math/tex">2L+1</script></span> buts, but we also know a <em>prior</em> that it is a rational number and if we compute the neatest such fration to <span class="arithmatex"><span class="MathJax_Preview">\phi</span><script type="math/tex">\phi</script></span> we might obtain <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span>. Suppose <span class="arithmatex"><span class="MathJax_Preview">s/r</span><script type="math/tex">s/r</script></span> is a rational number such that </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+|\frac{s}{r} - \phi|\leq \frac{1}{2r^{2}}.
+</div>
+<script type="math/tex; mode=display">
+|\frac{s}{r} - \phi|\leq \frac{1}{2r^{2}}.
+</script>
+</div>
+<p>Then <span class="arithmatex"><span class="MathJax_Preview">s/r</span><script type="math/tex">s/r</script></span> is a convergent of the continued fration for <span class="arithmatex"><span class="MathJax_Preview">\phi</span><script type="math/tex">\phi</script></span>, and thus can be computed in <span class="arithmatex"><span class="MathJax_Preview">O(L^{3})</span><script type="math/tex">O(L^{3})</script></span> operations using the continued fractions algorithm. Since <span class="arithmatex"><span class="MathJax_Preview">\phi</span><script type="math/tex">\phi</script></span> is an approximation of <span class="arithmatex"><span class="MathJax_Preview">s/r</span><script type="math/tex">s/r</script></span> accurate to <span class="arithmatex"><span class="MathJax_Preview">2L+1</span><script type="math/tex">2L+1</script></span> bits, it follows that <span class="arithmatex"><span class="MathJax_Preview">|s/r - \phi|\leq 2^{-2L-1}\leq 1/2r^{2}</span><script type="math/tex">|s/r - \phi|\leq 2^{-2L-1}\leq 1/2r^{2}</script></span>, since <span class="arithmatex"><span class="MathJax_Preview">r \leq N \leq 2^{L}</span><script type="math/tex">r \leq N \leq 2^{L}</script></span>. We obtain approximated <span class="arithmatex"><span class="MathJax_Preview">\phi</span><script type="math/tex">\phi</script></span>, which can be written into fraction <span class="arithmatex"><span class="MathJax_Preview">s'/r'</span><script type="math/tex">s'/r'</script></span> without having commom factor for <span class="arithmatex"><span class="MathJax_Preview">s'</span><script type="math/tex">s'</script></span> and <span class="arithmatex"><span class="MathJax_Preview">r'</span><script type="math/tex">r'</script></span>, by checking if number <span class="arithmatex"><span class="MathJax_Preview">r'</span><script type="math/tex">r'</script></span> in <span class="arithmatex"><span class="MathJax_Preview">x^{r'} (\text{mod}N)</span><script type="math/tex">x^{r'} (\text{mod}N)</script></span> produce result 1. If so, then we are done!</p>
+<h3 id="the-continued-fractions-algorithm-number-theory">The continued fractions algorithm (number theory)</h3>
+<p>The idea of the continued fractions algorithm is to describe real numbers in terms of integers alone, using expressions of the form</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+[a_{0},...,a_{M}] = a_{0} + \frac{1}{a_{1} + \frac{1}{a_{2} + \frac{1}{\cdots + \frac{1}{a_M}}}}
+</div>
+<script type="math/tex; mode=display">
+[a_{0},...,a_{M}] = a_{0} + \frac{1}{a_{1} + \frac{1}{a_{2} + \frac{1}{\cdots + \frac{1}{a_M}}}}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">a_{0},...,a_{M}</span><script type="math/tex">a_{0},...,a_{M}</script></span> are postiive integers. The continued fractions algorithm is a method for determining the continued fraction expansion of an arbitrary real number.</p>
+<p>Let's say you obtained a result <span class="arithmatex"><span class="MathJax_Preview">\phi = 31/128</span><script type="math/tex">\phi = 31/128</script></span> from the phase estiamtion and you want to retrive the order <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span>. We can use the continued fraction alforithm and find it's convergent. We start with inverting <span class="arithmatex"><span class="MathJax_Preview">31/128</span><script type="math/tex">31/128</script></span> to <span class="arithmatex"><span class="MathJax_Preview">128/31</span><script type="math/tex">128/31</script></span> and express as <span class="arithmatex"><span class="MathJax_Preview">a_0 +</span><script type="math/tex">a_0 +</script></span> some fraction </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\frac{128}{31} = 4+\frac{4}{31},
+</div>
+<script type="math/tex; mode=display">
+\frac{128}{31} = 4+\frac{4}{31},
+</script>
+</div>
+<p>then we can express <span class="arithmatex"><span class="MathJax_Preview">\frac{4}{31}</span><script type="math/tex">\frac{4}{31}</script></span> by using continued fraction algorithm as,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\frac{128}{31} = 4+\frac{1}{\frac{31}{4}} = 4+\frac{1}{7+\frac{3}{4}} = 4+\frac{1}{7+\frac{1}{\frac{4}{3}}},
+</div>
+<script type="math/tex; mode=display">
+\frac{128}{31} = 4+\frac{1}{\frac{31}{4}} = 4+\frac{1}{7+\frac{3}{4}} = 4+\frac{1}{7+\frac{1}{\frac{4}{3}}},
+</script>
+</div>
+<p>if we continue with this algorithm, we eventally obtain</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\frac{128}{31} = 4+\frac{1}{7+\frac{1}{1+\frac{1}{\frac{1}{3}}}}
+</div>
+<script type="math/tex; mode=display">
+\frac{128}{31} = 4+\frac{1}{7+\frac{1}{1+\frac{1}{\frac{1}{3}}}}
+</script>
+</div>
+<p>The algorithm terminates, since <span class="arithmatex"><span class="MathJax_Preview">\frac{1}{3}</span><script type="math/tex">\frac{1}{3}</script></span> doesn't need to invert. We have </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+[a_{0},a_{1},a_{2},a_{3}] = [4,7,1,3]
+</div>
+<script type="math/tex; mode=display">
+[a_{0},a_{1},a_{2},a_{3}] = [4,7,1,3]
+</script>
+</div>
+<p>Next, we can work on the convergent based on <a href="https://en.wikipedia.org/wiki/Number_theory">number theory</a>. Let's start with <span class="arithmatex"><span class="MathJax_Preview">h_{n}/k_{n}</span><script type="math/tex">h_{n}/k_{n}</script></span> where it's defined as</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\frac{h_n}{k_n} = 
+\begin{cases}
+h_{n} = a_{n}h_{n-1}+h_{n-2}\\
+k_{n} = a_{n}k_{n-1}+k_{n-2}\\
+\end{cases}
+, n = 0,...,M
+</div>
+<script type="math/tex; mode=display">
+\frac{h_n}{k_n} = 
+\begin{cases}
+h_{n} = a_{n}h_{n-1}+h_{n-2}\\
+k_{n} = a_{n}k_{n-1}+k_{n-2}\\
+\end{cases}
+, n = 0,...,M
+</script>
+</div>
+<p>where</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\frac{h_n}{k_n} = 
+\begin{cases}
+h_{-2} = 0,\quad h_{-1} = 1 \\
+k_{-2} = 1,\quad k_{-1} = 0
+\end{cases}
+</div>
+<script type="math/tex; mode=display">
+\frac{h_n}{k_n} = 
+\begin{cases}
+h_{-2} = 0,\quad h_{-1} = 1 \\
+k_{-2} = 1,\quad k_{-1} = 0
+\end{cases}
+</script>
+</div>
+<p>after a little bit of calcualtion, we have <span class="arithmatex"><span class="MathJax_Preview">\frac{1}{4},\frac{7}{29},\frac{8}{33},\frac{1}{128}</span><script type="math/tex">\frac{1}{4},\frac{7}{29},\frac{8}{33},\frac{1}{128}</script></span> for <span class="arithmatex"><span class="MathJax_Preview">[a_{0},a_{1},a_{2},a_{3}] = [4,7,1,3]</span><script type="math/tex">[a_{0},a_{1},a_{2},a_{3}] = [4,7,1,3]</script></span>. We can do a quick check that </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rccccl}
+a_{0} &amp; \rightarrow &amp; \frac{s_{0}}{r_{0}} &amp; = &amp; \frac{1}{4} &amp; = &amp; 0.25\\
+a_{1} &amp; \rightarrow &amp; \frac{s_{1}}{r_{1}} &amp; = &amp; \frac{7}{29} &amp; = &amp; 0.241237...\\
+a_{2} &amp; \rightarrow &amp; \frac{s_{2}}{r_{2}} &amp; = &amp; \frac{8}{33} &amp; = &amp; 0.242424...\\
+a_{3} &amp; \rightarrow &amp; \frac{s_{3}}{r_{3}} &amp; = &amp; \frac{31}{128} &amp; = &amp; 0.2412875\\
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rccccl}
+a_{0} & \rightarrow & \frac{s_{0}}{r_{0}} & = & \frac{1}{4} & = & 0.25\\
+a_{1} & \rightarrow & \frac{s_{1}}{r_{1}} & = & \frac{7}{29} & = & 0.241237...\\
+a_{2} & \rightarrow & \frac{s_{2}}{r_{2}} & = & \frac{8}{33} & = & 0.242424...\\
+a_{3} & \rightarrow & \frac{s_{3}}{r_{3}} & = & \frac{31}{128} & = & 0.2412875\\
+\end{array}
+</script>
+</div>
+<p>they look fairy close to your result <span class="arithmatex"><span class="MathJax_Preview">\phi = 31/128</span><script type="math/tex">\phi = 31/128</script></span>. Then we can verify each <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span> by </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+x^{r} = 1\ (\text{mod} \ N)
+</div>
+<script type="math/tex; mode=display">
+x^{r} = 1\ (\text{mod} \ N)
+</script>
+</div>
+<p>then we are done! <em>Congratulations you just find the <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span>! Easy peasy!</em>😃</p>
+<div class="admonition note">
+<p class="admonition-title">Cost of the continued fraction algorithm</p>
+<p>If <span class="arithmatex"><span class="MathJax_Preview">\phi = s/r</span><script type="math/tex">\phi = s/r</script></span> is a rational number, and <span class="arithmatex"><span class="MathJax_Preview">s</span><script type="math/tex">s</script></span> and <span class="arithmatex"><span class="MathJax_Preview">r</span><script type="math/tex">r</script></span> are <span class="arithmatex"><span class="MathJax_Preview">L</span><script type="math/tex">L</script></span> bit integers, then the continued fraction expansion for <span class="arithmatex"><span class="MathJax_Preview">\phi</span><script type="math/tex">\phi</script></span> can be computed using <span class="arithmatex"><span class="MathJax_Preview">O(L^3)</span><script type="math/tex">O(L^3)</script></span> opeartions - <span class="arithmatex"><span class="MathJax_Preview">O(L)</span><script type="math/tex">O(L)</script></span> 'split and invert' steps, each using <span class="arithmatex"><span class="MathJax_Preview">O(L^{2})</span><script type="math/tex">O(L^{2})</script></span> gates or elementary arithmetic.</p>
+</div>
+<h3 id="algorithm-overview">Algorithm overview</h3>
+<p><mark><strong>Inputs:</strong></mark></p>
+<ol>
+<li>A black bos <span class="arithmatex"><span class="MathJax_Preview">U_{x,N}</span><script type="math/tex">U_{x,N}</script></span> which performs the transformation <span class="arithmatex"><span class="MathJax_Preview">|j\rangle|k\rangle\mapsto |j\rangle|x^{j}k\ \text{mod} N\rangle</span><script type="math/tex">|j\rangle|k\rangle\mapsto |j\rangle|x^{j}k\ \text{mod} N\rangle</script></span>, for <span class="arithmatex"><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> co-prime to the <span class="arithmatex"><span class="MathJax_Preview">L</span><script type="math/tex">L</script></span>-number <span class="arithmatex"><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span>.</li>
+<li>Set <code>t = 2L + 1 + math.ceil(np.log2(2+1/epsilon))</code>, <code>t</code> qubits are used in the first register.</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">L</span><script type="math/tex">L</script></span> qubits initialized to the state <span class="arithmatex"><span class="MathJax_Preview">|1\rangle</span><script type="math/tex">|1\rangle</script></span> for the second register.</li>
+</ol>
+<p><mark><strong>Outputs:</strong></mark> The least integer <span class="arithmatex"><span class="MathJax_Preview">r&gt;0</span><script type="math/tex">r>0</script></span> such that <span class="arithmatex"><span class="MathJax_Preview">x^{r} = 1\ (\text{mod}N)</span><script type="math/tex">x^{r} = 1\ (\text{mod}N)</script></span></p>
+<p><mark><strong>Runtime:</strong></mark> <span class="arithmatex"><span class="MathJax_Preview">O(L^{3})</span><script type="math/tex">O(L^{3})</script></span> operations.</p>
+<p><mark><strong>Procedure:</strong></mark> </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{lll}
+1. &amp; |0\rangle|1\rangle &amp; \text{initial state}\\
+2. &amp; \rightarrow \frac{1}{\sqrt{2}}\sum_{j=0}^{2^{t}-1}|j\rangle|1\rangle &amp; \text{create superposition}\\
+3. &amp; \rightarrow \frac{1}{\sqrt{2^{t}}}\sum_{j=0}^{2^{t}-1}|j\rangle|x^{j} \ \text{mod} N\rangle &amp; \text{apply} U_{x,N}\\
+ &amp; \approx \frac{1}{\sqrt{r2^{t}}}\sum_{s=0}^{r-1}\sum_{j=0}^{2^{t}-1}e^{2\pi isj/r}|j\rangle|u_{s}\rangle &amp; \\
+4. &amp; \rightarrow \frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}|s/r\rangle|u_{s}\rangle &amp; \text{apply inverse Fourier transform to first register}\\
+5. &amp; \rightarrow s/r &amp; \text{meausure the frist register}\\
+6. &amp; \rightarrow r &amp; \text{apply continued fractions algorithm}
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{lll}
+1. & |0\rangle|1\rangle & \text{initial state}\\
+2. & \rightarrow \frac{1}{\sqrt{2}}\sum_{j=0}^{2^{t}-1}|j\rangle|1\rangle & \text{create superposition}\\
+3. & \rightarrow \frac{1}{\sqrt{2^{t}}}\sum_{j=0}^{2^{t}-1}|j\rangle|x^{j} \ \text{mod} N\rangle & \text{apply} U_{x,N}\\
+ & \approx \frac{1}{\sqrt{r2^{t}}}\sum_{s=0}^{r-1}\sum_{j=0}^{2^{t}-1}e^{2\pi isj/r}|j\rangle|u_{s}\rangle & \\
+4. & \rightarrow \frac{1}{\sqrt{r}}\sum_{s=0}^{r-1}|s/r\rangle|u_{s}\rangle & \text{apply inverse Fourier transform to first register}\\
+5. & \rightarrow s/r & \text{meausure the frist register}\\
+6. & \rightarrow r & \text{apply continued fractions algorithm}
+\end{array}
+</script>
+</div>
+<details class="note">
+<summary>Is <span class="arithmatex"><span class="MathJax_Preview">U </span><script type="math/tex">U </script></span> a diagonal matrix in Shor's algorithm?</summary>
+<p>The short answer: NO.
+A unitary operator <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> is defined as </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">U \equiv
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; e^{2\pi i \theta}
+\end{bmatrix}
+</div>
+<script type="math/tex; mode=display">U \equiv
+\begin{bmatrix}
+1 & 0 \\
+0 & e^{2\pi i \theta}
+\end{bmatrix}
+</script>
+</div>
+<p>is only valid in basic phase estimation examples where <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> acts on 1 qubit and has eigenstates like <span class="arithmatex"><span class="MathJax_Preview">|1\rangle \rightarrow e^{2\pi i \theta}|1\rangle</span><script type="math/tex">|1\rangle \rightarrow e^{2\pi i \theta}|1\rangle</script></span>.</p>
+</details>
+<h2 id="references">References</h2>
+<p>[1]. M. A. Nielsen and I. L. Chuang, <em>Quantum Computation and Quantum Information</em>, 10th Anniversary Ed., Cambridge: Cambridge University Press, 2010.</p>
+<p>[2]. Quantum Fourier transform (wiki) <a href="https://en.wikipedia.org/wiki/Quantum_Fourier_transform">https://en.wikipedia.org/wiki/Quantum_Fourier_transform</a></p>
+<p>[3]. Continued fraction (wiki) <a href="https://en.wikipedia.org/wiki/Continued_fraction">https://en.wikipedia.org/wiki/Continued_fraction</a></p>
+<p>[4]. Modular exponentiation (wiki) <a href="https://en.wikipedia.org/wiki/Modular_exponentiation">https://en.wikipedia.org/wiki/Modular_exponentiation</a></p>
+<p>[5]. Coprime integers (wiki) <a href="https://en.wikipedia.org/wiki/Coprime_integers">https://en.wikipedia.org/wiki/Coprime_integers</a></p>
+<p>[6]. Greatest common divisor (wiki) <a href="https://en.wikipedia.org/wiki/Greatest_common_divisor">https://en.wikipedia.org/wiki/Greatest_common_divisor</a></p>
+<p>[7]. qiskit-community-tutorials/algorithms
+/shor_algorithm.ipynb <a href="https://github.com/qiskit-community/qiskit-community-tutorials/blob/master/algorithms/shor_algorithm.ipynb">https://github.com/qiskit-community/qiskit-community-tutorials/blob/master/algorithms/shor_algorithm.ipynb</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2024-2025 <a href="https://github.com/pcchouCR97" target="_blank" rel="noopener">Po-Chih Chou</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pcchouCR97/mkdocs-material-tutorial" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/po-chih-chou-0638941ab/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "search.highlight", "search.share", "math", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

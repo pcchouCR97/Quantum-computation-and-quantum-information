@@ -1,0 +1,5418 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of my learnings and projects on Quantum Computing and Information.">
+      
+      
+        <meta name="author" content="Po-Chih Chou">
+      
+      
+      
+        <link rel="prev" href="../../../quantum_information/qerror_correction_stabilizer_codes/">
+      
+      
+        <link rel="next" href="../../jupyter_QOpt/QUBO_1_start/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>QUBO Intro - Quantum Computation and Quantum Information</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quadratic-unconstrained-binary-optimization-problems" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Quantum Computation and Quantum Information" class="md-header__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum Computation and Quantum Information
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              QUBO Intro
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Quantum_Algorithm_101/quantum_state_space_basics/" class="md-tabs__link">
+          
+  
+  
+  Quantum Algorithm 101
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../quantum_computation/fourier_transformation/" class="md-tabs__link">
+          
+  
+  
+  Quantum Computation
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Cs/computational_complexity/" class="md-tabs__link">
+          
+  
+  
+  Computer Science
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../quantum_information/qnoise_n_qoperation/" class="md-tabs__link">
+          
+  
+  
+  Quantum information
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Quantum ML and Optimization
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-tabs__link">
+          
+  
+  
+  Real-world Problems
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Quantum Computation and Quantum Information" class="md-nav__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Quantum Computation and Quantum Information
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Algorithm 101
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Algorithm 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/quantum_state_space_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum State Space Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/Sup_Entg_Rev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Superposition, Entanglement and Reversibility
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/Qubit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit(s)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/Quantum_logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/TheBlochSphereAndRotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Bloch sphere and rotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/measurement_in_quantum_mechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Measurement in Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/quantum_postulate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Postulate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/Bloch_sphere/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloch sphere
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/born_rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Born Rule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/computational_basis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational Basis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/hilbert_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hilbert Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logic Gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linear Algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/linear_algebr_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/matrices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matrices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/vector_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Vector Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/space_transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Space Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/modular_arithmetic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modular Arithmetic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8">
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Probability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/probability_theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/quantum_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Embeding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/quantum_feature_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Feature Map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/qubit_dimensionality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit Dimensionality
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/qiskit_primitives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qiskit Primitives
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/variational_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/quantum_paralleslism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Paralleslism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/Linear_algebra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_16">
+        
+          
+          <label class="md-nav__link" for="__nav_2_16" id="__nav_2_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Test
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_16">
+            <span class="md-nav__icon md-icon"></span>
+            Test
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Quantum_Algorithm_101/test_level/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Test level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1">
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Fourier Transform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Fourier Transform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/fourier_transformation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fourier Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/order_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Order-finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/factoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factoring (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/period_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Period finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Learning hub
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning hub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/jupyter_qc/adder0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calculating 1+1 using quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/jupyter_qc/Shor%27s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Building Shor’s Algorithm from Scratch: Factoring 15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Algorithms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/phase_kickback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Phase kickback
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/computation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5">
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Search Algorithm
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Search Algorithm
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/qsa_q_search_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Quantum Search Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/qsa_quantum_counting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Counting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/qsa_NP_complete_problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quadratic speed up NP-complete problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/qsa_black_box_limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Block box algorithm limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6">
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum computer
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum computer
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conditions for quantum computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_neutral_atom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Neural atom quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_hoscillator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic oscillator quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_optphoto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical photo quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_optcavity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical cavity quantum electrodynamics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_iontrap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ion traps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_computation/q_computer_nuclearmag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nuclear magnetic resonance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Computer Science
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Science
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Cs/computational_complexity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational complexity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Cs/P_NP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P and NP problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum information
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum information
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_information/qnoise_n_qoperation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum noise and quantum operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2">
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum error-correction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_information/qerror_correction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_information/qerror_correction_stabilizer_formalism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The stabilizer formalism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../quantum_information/qerror_correction_stabilizer_codes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stabilizer codes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum ML and Optimization
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum ML and Optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Algorithms
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Algorithms
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_1" id="__nav_6_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quadratic Unconstrained Binary Optimization (QUBO)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quadratic Unconstrained Binary Optimization (QUBO)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    QUBO Intro
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    QUBO Intro
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-max-cut-problem-and-the-ising-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Max-Cut problem and the Ising model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Max-Cut problem and the Ising model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem formulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ising-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Ising model
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formulating-optimization-problems-the-quantum-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formulating optimization problems the quantum way
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-from-ising-to-qubo-and-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving from Ising to QUBO and back
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving from Ising to QUBO and back">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subset-sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subset Sum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combinatorial-optimization-problems-with-the-qubo-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combinatorial optimization problems with the QUBO model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Combinatorial optimization problems with the QUBO model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binary-linear-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Binary linear programming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integer-linear-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integer linear programming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-knapsack-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Knapsack problem
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-coloring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Graph coloring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-traveling-salesperson-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Traveling Salesperson Problem
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/QUBO_1_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start QUBO with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/QUBO_example_knapsack_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knapsack problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/QUBO_example_max_cut_and_tsp_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Max-Cut and Traveler Saleman Problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_2" id="__nav_6_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AQQA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AQQA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/AQQA_D-WAVE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working AQQA with D-wave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Approximate Optimization Algorithm (QAOA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Approximate Optimization Algorithm (QAOA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QAOA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QAOA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/QAOA_D-Wave.ipynb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solving QUBO problems with QAOA in Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/QAOA_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using QAOA with PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_4" id="__nav_6_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Grover Adaptive Search (GAS)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Grover Adaptive Search (GAS)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GAS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GAS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/GAS_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using GAS with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_5" id="__nav_6_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Quantum Eignesolver (VQE)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Quantum Eignesolver (VQE)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VQEIntro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VQE Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QOpt/VQE_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using VQE with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Machine Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Machine Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MachineLearningRefresher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning Refresher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machines (QSVM)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Support Vector Machines (QSVM)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QML/QSVM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QSVM Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QML/%28C%29load_wine_QSVM_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machine in PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Neural Networks (QNN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Neural Networks (QNN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QML/QNN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QNN Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Hybrid Architectures (QHybrid)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Hybrid Architectures (QHybrid)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QML/QHyb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QHybrid Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5" id="__nav_6_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Generative Adversarial Networks (QGAN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Generative Adversarial Networks (QGAN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QML/QGANS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QGANS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Algorithm Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QVE_variational_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QVC/%28Variational_design%29_Ansatz_and_variational_forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ansatz and variational forms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QVC/%28Varitaional_design%29_cost_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cost functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QVC/%28Variational_design%29_Optimization_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local and Global Optimizers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jupyter_QVC/%28Variational_design%29_Instances_and_extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instances and extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Real-world Problems
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Real-world Problems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Scheduling and Logistics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Scheduling and Logistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nurse Scheduling Problem Using Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/jupyter_Opt/%28C%29Air_Traffic_Control_1_Runway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Air Traffic Control Problem - Optimal Runway Allocation for Single-Plane Assignments in a Multi-Runway Airport
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Finance
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1" id="__nav_7_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Amplitude Estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_iterative_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterative Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Q_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Constructing Quantum Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_conv_accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Convergence and Accuracy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Var_n_CVaR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VaR and CVaR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_2" id="__nav_7_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Credit Risk Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_credit_risk_problem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_credit_risk_glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_Portfolio_Optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_Portfolio_Diversification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Diversification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3">
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Biology
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Biology
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Projs/Projs_Opt/Proj_RNA_Folding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RNA Folding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About Me
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-max-cut-problem-and-the-ising-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Max-Cut problem and the Ising model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Max-Cut problem and the Ising model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem formulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ising-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Ising model
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formulating-optimization-problems-the-quantum-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      Formulating optimization problems the quantum way
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-from-ising-to-qubo-and-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving from Ising to QUBO and back
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving from Ising to QUBO and back">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subset-sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subset Sum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combinatorial-optimization-problems-with-the-qubo-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combinatorial optimization problems with the QUBO model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Combinatorial optimization problems with the QUBO model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binary-linear-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Binary linear programming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integer-linear-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integer linear programming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-knapsack-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Knapsack problem
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#graph-coloring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Graph coloring
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-traveling-salesperson-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Traveling Salesperson Problem
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="quadratic-unconstrained-binary-optimization-problems">Quadratic unconstrained Binary Optimization Problems</h1>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li>
+<p>A expectation value is defined as <span class="arithmatex"><span class="MathJax_Preview">\langle \psi| (\sum_{(j,k)\in E}Z_{j}Z_{k})|\psi \rangle = \sum_{(j,k)\in E}\langle \psi|Z_{j}Z_{k}|\psi\rangle</span><script type="math/tex">\langle \psi| (\sum_{(j,k)\in E}Z_{j}Z_{k})|\psi \rangle = \sum_{(j,k)\in E}\langle \psi|Z_{j}Z_{k}|\psi\rangle</script></span>, formed by an orthonormal basis by real eigenvalues with their eigenvectors. The minimum state of one of these eigenvector are called <strong>ground state</strong>, this is also known as a <strong><a href="../VQEIntro/">variational principle</a></strong>.</p>
+</li>
+<li>
+<p>Finding a minimum state in a combinatorial optimization problem is try to find the ground state its <strong><a href="/docs/Math_Fundamentals/hilbert_space.md#hermitian-operators">Hamiltonian</a></strong> of the system.</p>
+</li>
+<li>
+<p>A general rule of the numbers of slack variables: given a constraint <span class="arithmatex"><span class="MathJax_Preview">Ax\leq b</span><script type="math/tex">Ax\leq b</script></span>, we solve <span class="arithmatex"><span class="MathJax_Preview">x_{j}</span><script type="math/tex">x_{j}</script></span> for <span class="arithmatex"><span class="MathJax_Preview">2^{j}-1\leq b</span><script type="math/tex">2^{j}-1\leq b</script></span>.</p>
+</li>
+</ol>
+<h2 id="examples">Examples</h2>
+<p>Please see followings for Qiskit implementations:</p>
+<ol>
+<li><a href="../../jupyter_QOpt/QUBO_1_start/">Start QUBO with Qiskit</a></li>
+<li><a href="../../jupyter_QOpt/QUBO_example_knapsack_qiskit/">Knapsack problem with Qiskit</a></li>
+<li><a href="../../jupyter_QOpt/QUBO_example_max_cut_and_tsp_qiskit/">Max-Cut and Traveler Saleman Problem with Qiskit</a></li>
+</ol>
+<h2 id="the-max-cut-problem-and-the-ising-model">The Max-Cut problem and the Ising model</h2>
+<p>When you are given a graph, you are essentially given some elements, which we will refer to as vertices, and some connections between pairs of these vertices, which we will call edges.</p>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/Max-cut_0.png" data-desc-position="bottom"><img src="../../images_QOpt/Max-cut_0.png" alt="Example of a Max-Cut" style="width: 400px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+        Example of a Max-Cut
+    </p>
+</div>
+
+<p>That is, it is a partition of the graph's vertices into two complementary sets S and T, such that the number of edges between S and T is as large as possible. Finding such a cut is known as the max-cut problem.</p>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/MaxCut.png" data-desc-position="bottom"><img src="../../images_QOpt/MaxCut.png" alt="Example of a Max-Cut" style="width: 600px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+    </p>
+</div>
+
+<h3 id="problem-formulation">Problem formulation</h3>
+<p>We can formulate the Max-Cut problem as combinatorial optimization problem with no reference whatsoever to graphy, edges, or vertices. To do that, we assign vairable <span class="arithmatex"><span class="MathJax_Preview">z_i</span><script type="math/tex">z_i</script></span> to each vertix <span class="arithmatex"><span class="MathJax_Preview">i=0, \cdots, n-1</span><script type="math/tex">i=0, \cdots, n-1</script></span> of the graph. Variables <span class="arithmatex"><span class="MathJax_Preview">z_i</span><script type="math/tex">z_i</script></span> will take value <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> or <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span>. Each assignment of values to the variables determines a cut: <mark class="critic">vertices whose variable take value <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> will be in one set and vertices whose variables take value <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span> will be in the other one.</mark> </p>
+<p>The key observation to formulate Max-Cut as a combinatorial optimization problem is that <mark class="critic"><strong>edge is cut if and only if <span class="arithmatex"><span class="MathJax_Preview">z_{j}z_{k}=1</span><script type="math/tex">z_{j}z_{k}=1</script></span></strong> This is because if two vertices are in the same set, then either <span class="arithmatex"><span class="MathJax_Preview">z_{j} = z_{k} = 1</span><script type="math/tex">z_{j} = z_{k} = 1</script></span> or <span class="arithmatex"><span class="MathJax_Preview">z_{j} = z_{k} = 1</span><script type="math/tex">z_{j} = z_{k} = 1</script></span> and, consequently, <span class="arithmatex"><span class="MathJax_Preview">z_{j}z_{k}=1</span><script type="math/tex">z_{j}z_{k}=1</script></span>.</mark></p>
+<p>Thus, we can formulate our problem into</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+    \text{Minimize} &amp;\sum_{(j,k)\in E} z_{j}z_{k}\\
+    \text{subject to} &amp; z_{j} \in \{-1,1\}, \ j = 0, \cdots,n-1.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+    \text{Minimize} &\sum_{(j,k)\in E} z_{j}z_{k}\\
+    \text{subject to} & z_{j} \in \{-1,1\}, \ j = 0, \cdots,n-1.
+\end{array}
+</script>
+</div>
+<p>From the figure we showed above, we can write</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+    \text{Minimize} &amp;\sum_{(j,k)\in E} z_{0}z_{1}+z_{0}z_{2}+z_{1}z_{2}+z_{1}z_{3}+z_{2}z_{4}+z_{3}z_{4}\\
+    \text{subject to} &amp; z_{j} \in \{-1,1\}, \ j = 0, \cdots,4.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+    \text{Minimize} &\sum_{(j,k)\in E} z_{0}z_{1}+z_{0}z_{2}+z_{1}z_{2}+z_{1}z_{3}+z_{2}z_{4}+z_{3}z_{4}\\
+    \text{subject to} & z_{j} \in \{-1,1\}, \ j = 0, \cdots,4.
+\end{array}
+</script>
+</div>
+<p>The cut <span class="arithmatex"><span class="MathJax_Preview">z_{1}=z_{4}=-1</span><script type="math/tex">z_{1}=z_{4}=-1</script></span>, <span class="arithmatex"><span class="MathJax_Preview">z_{0}=z_{2}=z_{3}=1</span><script type="math/tex">z_{0}=z_{2}=z_{3}=1</script></span>, which achieves a optimal value of -4. The cut <span class="arithmatex"><span class="MathJax_Preview">z_{0}=z_{3}=-1</span><script type="math/tex">z_{0}=z_{3}=-1</script></span>, <span class="arithmatex"><span class="MathJax_Preview">z_{1}=z_{2}=z_{4}=1</span><script type="math/tex">z_{1}=z_{2}=z_{4}=1</script></span>, on the other hand, has a value of <span class="arithmatex"><span class="MathJax_Preview">-2</span><script type="math/tex">-2</script></span>, which we already know that its not optimal value.</p>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/MaxCut2.png" data-desc-position="bottom"><img src="../../images_QOpt/MaxCut2.png" alt="Another Max-Cut example" style="width: 500px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+        Another Max-Cut example
+    </p>
+</div>
+
+<p>We can formulate the above graph as the follwoing:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+    \text{Minimize} &amp; z_{0}z_{1}+z_{0}z_{2}+z_{1}z_{0}+z_{1}z_{2}+z_{1}z_{4}+z_{2}z_{0}+z_{2}z_{1}+z_{2}z_{3}\\
+     &amp; +z_{3}z_{4}+z_{3}z_{5}+z_{4}z_{5}\\
+    \text{subject to} &amp; z_{j} \in \{-1,1\}, \ j = 0, \cdots,4.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+    \text{Minimize} & z_{0}z_{1}+z_{0}z_{2}+z_{1}z_{0}+z_{1}z_{2}+z_{1}z_{4}+z_{2}z_{0}+z_{2}z_{1}+z_{2}z_{3}\\
+     & +z_{3}z_{4}+z_{3}z_{5}+z_{4}z_{5}\\
+    \text{subject to} & z_{j} \in \{-1,1\}, \ j = 0, \cdots,4.
+\end{array}
+</script>
+</div>
+<h3 id="the-ising-model">The Ising model</h3>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/Ising_model.png" data-desc-position="bottom"><img src="../../images_QOpt/Ising_model.png" alt="Example of an Ising model" style="width: 400px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+        Example of an Ising model
+    </p>
+</div>
+
+<p>The total energy of the system is given by a quantity called the <mark class="critic"><strong>Hamiltonian</strong></mark> function defined by</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+-\sum_{j,k}{J_{jk}}z_{j}z_{k}-\sum_{j}h_{j}z_{j}
+</div>
+<script type="math/tex; mode=display">
+-\sum_{j,k}{J_{jk}}z_{j}z_{k}-\sum_{j}h_{j}z_{j}
+</script>
+</div>
+<p>where the coefficients <span class="arithmatex"><span class="MathJax_Preview">J_{jk}</span><script type="math/tex">J_{jk}</script></span> represent the interaction between particles <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> and <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> and the coefficicents <span class="arithmatex"><span class="MathJax_Preview">h_j</span><script type="math/tex">h_j</script></span> represent the influence of an external magnetic field on particle <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span>.</p>
+<p><mark class="critic">Finding the state of minimum energy of the system consists in obtaining a spin configuration for which the Hamiltonian function attains its minimum value</mark>. As you can easily check that if <span class="arithmatex"><span class="MathJax_Preview">J_{jk}</span><script type="math/tex">J_{jk}</script></span> coefficients are <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span> and all the <span class="arithmatex"><span class="MathJax_Preview">h_j</span><script type="math/tex">h_j</script></span> coefficients are <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span>, the problem is exactly the same as the max-cut problem.</p>
+<p>That is, we can formulate the Ising showed above like as</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+    \text{Recall} &amp; \color{red}{-\sum_{j,k}{J_{jk}}z_{j}z_{k}}\color{blue}{-\sum_{j}h_{j}z_{j}}\\
+    \text{Minimize} &amp; \color{red}{z_{0}z_{1}-2z_{1}z_{2}+z_{2}z_{3}-3z_{0}z_{4}+z_{4}z_{5}+z_{1}z_{5}}\\
+                    &amp; \color{red}{-2z_{5}z_{6}+z_{2}z_{6}+z_{6}z_{7}-3z_{3}z_{7}-3z_{4}z_{8}+z_{8}z_{9}}\\
+                    &amp; \color{red}{z_{5}z_{9}-2z_{9}z_{10}+z_{6}z_{10}+z_{10}z_{11}-7z_{3}z_{11}}\\
+                    &amp; \color{blue}{-z_{0}-z_{1}-z_{2}-z_{3}-z_{4}-z_{5}-z_{6}-z_{7}-z_{8}}\\
+                    &amp; \color{blue}{-z_{9}-z_{10}-z_{11}}\\
+    \text{subject to} &amp; z_{j} \in \{-1,1\}, \ j = 0, \cdots,11.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+    \text{Recall} & \color{red}{-\sum_{j,k}{J_{jk}}z_{j}z_{k}}\color{blue}{-\sum_{j}h_{j}z_{j}}\\
+    \text{Minimize} & \color{red}{z_{0}z_{1}-2z_{1}z_{2}+z_{2}z_{3}-3z_{0}z_{4}+z_{4}z_{5}+z_{1}z_{5}}\\
+                    & \color{red}{-2z_{5}z_{6}+z_{2}z_{6}+z_{6}z_{7}-3z_{3}z_{7}-3z_{4}z_{8}+z_{8}z_{9}}\\
+                    & \color{red}{z_{5}z_{9}-2z_{9}z_{10}+z_{6}z_{10}+z_{10}z_{11}-7z_{3}z_{11}}\\
+                    & \color{blue}{-z_{0}-z_{1}-z_{2}-z_{3}-z_{4}-z_{5}-z_{6}-z_{7}-z_{8}}\\
+                    & \color{blue}{-z_{9}-z_{10}-z_{11}}\\
+    \text{subject to} & z_{j} \in \{-1,1\}, \ j = 0, \cdots,11.
+\end{array}
+</script>
+</div>
+<h2 id="formulating-optimization-problems-the-quantum-way">Formulating optimization problems the quantum way</h2>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/MaxCut0.png" data-desc-position="bottom"><img src="../../images_QOpt/MaxCut0.png" alt="A very simple Max-Cut model" style="width: 350px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+        A very simple Max-Cut model
+    </p>
+</div>
+
+<p>Taking above very simple Max-Cut problem as an example. To transform a Max-Cut problem in to a quantum one, we have to use <span class="arithmatex"><span class="MathJax_Preview">Z</span><script type="math/tex">Z</script></span> matrix. Since we know that</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\langle0|Z|0\rangle =
+    \begin{pmatrix}1 &amp; 0 \end{pmatrix}
+    \begin{pmatrix}1 &amp; 0\\ 0 &amp; -1 \end{pmatrix}
+    \begin{pmatrix}1 \\ 0 \end{pmatrix}=1, &amp;
+\langle1|Z|1\rangle =
+    \begin{pmatrix}0 &amp; 1 \end{pmatrix}
+    \begin{pmatrix}1 &amp; 0\\ 0 &amp; -1 \end{pmatrix}
+    \begin{pmatrix}0 \\ 1 \end{pmatrix}=-1 
+\end{array} 
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\langle0|Z|0\rangle =
+    \begin{pmatrix}1 & 0 \end{pmatrix}
+    \begin{pmatrix}1 & 0\\ 0 & -1 \end{pmatrix}
+    \begin{pmatrix}1 \\ 0 \end{pmatrix}=1, &
+\langle1|Z|1\rangle =
+    \begin{pmatrix}0 & 1 \end{pmatrix}
+    \begin{pmatrix}1 & 0\\ 0 & -1 \end{pmatrix}
+    \begin{pmatrix}0 \\ 1 \end{pmatrix}=-1 
+\end{array} 
+</script>
+</div>
+<p>Now, consider the tensor product <span class="arithmatex"><span class="MathJax_Preview">Z\otimes Z\otimes I</span><script type="math/tex">Z\otimes Z\otimes I</script></span> and basis state <span class="arithmatex"><span class="MathJax_Preview">|010\rangle</span><script type="math/tex">|010\rangle</script></span>. </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\langle 010 |Z\otimes Z\otimes I|010\rangle &amp; = \langle 010|(Z|0\rangle \otimes Z|1\rangle\otimes I|0\rangle)\\
+   &amp; = \langle0|Z|0\rangle \langle1|Z|1\rangle \langle0|I|0\rangle \\
+   &amp; = 1 \cdot (-1) \cdot 1 = -1
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\langle 010 |Z\otimes Z\otimes I|010\rangle & = \langle 010|(Z|0\rangle \otimes Z|1\rangle\otimes I|0\rangle)\\
+   & = \langle0|Z|0\rangle \langle1|Z|1\rangle \langle0|I|0\rangle \\
+   & = 1 \cdot (-1) \cdot 1 = -1
+\end{array}
+</script>
+</div>
+<ul>
+<li><span class="arithmatex"><span class="MathJax_Preview">|010\rangle</span><script type="math/tex">|010\rangle</script></span> represents a cut where vertices <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span> and <span class="arithmatex"><span class="MathJax_Preview">2</span><script type="math/tex">2</script></span> are grouped together and vertex is assigned to the other.</li>
+<li>The product <span class="arithmatex"><span class="MathJax_Preview">\langle 010 |Z\otimes Z\otimes I|010\rangle</span><script type="math/tex">\langle 010 |Z\otimes Z\otimes I|010\rangle</script></span> evaluates to <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span> means that edge <span class="arithmatex"><span class="MathJax_Preview">(0,1)</span><script type="math/tex">(0,1)</script></span> has extremes in dfferent sets of the cut since we have used <span class="arithmatex"><span class="MathJax_Preview">Z\otimes Z\otimes I</span><script type="math/tex">Z\otimes Z\otimes I</script></span>, having <span class="arithmatex"><span class="MathJax_Preview">Z</span><script type="math/tex">Z</script></span> operators acting on qubits <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span> and <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span>.</li>
+<li>
+<p>We usually denote <span class="arithmatex"><span class="MathJax_Preview">Z\otimes Z\otimes I</span><script type="math/tex">Z\otimes Z\otimes I</script></span> as <span class="arithmatex"><span class="MathJax_Preview">Z_{0}Z_{1}</span><script type="math/tex">Z_{0}Z_{1}</script></span> and, following this convention, we could have, for instance</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\langle 010|Z_{0}Z_{2}|010\rangle = \langle0|Z|0\rangle\langle1|I|1\rangle\langle0|Z|0\rangle = 1 \cdot 1 \cdot 1 = 1
+</div>
+<script type="math/tex; mode=display">
+\langle 010|Z_{0}Z_{2}|010\rangle = \langle0|Z|0\rangle\langle1|I|1\rangle\langle0|Z|0\rangle = 1 \cdot 1 \cdot 1 = 1
+</script>
+</div>
+<p>since the edge (0,2) is not cut with this particular case.
+-   Also, we can expand this to </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\langle x|(Z_{0}Z_{1}+Z_{0}Z_{2})|x\rangle = \langle x|Z_{0}Z_{1}|x\rangle+\langle x|Z_{0}Z_{2}|x\rangle
+</div>
+<script type="math/tex; mode=display">
+\langle x|(Z_{0}Z_{1}+Z_{0}Z_{2})|x\rangle = \langle x|Z_{0}Z_{1}|x\rangle+\langle x|Z_{0}Z_{2}|x\rangle
+</script>
+</div>
+<p>due to linearity.</p>
+</li>
+</ul>
+<p>This is also applies to all basis state <span class="arithmatex"><span class="MathJax_Preview">|x\rangle</span><script type="math/tex">|x\rangle</script></span> with <span class="arithmatex"><span class="MathJax_Preview">x \in \{000,001,\cdots,111\}</span><script type="math/tex">x \in \{000,001,\cdots,111\}</script></span>, so <span class="arithmatex"><span class="MathJax_Preview">\langle x|Z_{j}Z_{k}|x\rangle</span><script type="math/tex">\langle x|Z_{j}Z_{k}|x\rangle</script></span> will be <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span> if the edga <span class="arithmatex"><span class="MathJax_Preview">(j,k)</span><script type="math/tex">(j,k)</script></span> is cut under an assignment <span class="arithmatex"><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span>.</p>
+<div class="admonition note eigenvector and eigenstate">
+<p class="admonition-title">Note</p>
+<p>For any basis state <span class="arithmatex"><span class="MathJax_Preview">|x\rangle</span><script type="math/tex">|x\rangle</script></span>, it holds that either <span class="arithmatex"><span class="MathJax_Preview">Z_{j}Z_{k}|x\rangle = |x\rangle</span><script type="math/tex">Z_{j}Z_{k}|x\rangle = |x\rangle</script></span> or <span class="arithmatex"><span class="MathJax_Preview">Z_{j}Z_{k}|x\rangle = -|x\rangle</span><script type="math/tex">Z_{j}Z_{k}|x\rangle = -|x\rangle</script></span>. This indicates that <span class="arithmatex"><span class="MathJax_Preview">|x\rangle</span><script type="math/tex">|x\rangle</script></span> is an <strong><em>eigenvector</em></strong> of <span class="arithmatex"><span class="MathJax_Preview">Z_{j}Z_{k}</span><script type="math/tex">Z_{j}Z_{k}</script></span> with <strong><em>eigenvalue</em></strong> either <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> or <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span>. Thus, for <span class="arithmatex"><span class="MathJax_Preview">x\neq y</span><script type="math/tex">x\neq y</script></span> we have 
+$$
+\langle y | Z_{j}Z_{k} |x\rangle = \pm \langle y|x\rangle = 0.
+$$</p>
+</div>
+<p>Consequently, since we can write <span class="arithmatex"><span class="MathJax_Preview">|\psi \rangle</span><script type="math/tex">|\psi \rangle</script></span> as <span class="arithmatex"><span class="MathJax_Preview">\psi \rangle = \sum_{x}a_{x}|x\rangle</span><script type="math/tex">\psi \rangle = \sum_{x}a_{x}|x\rangle</script></span>, from linearity, we have</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\langle \psi|Z_{j}Z_{k}|\psi\rangle &amp; = \bigg( \sum_{y}a_{y}^{*}\langle y| \bigg) Z_{j}Z_{k} \bigg( \sum_{x}a_{x}\langle x| \bigg)\\
+    &amp; = \sum_{y}\sum_{x}a_{y}^{*}a_{x}\langle y|Z_{j}Z_{k}|x\rangle\\
+    &amp; = \sum_{x}|a_{x}|^{2}\langle x|Z_{j}Z_{k}|x\rangle,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\langle \psi|Z_{j}Z_{k}|\psi\rangle & = \bigg( \sum_{y}a_{y}^{*}\langle y| \bigg) Z_{j}Z_{k} \bigg( \sum_{x}a_{x}\langle x| \bigg)\\
+    & = \sum_{y}\sum_{x}a_{y}^{*}a_{x}\langle y|Z_{j}Z_{k}|x\rangle\\
+    & = \sum_{x}|a_{x}|^{2}\langle x|Z_{j}Z_{k}|x\rangle,
+\end{array}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">a_{x}^{*}a_{x} = |a_{x}|^{2}</span><script type="math/tex">a_{x}^{*}a_{x} = |a_{x}|^{2}</script></span>.</p>
+<p>Hence, we transform <span class="arithmatex"><span class="MathJax_Preview">\langle x|(Z_{0}Z_{1}+Z_{0}Z_{2})|x\rangle</span><script type="math/tex">\langle x|(Z_{0}Z_{1}+Z_{0}Z_{2})|x\rangle</script></span> to</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\langle x|(Z_{0}Z_{1}+Z_{0}Z_{2})|x\rangle &amp; = \langle\psi|Z_{0}Z_{1}|\psi\rangle\langle\psi|Z_{0}Z_{2}|\psi\rangle\\
+    &amp; = \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}|x\rangle + \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{2}|x\rangle \\
+    &amp; = \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}+Z_{0}Z_{2}|x\rangle.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\langle x|(Z_{0}Z_{1}+Z_{0}Z_{2})|x\rangle & = \langle\psi|Z_{0}Z_{1}|\psi\rangle\langle\psi|Z_{0}Z_{2}|\psi\rangle\\
+    & = \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}|x\rangle + \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{2}|x\rangle \\
+    & = \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}+Z_{0}Z_{2}|x\rangle.
+\end{array}
+</script>
+</div>
+<p>Since we know <span class="arithmatex"><span class="MathJax_Preview">\sum_{x}|a_{x}|^{2} = 1</span><script type="math/tex">\sum_{x}|a_{x}|^{2} = 1</script></span> (Total probability sum is 1) and the every <span class="arithmatex"><span class="MathJax_Preview">|a_{x}|^{2}</span><script type="math/tex">|a_{x}|^{2}</script></span> is non-negative, </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}+Z_{0}Z_{2}|x\rangle &amp; \leq \sum_{x}|a_{x}|^{2}\langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle\\
+    &amp; = \langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle \sum_{x}|a_{x}|^{2}\\
+    &amp; = \langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}+Z_{0}Z_{2}|x\rangle & \leq \sum_{x}|a_{x}|^{2}\langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle\\
+    & = \langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle \sum_{x}|a_{x}|^{2}\\
+    & = \langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle
+\end{array}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">|x_{\text{min}}\rangle</span><script type="math/tex">|x_{\text{min}}\rangle</script></span> is a basis state <span class="arithmatex"><span class="MathJax_Preview">x \in \{000,001,\cdots,111\}</span><script type="math/tex">x \in \{000,001,\cdots,111\}</script></span> for which <span class="arithmatex"><span class="MathJax_Preview">x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}</span><script type="math/tex">x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}</script></span> is minimum and <span class="arithmatex"><span class="MathJax_Preview">x_{\text{min}}</span><script type="math/tex">x_{\text{min}}</script></span> represents a maximum cut.</p>
+<p>Therefore, we rewite our problem in to a quantum form as </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{l}
+\text{minimize} \ \ \ \ \langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle = \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}+Z_{0}Z_{2}|x\rangle\\
+\text{where} |\psi\rangle \text{is taken from the set of quantum state on 3 qubits.}
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\text{minimize} \ \ \ \ \langle x_{\text{min}}|Z_{0}Z_{1}+Z_{0}Z_{2}|x_{\text{min}}\rangle = \sum_{x}|a_{x}|^{2}\langle x|Z_{0}Z_{1}+Z_{0}Z_{2}|x\rangle\\
+\text{where} |\psi\rangle \text{is taken from the set of quantum state on 3 qubits.}
+\end{array}
+</script>
+</div>
+<p>This, in constrast to the previous example, we are minimizing overall possible quantum states.</p>
+<p>For any number of qubits and any sum of tensor products <span class="arithmatex"><span class="MathJax_Preview">Z_{j}Z_{k}</span><script type="math/tex">Z_{j}Z_{k}</script></span>, if we have a graphy with set of vertices <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>, of size <span class="arithmatex"><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span>, and set of edge <span class="arithmatex"><span class="MathJax_Preview">E</span><script type="math/tex">E</script></span>, we can rewrite the Max-Cut problem for the graph as:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{l}
+\text{minimize} \ \ \ \ \sum_{(j,k)\in E}\langle \psi|Z_{j}Z_{k}|\psi\rangle\\
+\text{where} |\psi\rangle \text{is taken from the set of quantum state on 3 qubits.}
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\text{minimize} \ \ \ \ \sum_{(j,k)\in E}\langle \psi|Z_{j}Z_{k}|\psi\rangle\\
+\text{where} |\psi\rangle \text{is taken from the set of quantum state on 3 qubits.}
+\end{array}
+</script>
+</div>
+<p>We said that the matrix</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{(j,k)\in E}Z_{j}Z_{k}
+</div>
+<script type="math/tex; mode=display">
+\sum_{(j,k)\in E}Z_{j}Z_{k}
+</script>
+</div>
+<p>are <strong>Hamiltonian</strong>, as the matrix equals to its conjugate tranpose. Hamiltonian has <strong>real eigenvalues</strong> and being able to form an <strong>orthonomal basis withe their eigenvector</strong>. The equantity </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\langle \psi| \bigg( \sum_{(j,k)\in E}Z_{j}Z_{k} \bigg)|\psi \rangle = \sum_{(j,k)\in E}\langle \psi|Z_{j}Z_{k}|\psi\rangle,
+</div>
+<script type="math/tex; mode=display">
+\langle \psi| \bigg( \sum_{(j,k)\in E}Z_{j}Z_{k} \bigg)|\psi \rangle = \sum_{(j,k)\in E}\langle \psi|Z_{j}Z_{k}|\psi\rangle,
+</script>
+</div>
+<p>which we usually refer to the <strong>expectation value</strong> of <span class="arithmatex"><span class="MathJax_Preview">\sum_{(j,k)\in E}Z_{j}Z_{k}</span><script type="math/tex">\sum_{(j,k)\in E}Z_{j}Z_{k}</script></span>, attains its minimum value on one of those eigenvectors, aclled the <strong>ground state</strong>. </p>
+<p>In the same fashion, we appy this method to the Ising model</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{l}
+\text{minimize} \ \ \ \ -\sum_{(j,k)\in E}J_{jk}\langle \psi|Z_{j}Z_{k}|\psi\rangle - \sum_{j}h_{j}\langle\psi|Z_{j}|\psi\rangle,\\
+\text{where} |\psi\rangle \text{is taken from the set of quantum state on 3 qubits.}
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\text{minimize} \ \ \ \ -\sum_{(j,k)\in E}J_{jk}\langle \psi|Z_{j}Z_{k}|\psi\rangle - \sum_{j}h_{j}\langle\psi|Z_{j}|\psi\rangle,\\
+\text{where} |\psi\rangle \text{is taken from the set of quantum state on 3 qubits.}
+\end{array}
+</script>
+</div>
+<h2 id="moving-from-ising-to-qubo-and-back">Moving from Ising to QUBO and back</h2>
+<h3 id="subset-sum">Subset Sum</h3>
+<p>Let's say that you are given a set of integers <span class="arithmatex"><span class="MathJax_Preview">S</span><script type="math/tex">S</script></span> and <span class="arithmatex"><span class="MathJax_Preview">T</span><script type="math/tex">T</script></span>, and you are asked whether there is any subset of <span class="arithmatex"><span class="MathJax_Preview">S</span><script type="math/tex">S</script></span> whose sum is <span class="arithmatex"><span class="MathJax_Preview">T</span><script type="math/tex">T</script></span>. For example, if <span class="arithmatex"><span class="MathJax_Preview">S = \{1,3,4,7,-4\}</span><script type="math/tex">S = \{1,3,4,7,-4\}</script></span> and <span class="arithmatex"><span class="MathJax_Preview">T = 6</span><script type="math/tex">T = 6</script></span>, then the answer is <strong>positive</strong> because <span class="arithmatex"><span class="MathJax_Preview">3+7-4 = 6</span><script type="math/tex">3+7-4 = 6</script></span>. If <span class="arithmatex"><span class="MathJax_Preview">S = \{2,-2,4,8,-12 \}</span><script type="math/tex">S = \{2,-2,4,8,-12 \}</script></span> and <span class="arithmatex"><span class="MathJax_Preview">T=1</span><script type="math/tex">T=1</script></span>, the answer is <strong>negative</strong> because all the numbers in the set are even and they cannot add up to an odd number.</p>
+<p>This problem is so called the <strong>Subset Sum</strong> problem and known for a <span class="arithmatex"><span class="MathJax_Preview">N</span><script type="math/tex">N</script></span><strong>-complete</strong>. It turns out that we can <strong>reduce</strong> the Subset Sum problem to finding a spin configuration of minimal energy for any Ising model.</p>
+<p>Let's consider a binery values instead of <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> and <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span> in this case. If we are given a case <span class="arithmatex"><span class="MathJax_Preview">S = {a_{0},\cdots,a_{m}}</span><script type="math/tex">S = {a_{0},\cdots,a_{m}}</script></span> and an integer <span class="arithmatex"><span class="MathJax_Preview">T</span><script type="math/tex">T</script></span>, we can define binary variable <span class="arithmatex"><span class="MathJax_Preview">x_j, j=0,\cdots,m</span><script type="math/tex">x_j, j=0,\cdots,m</script></span> and consider</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+c(x_{0},x_{1},\cdots,x_{m}) = (a_{0}x_{0}+a_{1}x_{1}+ \cdots +a_{m}x_{m} - T)^{2}
+</div>
+<script type="math/tex; mode=display">
+c(x_{0},x_{1},\cdots,x_{m}) = (a_{0}x_{0}+a_{1}x_{1}+ \cdots +a_{m}x_{m} - T)^{2}
+</script>
+</div>
+<p>and we can find the positive answer if and only if we can find the binary values <span class="arithmatex"><span class="MathJax_Preview">x_j, j=0,\cdots, m</span><script type="math/tex">x_j, j=0,\cdots, m</script></span> such that <span class="arithmatex"><span class="MathJax_Preview">c(x_{0},x_{1}, \cdots, x_{m}) = 0</span><script type="math/tex">c(x_{0},x_{1}, \cdots, x_{m}) = 0</script></span>.</p>
+<p>For example, if we are given a set of <span class="arithmatex"><span class="MathJax_Preview">S = \{1,4,-2 \}</span><script type="math/tex">S = \{1,4,-2 \}</script></span> and <span class="arithmatex"><span class="MathJax_Preview">T=2</span><script type="math/tex">T=2</script></span>, we can formulate the question as:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; (x_{0}+4x_{1}-2x_{2}-2)^{2}\\
+\text{subject to} &amp; x_{j}\in \{0,1\}, \ j = 0, \cdots,m
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & (x_{0}+4x_{1}-2x_{2}-2)^{2}\\
+\text{subject to} & x_{j}\in \{0,1\}, \ j = 0, \cdots,m
+\end{array}
+</script>
+</div>
+<p>and we have to expand <span class="arithmatex"><span class="MathJax_Preview">(x_{0}+4x_{1}-2x_{2}-2)^{2}</span><script type="math/tex">(x_{0}+4x_{1}-2x_{2}-2)^{2}</script></span> to obtain the epxression to be optimized. For this case, we need <span class="arithmatex"><span class="MathJax_Preview">x_{0}, x_{1} = x_{2} = 1</span><script type="math/tex">x_{0}, x_{1} = x_{2} = 1</script></span> to find a optimal solution. <strong>It turns out that, if the minimum is 0, the Subset Sum has a positive solution; otherwise, it doesn’t.</strong></p>
+<p>Notice that, in all of these cases, the function <span class="arithmatex"><span class="MathJax_Preview">c(x_{0},x_{1},\cdots,x_{m})</span><script type="math/tex">c(x_{0},x_{1},\cdots,x_{m})</script></span> that we need to minimize is a polynomial of degree <span class="arithmatex"><span class="MathJax_Preview">2</span><script type="math/tex">2</script></span> on the binary variables <span class="arithmatex"><span class="MathJax_Preview">x_j</span><script type="math/tex">x_j</script></span>. We thus generalize this setting and define <mark class="critic"><strong>Quadratic Unconstrained Binary Optimization (QUBO)</strong></mark> problems.</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; q(x_{0},\cdots,x_{m})\\
+\text{subject to} &amp; x_{j}\in \{0,1\}, \ j = 0, \cdots,m
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & q(x_{0},\cdots,x_{m})\\
+\text{subject to} & x_{j}\in \{0,1\}, \ j = 0, \cdots,m
+\end{array}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">q(x_{0},\cdots,x_{m})</span><script type="math/tex">q(x_{0},\cdots,x_{m})</script></span> is a quadratic polynomial on the <span class="arithmatex"><span class="MathJax_Preview">x_j</span><script type="math/tex">x_j</script></span> variables.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We are calling this QUBO since we are minimizing quadratic expressions over binary variables with no restrictions (every combinations of ones and zeros are acceptable).</p>
+</div>
+<p>For an Ising problem, if you want to minimize:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+-\sum_{j,k}J_{j,k}z_{j}z_{k} - \sum_{j} h_{j}z_{j}
+</div>
+<script type="math/tex; mode=display">
+-\sum_{j,k}J_{j,k}z_{j}z_{k} - \sum_{j} h_{j}z_{j}
+</script>
+</div>
+<p>with some variables <span class="arithmatex"><span class="MathJax_Preview">z_{j}</span><script type="math/tex">z_{j}</script></span>, <span class="arithmatex"><span class="MathJax_Preview">j = 0,\cdots,m</span><script type="math/tex">j = 0,\cdots,m</script></span>, taking values <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> or <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span>, you can define new variables <span class="arithmatex"><span class="MathJax_Preview">x_{j} = (1-z_{j})/2</span><script type="math/tex">x_{j} = (1-z_{j})/2</script></span>. <span class="arithmatex"><span class="MathJax_Preview">x_{j}</span><script type="math/tex">x_{j}</script></span> will be <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span> when <span class="arithmatex"><span class="MathJax_Preview">z_{j}</span><script type="math/tex">z_{j}</script></span> is <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> when <span class="arithmatex"><span class="MathJax_Preview">z_{j}</span><script type="math/tex">z_{j}</script></span> is <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span>.</p>
+<p>On the other hand, you can define a new variable called <span class="arithmatex"><span class="MathJax_Preview">z_{j} = 1-2x_{j}</span><script type="math/tex">z_{j} = 1-2x_{j}</script></span>, which leads you to a quadratic polynomial in the binary variable <span class="arithmatex"><span class="MathJax_Preview">x_j</span><script type="math/tex">x_j</script></span> that takes exactly the same values as the energy function of the original Ising model. If you minimize the polynomical for the variables <span class="arithmatex"><span class="MathJax_Preview">x_{j}</span><script type="math/tex">x_{j}</script></span>, you can then recover the spin value <span class="arithmatex"><span class="MathJax_Preview">z_{j}</span><script type="math/tex">z_{j}</script></span> that achieve the minimal energy. As you may wonder, you can also use <span class="arithmatex"><span class="MathJax_Preview">z_{j} = 2x_{j}-1</span><script type="math/tex">z_{j} = 2x_{j}-1</script></span> to transform Ising problem into QUBO.</p>
+<p>For example, if the Ising energy is given by <span class="arithmatex"><span class="MathJax_Preview">\frac{1}{2}z_{0}z_{1}+z_{2}</span><script type="math/tex">\frac{1}{2}z_{0}z_{1}+z_{2}</script></span>, then, under the transformation <span class="arithmatex"><span class="MathJax_Preview">z_{j} = 1-2x_{j}</span><script type="math/tex">z_{j} = 1-2x_{j}</script></span>, the corresponding QUBO problem will be (by substitute <span class="arithmatex"><span class="MathJax_Preview">z_{0} = 1-2x_{0}</span><script type="math/tex">z_{0} = 1-2x_{0}</script></span>, <span class="arithmatex"><span class="MathJax_Preview">z_{1} = 1-2x_{1}</span><script type="math/tex">z_{1} = 1-2x_{1}</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">z_{2} = 1-2x_{2}</span><script type="math/tex">z_{2} = 1-2x_{2}</script></span> in to Ising energy <span class="arithmatex"><span class="MathJax_Preview">\frac{1}{2}z_{0}z_{1}+z_{2}</span><script type="math/tex">\frac{1}{2}z_{0}z_{1}+z_{2}</script></span>.):</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -2x_{0}x_{1}+x_{0}+x_{1}-2x_{2}+\frac{1}{2}\\
+\text{subject to} &amp; x_{j}\in \{0,1\}, \ j =0, 1, 2.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -2x_{0}x_{1}+x_{0}+x_{1}-2x_{2}+\frac{1}{2}\\
+\text{subject to} & x_{j}\in \{0,1\}, \ j =0, 1, 2.
+\end{array}
+</script>
+</div>
+<h2 id="combinatorial-optimization-problems-with-the-qubo-model">Combinatorial optimization problems with the QUBO model</h2>
+<h3 id="binary-linear-programming">Binary linear programming</h3>
+<p>Binary linear programming problems involve optimizaing a linear function on binary variables subject to linear constraints. </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; c_{0}x_{0}+c_{1}x_{1}+\cdots+c_{m}x_{m}\\
+\text{subject to} &amp; Ax \leq b, \\
+&amp; x_{j}\in \{0,1\}, \ j = 0,\cdots,m,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & c_{0}x_{0}+c_{1}x_{1}+\cdots+c_{m}x_{m}\\
+\text{subject to} & Ax \leq b, \\
+& x_{j}\in \{0,1\}, \ j = 0,\cdots,m,
+\end{array}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">c_{j}</span><script type="math/tex">c_{j}</script></span> are integer coefficients, <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is an integer matrix, <span class="arithmatex"><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> is the transpose of <span class="arithmatex"><span class="MathJax_Preview">(x_{0},\cdots,x_{m})</span><script type="math/tex">(x_{0},\cdots,x_{m})</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">b</span><script type="math/tex">b</script></span> is an integer column vector.</p>
+<p>For an example:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -5x_{0}+3x_{1}-2x_{2} \\
+\text{subject to} &amp; x_{0}+x_{2} \leq 1, \\
+                &amp; 3x_{0} - x_{1}+3x_{2} \leq 4,\\
+                &amp; x_{j}\in \{0,1\}, \ j = 0, 1, 2,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -5x_{0}+3x_{1}-2x_{2} \\
+\text{subject to} & x_{0}+x_{2} \leq 1, \\
+                & 3x_{0} - x_{1}+3x_{2} \leq 4,\\
+                & x_{j}\in \{0,1\}, \ j = 0, 1, 2,
+\end{array}
+</script>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Binary linear programming (<strong>zero-one programming</strong>) is <span class="arithmatex"><span class="MathJax_Preview">NP</span><script type="math/tex">NP</script></span>-hard.</p>
+</div>
+<p>To write a binary linear program in QUBO, we need to perfrom some transformations. The first one is to convert the inequality constraints into equality constraints by adding <strong>slack variables</strong>. In the previous example, we have inquality constraints <span class="arithmatex"><span class="MathJax_Preview">x_{0}+x_{2} \leq 1</span><script type="math/tex">x_{0}+x_{2} \leq 1</script></span> and <span class="arithmatex"><span class="MathJax_Preview">3x_{0} - x_{1}+3x_{2} \leq 4</span><script type="math/tex">3x_{0} - x_{1}+3x_{2} \leq 4</script></span>. We know that the minimum value for the left hand side of the first equation is 0 and -1 for the left hand side of the second equation. <mark class="critic">The goal here is to add slack variable(s) to make the equation equals when left hand side of the original inequality has its minimum</mark>. To add <strong>non-negative</strong> slack variable(s), we can modify the first inequality into</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+x_0 + x_2 + y_0 = 1
+</div>
+<script type="math/tex; mode=display">
+x_0 + x_2 + y_0 = 1
+</script>
+</div>
+<p>and since the minimum of the second inequality is when <span class="arithmatex"><span class="MathJax_Preview">x_0 = x_2 =0</span><script type="math/tex">x_0 = x_2 =0</script></span> and <span class="arithmatex"><span class="MathJax_Preview">x_1 = 1</span><script type="math/tex">x_1 = 1</script></span>, <span class="arithmatex"><span class="MathJax_Preview">3x_{0} - x_{1}+3x_{2} = -1</span><script type="math/tex">3x_{0} - x_{1}+3x_{2} = -1</script></span>. We need to add at least 3 different slack variables with a proper coefficient to make <span class="arithmatex"><span class="MathJax_Preview">3x_{0} - x_{1}+3x_{2} = 5</span><script type="math/tex">3x_{0} - x_{1}+3x_{2} = 5</script></span>. Therefore,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+3x_0-x_1+3x_2+y_1+2y_2+2y_3 = 4
+</div>
+<script type="math/tex; mode=display">
+3x_0-x_1+3x_2+y_1+2y_2+2y_3 = 4
+</script>
+</div>
+<p>can be  satisfied if and only if <span class="arithmatex"><span class="MathJax_Preview">3x_{0} - x_{1}+3x_{2} \leq 4</span><script type="math/tex">3x_{0} - x_{1}+3x_{2} \leq 4</script></span> can be satified. Now, we rewrite the original problem as,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -5x_{0}+3x_{1}-2x_{2} \\
+\text{subject to} &amp; x_0 + x_2 + y_0 = 1, \\
+                &amp; 3x_0-x_1+3x_2+y_1+2y_2+2y_3 = 4,\\
+                &amp; x_{j}\in \{0,1\}, \ j = 0, 1, 2,\\
+                &amp; y_{j}\in \{0,1\}, \ j = 0, 1, 2, 3
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -5x_{0}+3x_{1}-2x_{2} \\
+\text{subject to} & x_0 + x_2 + y_0 = 1, \\
+                & 3x_0-x_1+3x_2+y_1+2y_2+2y_3 = 4,\\
+                & x_{j}\in \{0,1\}, \ j = 0, 1, 2,\\
+                & y_{j}\in \{0,1\}, \ j = 0, 1, 2, 3
+\end{array}
+</script>
+</div>
+<p>Next, we introduce <strong>penalty terms</strong> in the expression to our QUBO instance of the binary programming. For that, we use an integer <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> (for which we will select a concrete value later on) and consider the problem,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -5x_{0}+3x_{1}-2x_{2} + B(x_0 + x_2 + y_0-1)^2\\
+                &amp; + B(3x_0-x_1+3x_2+y_1+2y_2+2y_3-4)^2 \\
+\text{subject to} &amp; x_{j}\in \{0,1\}, \ j = 0, 1, 2,\\
+                  &amp; y_{j}\in \{0,1\}, \ j = 0, 1, 2, 3,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -5x_{0}+3x_{1}-2x_{2} + B(x_0 + x_2 + y_0-1)^2\\
+                & + B(3x_0-x_1+3x_2+y_1+2y_2+2y_3-4)^2 \\
+\text{subject to} & x_{j}\in \{0,1\}, \ j = 0, 1, 2,\\
+                  & y_{j}\in \{0,1\}, \ j = 0, 1, 2, 3,
+\end{array}
+</script>
+</div>
+<p>which is <em>already in QUBO form</em>.</p>
+<p>Let's us breakdown why and how to choose the <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span>. </p>
+<ol>
+<li>First, <span class="arithmatex"><span class="MathJax_Preview">B(x_0 + x_2 + y_0-1)^2</span><script type="math/tex">B(x_0 + x_2 + y_0-1)^2</script></span> term will penalizes solutions where the sum of the <span class="arithmatex"><span class="MathJax_Preview">x_0, x_2,</span><script type="math/tex">x_0, x_2,</script></span> and <span class="arithmatex"><span class="MathJax_Preview">y_0</span><script type="math/tex">y_0</script></span> does not equal <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span>. (<span class="arithmatex"><span class="MathJax_Preview">\rightarrow</span><script type="math/tex">\rightarrow</script></span> violates the first constraint.)</li>
+<li>Second, <span class="arithmatex"><span class="MathJax_Preview">B(3x_0-x_1+3x_2+y_1+2y_2+2y_3-4)^2</span><script type="math/tex">B(3x_0-x_1+3x_2+y_1+2y_2+2y_3-4)^2</script></span> term will pernalizes solutions where this sum does not equal to <span class="arithmatex"><span class="MathJax_Preview">4</span><script type="math/tex">4</script></span>. (<span class="arithmatex"><span class="MathJax_Preview">\rightarrow</span><script type="math/tex">\rightarrow</script></span> violates the second constraint.)</li>
+</ol>
+<p>We then choose <span class="arithmatex"><span class="MathJax_Preview">B=11</span><script type="math/tex">B=11</script></span> based on the range of the solution, which, in this case is <span class="arithmatex"><span class="MathJax_Preview">[-7,3]</span><script type="math/tex">[-7,3]</script></span>. We choose <span class="arithmatex"><span class="MathJax_Preview">11 &gt; 10</span><script type="math/tex">11 > 10</script></span> (range of the solution). Re-write our QUBO,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -5x_{0}+3x_{1}-2x_{2} + 11(x_0 + x_2 + y_0-1)^2\\
+                &amp; + 11(3x_0-x_1+3x_2+y_1+2y_2+2y_3-4)^2 \\
+\text{subject to} &amp; x_{j}\in \{0,1\}, \ j = 0, 1, 2,\\
+                  &amp; y_{j}\in \{0,1\}, \ j = 0, 1, 2, 3,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -5x_{0}+3x_{1}-2x_{2} + 11(x_0 + x_2 + y_0-1)^2\\
+                & + 11(3x_0-x_1+3x_2+y_1+2y_2+2y_3-4)^2 \\
+\text{subject to} & x_{j}\in \{0,1\}, \ j = 0, 1, 2,\\
+                  & y_{j}\in \{0,1\}, \ j = 0, 1, 2, 3,
+\end{array}
+</script>
+</div>
+<h3 id="integer-linear-programming">Integer linear programming</h3>
+<p>Integer linear programming is a generalization of binary linear programming where nonnegative variables are used instead of <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span> and <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span>. For example, we have a constraint</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+2a_0 + 3a_1 \leq 10
+</div>
+<script type="math/tex; mode=display">
+2a_0 + 3a_1 \leq 10
+</script>
+</div>
+<p>where, we can replace <span class="arithmatex"><span class="MathJax_Preview">a_0</span><script type="math/tex">a_0</script></span> with <span class="arithmatex"><span class="MathJax_Preview">x_0 + 2x_1 + 4x_2</span><script type="math/tex">x_0 + 2x_1 + 4x_2</script></span> (<span class="arithmatex"><span class="MathJax_Preview">a_{0} \leq 5</span><script type="math/tex">a_{0} \leq 5</script></span>) and <span class="arithmatex"><span class="MathJax_Preview">a_1</span><script type="math/tex">a_1</script></span> with <span class="arithmatex"><span class="MathJax_Preview">x_3 + 2x_4</span><script type="math/tex">x_3 + 2x_4</script></span> (<span class="arithmatex"><span class="MathJax_Preview">a_{1} \leq 3</span><script type="math/tex">a_{1} \leq 3</script></span>) where <span class="arithmatex"><span class="MathJax_Preview">x_{j} \in \{0,1\}</span><script type="math/tex">x_{j} \in \{0,1\}</script></span>. By doing this, we successfully transform the integer linear programming to a QUBO problem. There is a general rule that tells you how many <span class="arithmatex"><span class="MathJax_Preview">x_{j}</span><script type="math/tex">x_{j}</script></span> you need. For the fist constraint, <span class="arithmatex"><span class="MathJax_Preview">a_{0} \leq 5</span><script type="math/tex">a_{0} \leq 5</script></span>, we need <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> of <span class="arithmatex"><span class="MathJax_Preview">x_{j}</span><script type="math/tex">x_{j}</script></span> such that <span class="arithmatex"><span class="MathJax_Preview">2^{j} - 1 \geq 5</span><script type="math/tex">2^{j} - 1 \geq 5</script></span>. By solving this, we can get <span class="arithmatex"><span class="MathJax_Preview">j=3</span><script type="math/tex">j=3</script></span>, in the same fashion, we can get <span class="arithmatex"><span class="MathJax_Preview">j=2</span><script type="math/tex">j=2</script></span> to satisfy <span class="arithmatex"><span class="MathJax_Preview">2^{2}-1 \geq 3</span><script type="math/tex">2^{2}-1 \geq 3</script></span>.</p>
+<h3 id="the-knapsack-problem">The Knapsack problem</h3>
+<p>It is straightforward to write the Knapsack problem as a binary linear problem. The Knapsack problem is a <span class="arithmatex"><span class="MathJax_Preview">NP</span><script type="math/tex">NP</script></span>-hard problem. We need to define binary variables <span class="arithmatex"><span class="MathJax_Preview">x_j</span><script type="math/tex">x_j</script></span>, <span class="arithmatex"><span class="MathJax_Preview">j=0,\cdots,m</span><script type="math/tex">j=0,\cdots,m</script></span> that indicate <strong>whether we choose object <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> (<span class="arithmatex"><span class="MathJax_Preview">x_j = 1</span><script type="math/tex">x_j = 1</script></span>) or not (<span class="arithmatex"><span class="MathJax_Preview">x_j = 0</span><script type="math/tex">x_j = 0</script></span>)</strong>.</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -(c_{0}x_{0} + c_{1}x_{1} + \cdots + c_{m}x_{m})\\
+\text{subject to} &amp; w_{0}x_{0} + w_{1}x_{1}+ \cdots + w_{m}x_{m} \leq W,\\
+                &amp; x_{j}\in \{0,1\}, \ j = 0, \cdots, m,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -(c_{0}x_{0} + c_{1}x_{1} + \cdots + c_{m}x_{m})\\
+\text{subject to} & w_{0}x_{0} + w_{1}x_{1}+ \cdots + w_{m}x_{m} \leq W,\\
+                & x_{j}\in \{0,1\}, \ j = 0, \cdots, m,
+\end{array}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">c_j</span><script type="math/tex">c_j</script></span> are the object values, <span class="arithmatex"><span class="MathJax_Preview">w_j</span><script type="math/tex">w_j</script></span> are their weights, and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> is the maximum weight of the knapsack. Since we are asking the maximum, so we are now minimizing the negative value. Let's write a Knapsack problem as a binary linear program.</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; -(3x_{0} + 1x_{1} + 7x_{2} + 7x_{3})\\
+\text{subject to} &amp; 2x_{0} + x_{1}+ 5x_{2} + 4x_{3} \leq 8,\\
+                &amp; x_{j}\in \{0,1\}, \ j = 0, 1, 2,3, 
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & -(3x_{0} + 1x_{1} + 7x_{2} + 7x_{3})\\
+\text{subject to} & 2x_{0} + x_{1}+ 5x_{2} + 4x_{3} \leq 8,\\
+                & x_{j}\in \{0,1\}, \ j = 0, 1, 2,3, 
+\end{array}
+</script>
+</div>
+<p>which has values of <span class="arithmatex"><span class="MathJax_Preview">3,1,7,7</span><script type="math/tex">3,1,7,7</script></span> and weight <span class="arithmatex"><span class="MathJax_Preview">2,1,5,4</span><script type="math/tex">2,1,5,4</script></span> with the maximum weight of <span class="arithmatex"><span class="MathJax_Preview">8</span><script type="math/tex">8</script></span>.</p>
+<h3 id="graph-coloring">Graph coloring</h3>
+<p><mark class="critic">In its simplest form, it is a way of coloring the vertices of a graph such that no two adjacent vertices are of the same color.</mark></p>
+<p>In the graph coloring problem, we are given a graph and we are asked to assign a color to each vertex in such a way that vertices that are connected by and edge (also called <strong>adjacent</strong>) receive different colors. We also are asked to do this using the minimum possible numebr of colors or using no mroe than a given number of different colors. If we can color a graph with <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> colors, we say that it is <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span>-<strong>colorable.</strong> The minimum number of colors needed to color a graph is called its <strong>chromatic number</strong>.</p>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/GraphColoring.png" data-desc-position="bottom"><img src="../../images_QOpt/GraphColoring.png" alt="Example of a GraphColoring" style="width: 450px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+        Example of a GraphColoring
+    </p>
+</div>
+
+<p>Let's get start to formulate the graph coloring problem to a QUBO framework!</p>
+<p>First, we have to define some binary variables, let's say we have <span class="arithmatex"><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> vertices from <span class="arithmatex"><span class="MathJax_Preview">j=0,\cdots,m</span><script type="math/tex">j=0,\cdots,m</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">k-1</span><script type="math/tex">k-1</script></span> of different colors with <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span>th on each vertices.
+To ensure each vertice <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> only recieve <strong>one</strong> color <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span>, we can have the following condition:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{l=0}^{k-1}x_{jl} = 1.
+</div>
+<script type="math/tex; mode=display">
+\sum_{l=0}^{k-1}x_{jl} = 1.
+</script>
+</div>
+<p>For an example, this ensure that every <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span>-th vertice only receive one <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span>-th color. We also have to consider for every vertice <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span>, there must exist <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> such that <span class="arithmatex"><span class="MathJax_Preview">x_{jl}=1</span><script type="math/tex">x_{jl}=1</script></span> and such that <span class="arithmatex"><span class="MathJax_Preview">x_{jh}=0</span><script type="math/tex">x_{jh}=0</script></span> for any <span class="arithmatex"><span class="MathJax_Preview">h\neq l</span><script type="math/tex">h\neq l</script></span>. </p>
+<p>Now, we can impose a constraint that adjacent vertice are not assigned the same color. <strong>We know that if two vertices <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> and <span class="arithmatex"><span class="MathJax_Preview">h</span><script type="math/tex">h</script></span> receive the same color <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span>, then we would have <span class="arithmatex"><span class="MathJax_Preview">x_{jl}x_{hl}=1</span><script type="math/tex">x_{jl}x_{hl}=1</script></span></strong>. Therefore, the sum of any <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> and <span class="arithmatex"><span class="MathJax_Preview">h</span><script type="math/tex">h</script></span> must be <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span>, that is,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{l=0}^{k-1}x_{jl}x_{hl} = 0.
+</div>
+<script type="math/tex; mode=display">
+\sum_{l=0}^{k-1}x_{jl}x_{hl} = 0.
+</script>
+</div>
+<p>Then we can write this graph coloring problem into a QUBO framework as,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; \sum_{j=0}^{m}\bigg(\sum_{l=0}^{k-1}x_{jl}-1\bigg)^{2} + \sum_{(j,h)\in E}\sum_{l=0}^{k-1}x_{jl}x_{hl}\\
+\text{subject to} &amp; x_{jl}\in \{0,1\}, \ j = 0,\cdots,m, \ l = 0,\cdots,k-1,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & \sum_{j=0}^{m}\bigg(\sum_{l=0}^{k-1}x_{jl}-1\bigg)^{2} + \sum_{(j,h)\in E}\sum_{l=0}^{k-1}x_{jl}x_{hl}\\
+\text{subject to} & x_{jl}\in \{0,1\}, \ j = 0,\cdots,m, \ l = 0,\cdots,k-1,
+\end{array}
+</script>
+</div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">E</span><script type="math/tex">E</script></span> is the set of edges of the graph. We added <span class="arithmatex"><span class="MathJax_Preview">-1</span><script type="math/tex">-1</script></span> term to ensure when the result deviates from 1, our framework impose a penalty on it. And we don't need to square the second term since they are always non-negative.</p>
+<h3 id="the-traveling-salesperson-problem">The Traveling Salesperson Problem</h3>
+<p>The Traveling salesperon problem is one of the most famous problems in combinatorial optimization. The problem is wasy to state: you need to find a route that goes through each of the cities in a given set once and only once while minimizing some global quantity (distance traveled, time spent, total cost...). </p>
+<div style="text-align: center;">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../images_QOpt/TSP.png" data-desc-position="bottom"><img src="../../images_QOpt/TSP.png" alt="A TSP example" style="width: 300px; height: 300px;"></a>
+    <p style="font-size: 16px; font-style: italic; color: gray; margin-top: 5px;">
+        A TSP example
+    </p>
+</div>
+
+<p><em>Figure. An example of the Traveling Salesperson Problem (TSP)</em></p>
+<p>First, let's deal with visiting each vertex  <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> once and route <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> once. Let's says we have <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> vertices and <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> th different route. If vertex <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> is the <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> th in our travel route, the <span class="arithmatex"><span class="MathJax_Preview">x_{ij}</span><script type="math/tex">x_{ij}</script></span> will be <span class="arithmatex"><span class="MathJax_Preview">1</span><script type="math/tex">1</script></span> and <span class="arithmatex"><span class="MathJax_Preview">x_{jh}</span><script type="math/tex">x_{jh}</script></span> will be <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span> for <span class="arithmatex"><span class="MathJax_Preview">h \neq l</span><script type="math/tex">h \neq l</script></span>. Thus, for every vertex <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span>, we must impose a constraint,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{l=0}^{m}x_{jl}=1
+</div>
+<script type="math/tex; mode=display">
+\sum_{l=0}^{m}x_{jl}=1
+</script>
+</div>
+<p>because every vertex needs to be visited exactly once. Next, since we can only visit one city at a time for each <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> travel route</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{j=0}^{m}x_{jl} = 1.
+</div>
+<script type="math/tex; mode=display">
+\sum_{j=0}^{m}x_{jl} = 1.
+</script>
+</div>
+<p>If these two constraints are met, we will have a path that visit every vertex once and only once. However, that's not enough. Remember that we may want to minimize some global quantity (distance traveled, time spent, total cost...)? We need an expression that gives us that global quantity in terms of the <span class="arithmatex"><span class="MathJax_Preview">x_{jl}</span><script type="math/tex">x_{jl}</script></span> varialbles. Notice that an edge <span class="arithmatex"><span class="MathJax_Preview">(j,k)</span><script type="math/tex">(j,k)</script></span> is used if and only if the vertices <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> and <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> are consecutive in the path. That is, if and only if there exists an <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> such that <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> is visited in position <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> and <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> is visited in position <strong><span class="arithmatex"><span class="MathJax_Preview">l+1</span><script type="math/tex">l+1</script></span></strong>. In that case, the cost of using the edge will be given by <span class="arithmatex"><span class="MathJax_Preview">w_{jk}x_{jl}x_{kl+1}</span><script type="math/tex">w_{jk}x_{jl}x_{kl+1}</script></span>, because <span class="arithmatex"><span class="MathJax_Preview">x_{jl}x_{kl+1} =1</span><script type="math/tex">x_{jl}x_{kl+1} =1</script></span>. and if <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> and <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> are not consecutive in the path, then <span class="arithmatex"><span class="MathJax_Preview">x_{jl}x_{kl+1} = 0</span><script type="math/tex">x_{jl}x_{kl+1} = 0</script></span> for every <span class="arithmatex"><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span>.</p>
+<p>This ensure that we only visit <span class="arithmatex"><span class="MathJax_Preview">kl+1</span><script type="math/tex">kl+1</script></span> after vertiex <span class="arithmatex"><span class="MathJax_Preview">kl</span><script type="math/tex">kl</script></span>, thus we calculate the cost(or any global quantity). As a resutl, the cost of our tour is given by,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{l=0}^{m-1}\sum_{j=0}^{m}\sum_{k=0}^{m} w_{jk}x_{jl}x_{kl+1},
+</div>
+<script type="math/tex; mode=display">
+\sum_{l=0}^{m-1}\sum_{j=0}^{m}\sum_{k=0}^{m} w_{jk}x_{jl}x_{kl+1},
+</script>
+</div>
+<p>then we conbine our constraints and get:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{ll}
+\text{minimize} &amp; \sum_{l=0}^{m-1}\sum_{j=0}^{m}\sum_{k=0}^{m} w_{jk}x_{jl}x_{kl+1} + B_{1}(\sum_{l=0}^{m}x_{ij}-1)^{2}+B_{2}(\sum_{j=0}^{m}x_{jl}-1)^{2}\\
+\text{subject to} &amp; x_{jl}\in \{0,1\}, \ j = 0,\cdots,m, \ l = 0,\cdots,k-1.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{ll}
+\text{minimize} & \sum_{l=0}^{m-1}\sum_{j=0}^{m}\sum_{k=0}^{m} w_{jk}x_{jl}x_{kl+1} + B_{1}(\sum_{l=0}^{m}x_{ij}-1)^{2}+B_{2}(\sum_{j=0}^{m}x_{jl}-1)^{2}\\
+\text{subject to} & x_{jl}\in \{0,1\}, \ j = 0,\cdots,m, \ l = 0,\cdots,k-1.
+\end{array}
+</script>
+</div>
+<p>where penalty constants <span class="arithmatex"><span class="MathJax_Preview">B_1</span><script type="math/tex">B_1</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B_2</span><script type="math/tex">B_2</script></span> is choosen so that any deviated results will generate large outcome in our cost function.</p>
+<h1 id="reference">Reference</h1>
+<p>[1]. Combarro, E. F., &amp; González-Castillo, S. (2023). A practical guide to quantum machine learning and quantum optimisation: Hands-on approach to modern quantum algorithms. Packt Publishing.
+[2]. By Miym - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=6002348</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2024-2025 <a href="https://github.com/pcchouCR97" target="_blank" rel="noopener">Po-Chih Chou</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pcchouCR97/mkdocs-material-tutorial" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/po-chih-chou-0638941ab/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "search.highlight", "search.share", "math", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

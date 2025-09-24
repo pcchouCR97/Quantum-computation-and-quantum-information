@@ -1,0 +1,5519 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A collection of my learnings and projects on Quantum Computing and Information.">
+      
+      
+        <meta name="author" content="Po-Chih Chou">
+      
+      
+      
+        <link rel="prev" href="../quantum_paralleslism/">
+      
+      
+        <link rel="next" href="../test_level/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Linear Algebra - Quantum Computation and Quantum Information</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#linear-algebra" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Quantum Computation and Quantum Information" class="md-header__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quantum Computation and Quantum Information
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Linear Algebra
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../quantum_state_space_basics/" class="md-tabs__link">
+          
+  
+  
+  Quantum Algorithm 101
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../quantum_computation/fourier_transformation/" class="md-tabs__link">
+          
+  
+  
+  Quantum Computation
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Cs/computational_complexity/" class="md-tabs__link">
+          
+  
+  
+  Computer Science
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../quantum_information/qnoise_n_qoperation/" class="md-tabs__link">
+          
+  
+  
+  Quantum information
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../QuantumOpt/QOpt/QUBO/" class="md-tabs__link">
+          
+  
+  
+  Quantum ML and Optimization
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-tabs__link">
+          
+  
+  
+  Real-world Problems
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About Me
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Quantum Computation and Quantum Information" class="md-nav__button md-logo" aria-label="Quantum Computation and Quantum Information" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    Quantum Computation and Quantum Information
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Algorithm 101
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Algorithm 101
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_state_space_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum State Space Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Sup_Entg_Rev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Superposition, Entanglement and Reversibility
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Qubit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit(s)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Quantum_logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TheBlochSphereAndRotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Bloch sphere and rotations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../measurement_in_quantum_mechanics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Measurement in Quantum Mechanics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_postulate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Postulate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Bloch_sphere/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloch sphere
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../born_rule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Born Rule
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../computational_basis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational Basis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hilbert_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hilbert Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logic_gates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logic Gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6">
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Linear Algebra
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linear_algebr_tensor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matrices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Matrices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foundation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Foundations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector_space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Vector Space
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../space_transform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Space Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modular_arithmetic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modular Arithmetic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8">
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Probability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../probability_theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Embeding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_feature_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Feature Map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qubit_dimensionality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qubit Dimensionality
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qiskit_primitives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Qiskit Primitives
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variational_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_paralleslism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Paralleslism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bases-and-linear-independence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bases and linear independence
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear-operators-and-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linear operators and matrices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pauli-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Pauli matrices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inner-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inner products
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inner products">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#orthogonal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Orthogonal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#norm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Norm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit vector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix representation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outer-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outer product
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completness-relation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Completness relation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cauchy-schwarz-inequality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cauchy-Schwarz inequality
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eigenvectors-and-eigenvalues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eigenvectors and eigenvalues
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adjoints-and-hermitian-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adjoints and Hermitian operators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adjoints and Hermitian operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projectors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unitary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unitary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positive-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Positive operator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensor-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tensor products
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tensor products">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kronecker-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kronecker product
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operator functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operator functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-commutator-and-anti-commutator" class="md-nav__link">
+    <span class="md-ellipsis">
+      The commutator and anti-commutator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The commutator and anti-commutator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commutation-relations-for-the-pauli-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commutation relations for the Pauli matrices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-polar-and-singular-value-decomposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      The polar and singular value decomposition
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The polar and singular value decomposition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polar-decomposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polar decomposition
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singluar-decompostion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Singluar Decompostion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_16">
+        
+          
+          <label class="md-nav__link" for="__nav_2_16" id="__nav_2_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Test
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_16">
+            <span class="md-nav__icon md-icon"></span>
+            Test
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_level/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Test level
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Computation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1">
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Fourier Transform
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Fourier Transform
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/fourier_transformation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fourier Transform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/order_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Order-finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/factoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factoring (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/period_finding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Period finding (Shor's Algorithm)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Learning hub
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Learning hub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/jupyter_qc/adder0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Calculating 1+1 using quantum gates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/jupyter_qc/Shor%27s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Building Shor’s Algorithm from Scratch: Factoring 15
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Algorithms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/phase_kickback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Phase kickback
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/computation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5">
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Search Algorithm
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Search Algorithm
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_q_search_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Quantum Search Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_quantum_counting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Counting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_NP_complete_problems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quadratic speed up NP-complete problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/qsa_black_box_limits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Block box algorithm limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6">
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum computer
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum computer
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conditions for quantum computation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_neutral_atom/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Neural atom quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_hoscillator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic oscillator quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_optphoto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical photo quantum computer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_optcavity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optical cavity quantum electrodynamics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_iontrap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ion traps
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_computation/q_computer_nuclearmag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nuclear magnetic resonance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Computer Science
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Computer Science
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1">
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            Basics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cs/computational_complexity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational complexity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cs/P_NP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P and NP problem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum information
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum information
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qnoise_n_qoperation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum noise and quantum operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2">
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum error-correction
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum error-correction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction_stabilizer_formalism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The stabilizer formalism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_information/qerror_correction_stabilizer_codes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stabilizer codes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum ML and Optimization
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum ML and Optimization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Algorithms
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Algorithms
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_1">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_1" id="__nav_6_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quadratic Unconstrained Binary Optimization (QUBO)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quadratic Unconstrained Binary Optimization (QUBO)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/QUBO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QUBO Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_1_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Start QUBO with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_example_knapsack_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Knapsack problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QUBO_example_max_cut_and_tsp_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Max-Cut and Traveler Saleman Problem with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_2" id="__nav_6_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Adiabatic Quantum Computing &amp; Quantum Annealing (AQQA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/AQQA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AQQA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/AQQA_D-WAVE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Working AQQA with D-wave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_3" id="__nav_6_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Approximate Optimization Algorithm (QAOA)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Approximate Optimization Algorithm (QAOA)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/QAOA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QAOA Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QAOA_D-Wave.ipynb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solving QUBO problems with QAOA in Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/QAOA_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using QAOA with PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_4" id="__nav_6_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Grover Adaptive Search (GAS)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            Grover Adaptive Search (GAS)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/GAS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GAS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/GAS_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using GAS with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_1_5" id="__nav_6_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Quantum Eignesolver (VQE)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Quantum Eignesolver (VQE)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QOpt/VQEIntro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VQE Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QOpt/VQE_Qiskit_molecule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using VQE with Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Optimization Machine Learning
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Optimization Machine Learning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/MachineLearningRefresher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning Refresher
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_2" id="__nav_6_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machines (QSVM)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Support Vector Machines (QSVM)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QSVM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QSVM Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QML/%28C%29load_wine_QSVM_PennyLane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Support Vector Machine in PennyLane
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_3" id="__nav_6_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Neural Networks (QNN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Neural Networks (QNN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QNN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QNN Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_4">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_4" id="__nav_6_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Hybrid Architectures (QHybrid)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Hybrid Architectures (QHybrid)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QHyb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QHybrid Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2_5">
+        
+          
+          <label class="md-nav__link" for="__nav_6_2_5" id="__nav_6_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Generative Adversarial Networks (QGAN)
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Generative Adversarial Networks (QGAN)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QML/QGANS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    QGANS Intro
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3">
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm Design
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Variational Algorithm Design
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/QVE_variational_algorithm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variational Algorithm
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Ansatz_and_variational_forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ansatz and variational forms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Varitaional_design%29_cost_functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cost functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Optimization_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local and Global Optimizers
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../QuantumOpt/jupyter_QVC/%28Variational_design%29_Instances_and_extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Instances and extensions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Real-world Problems
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Real-world Problems
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Scheduling and Logistics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Scheduling and Logistics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/jupyter_Opt/%28C%29nurse_scheduling_qiskit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nurse Scheduling Problem Using Qiskit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/jupyter_Opt/%28C%29Air_Traffic_Control_1_Runway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Air Traffic Control Problem - Optimal Runway Allocation for Single-Plane Assignments in a Multi-Runway Airport
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Finance
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Finance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1" id="__nav_7_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Quantum Amplitude Estimation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quantum Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_iterative_amplitude_estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterative Amplitude Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Q_circuit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Constructing Quantum Circuit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_conv_accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Convergence and Accuracy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_quantum_amplitude_estimation_Var_n_CVaR/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VaR and CVaR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_2" id="__nav_7_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Credit Risk Analysis
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_credit_risk_problem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credit Risk Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_credit_risk_glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_Portfolio_Optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_Portfolio_Diversification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Portfolio Diversification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3">
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Biology
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Biology
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Projs/Projs_Opt/Proj_RNA_Folding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RNA Folding
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About Me
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bases-and-linear-independence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bases and linear independence
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linear-operators-and-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linear operators and matrices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-pauli-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Pauli matrices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inner-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inner products
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inner products">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#orthogonal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Orthogonal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#norm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Norm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unit-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unit vector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix representation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#outer-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      Outer product
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completness-relation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Completness relation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cauchy-schwarz-inequality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cauchy-Schwarz inequality
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eigenvectors-and-eigenvalues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eigenvectors and eigenvalues
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adjoints-and-hermitian-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adjoints and Hermitian operators
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adjoints and Hermitian operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Projectors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unitary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unitary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#positive-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Positive operator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensor-products" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tensor products
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tensor products">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kronecker-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kronecker product
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operator functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Operator functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-commutator-and-anti-commutator" class="md-nav__link">
+    <span class="md-ellipsis">
+      The commutator and anti-commutator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The commutator and anti-commutator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commutation-relations-for-the-pauli-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commutation relations for the Pauli matrices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-polar-and-singular-value-decomposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      The polar and singular value decomposition
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The polar and singular value decomposition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polar-decomposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polar decomposition
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#singluar-decompostion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Singluar Decompostion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="linear-algebra">Linear Algebra</h1>
+<p>This page gives some of the basic linear algebra fundation of a quantum information.</p>
+<h2 id="bases-and-linear-independence">Bases and linear independence</h2>
+<p>A spinning set for the vector space <span class="arithmatex"><span class="MathJax_Preview">\mathbb{C}^{2}</span><script type="math/tex">\mathbb{C}^{2}</script></span> is the set </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+|v_{1}\rangle \equiv \begin{bmatrix} 1\\0 \end{bmatrix}; \ |v_{2}\rangle \equiv \begin{bmatrix} 0\\1 \end{bmatrix};
+</div>
+<script type="math/tex; mode=display">
+|v_{1}\rangle \equiv \begin{bmatrix} 1\\0 \end{bmatrix}; \ |v_{2}\rangle \equiv \begin{bmatrix} 0\\1 \end{bmatrix};
+</script>
+</div>
+<p>since any vector </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+|v\rangle = \begin{bmatrix} a_{1}\\a_{2} \end{bmatrix}
+</div>
+<script type="math/tex; mode=display">
+|v\rangle = \begin{bmatrix} a_{1}\\a_{2} \end{bmatrix}
+</script>
+</div>
+<p>in <span class="arithmatex"><span class="MathJax_Preview">\mathbb{C}^{2}</span><script type="math/tex">\mathbb{C}^{2}</script></span> can be written as a linear combination <span class="arithmatex"><span class="MathJax_Preview">|v\rangle = a_{1}|v_{1}\rangle + a_{2}|v_{2}\rangle</span><script type="math/tex">|v\rangle = a_{1}|v_{1}\rangle + a_{2}|v_{2}\rangle</script></span> of the vectors <span class="arithmatex"><span class="MathJax_Preview">|v_{1}\rangle</span><script type="math/tex">|v_{1}\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|v_{2}\rangle</span><script type="math/tex">|v_{2}\rangle</script></span>. We say that </p>
+<blockquote>
+<p>Vector <span class="arithmatex"><span class="MathJax_Preview">v_{1}</span><script type="math/tex">v_{1}</script></span> and <span class="arithmatex"><span class="MathJax_Preview">v_{2}</span><script type="math/tex">v_{2}</script></span> <em>span</em> the vector space <span class="arithmatex"><span class="MathJax_Preview">\mathbb{C}^{2}</span><script type="math/tex">\mathbb{C}^{2}</script></span></p>
+</blockquote>
+<p>A set of non-zero vectors <span class="arithmatex"><span class="MathJax_Preview">|v_{1}\rangle, ..., |v_{n}\rangle</span><script type="math/tex">|v_{1}\rangle, ..., |v_{n}\rangle</script></span> are <em>linearly dependent</em> if there exists a set of complex numbers <span class="arithmatex"><span class="MathJax_Preview">a_{1},...,a_{n}</span><script type="math/tex">a_{1},...,a_{n}</script></span> with <span class="arithmatex"><span class="MathJax_Preview">a_{i} \neq 0</span><script type="math/tex">a_{i} \neq 0</script></span> for at least one value of <span class="arithmatex"><span class="MathJax_Preview">i</span><script type="math/tex">i</script></span>, such that </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+a_{1}|v_{1}\rangle + a_{2}|v_{2}\rangle + ... + a_{n}|v_{n}\rangle = 0
+</div>
+<script type="math/tex; mode=display">
+a_{1}|v_{1}\rangle + a_{2}|v_{2}\rangle + ... + a_{n}|v_{n}\rangle = 0
+</script>
+</div>
+<h2 id="linear-operators-and-matrices">Linear operators and matrices</h2>
+<p>A <em>linear operator</em> between vector spaces <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> is defined to be any function <span class="arithmatex"><span class="MathJax_Preview">A:V \mapsto W</span><script type="math/tex">A:V \mapsto W</script></span> which is linear in its inputs,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A\bigg(\sum_{i}a_{i}|v_{i}\rangle\bigg) = \sum_{i}a_{i}A (|v_{i}\rangle).
+</div>
+<script type="math/tex; mode=display">
+A\bigg(\sum_{i}a_{i}|v_{i}\rangle\bigg) = \sum_{i}a_{i}A (|v_{i}\rangle).
+</script>
+</div>
+<p>We usually write <span class="arithmatex"><span class="MathJax_Preview">A|v\rangle</span><script type="math/tex">A|v\rangle</script></span> instead of <span class="arithmatex"><span class="MathJax_Preview">A(|v\rangle)</span><script type="math/tex">A(|v\rangle)</script></span>. A is defeined on a vector space, <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>, we mean that <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is a linear operator from <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> to <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>. </p>
+<ul>
+<li>An important linear operator on any vector space <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> is the <em>identity operator</em>, <span class="arithmatex"><span class="MathJax_Preview">I_{V}</span><script type="math/tex">I_{V}</script></span>, defined by the equation <span class="arithmatex"><span class="MathJax_Preview">I_{V}|v\rangle \equiv |v\rangle</span><script type="math/tex">I_{V}|v\rangle \equiv |v\rangle</script></span> for all vectors <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span>.</li>
+<li>Another important linear operator is the <em>zero operator</em>, which we denote <span class="arithmatex"><span class="MathJax_Preview">0</span><script type="math/tex">0</script></span>, which maps all vectors to the zero vector, <span class="arithmatex"><span class="MathJax_Preview">0|v\rangle \equiv |0\rangle</span><script type="math/tex">0|v\rangle \equiv |0\rangle</script></span>.</li>
+</ul>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">V,W</span><script type="math/tex">V,W</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">X</span><script type="math/tex">X</script></span> are vector spaces, and <span class="arithmatex"><span class="MathJax_Preview">A: V \mapsto W</span><script type="math/tex">A: V \mapsto W</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B: W\mapsto X</span><script type="math/tex">B: W\mapsto X</script></span> are linear operators. Then we use the notation <span class="arithmatex"><span class="MathJax_Preview">BA</span><script type="math/tex">BA</script></span> to denote the <em>composition</em> of <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> with <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>, defined by <span class="arithmatex"><span class="MathJax_Preview">(BA)|v\rangle \equiv B(A|v\rangle) \equiv BA|v\rangle</span><script type="math/tex">(BA)|v\rangle \equiv B(A|v\rangle) \equiv BA|v\rangle</script></span>.</p>
+<p>The most common way to understand linear operator is in terms of their matirx representation. In fact, the linear opreator and matrix viewpoints turns out to be common completely equivalant. more precisely, the claim that the matrix <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is a linear operator means</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A\bigg( \sum_{i}a_{i}|v_{i}\rangle\bigg) = \sum_{i}a_{i}A_{ij}|v_{i}\rangle
+</div>
+<script type="math/tex; mode=display">
+A\bigg( \sum_{i}a_{i}|v_{i}\rangle\bigg) = \sum_{i}a_{i}A_{ij}|v_{i}\rangle
+</script>
+</div>
+<p>is true as an equation where the operation is matrix multiplication of <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> by column vectors. <span class="arithmatex"><span class="MathJax_Preview">A_{ij}</span><script type="math/tex">A_{ij}</script></span> is just a <em>matrix representation</em> of the operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>.</p>
+<h2 id="the-pauli-matrices">The Pauli matrices</h2>
+<p>Four extremely useful matrices which we should know are the <em>Pauli matrices</em>.</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rr}
+\sigma_{0} \equiv I \equiv \begin{bmatrix} 1 &amp; 0 \\ 0 &amp;1 \end{bmatrix} &amp; 
+\sigma_{1} \equiv \sigma_{x} \equiv X \equiv \begin{bmatrix} 0 &amp; 1 \\ 1 &amp;0 \end{bmatrix} \\
+\sigma_{2} \equiv \sigma_{y} \equiv Y \equiv \begin{bmatrix} 0 &amp; -i \\ i &amp;0 \end{bmatrix} &amp;
+\sigma_{3} \equiv \sigma_{z} \equiv Z \equiv \begin{bmatrix} 1 &amp; 0 \\ 0 &amp;-1 \end{bmatrix} \\
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rr}
+\sigma_{0} \equiv I \equiv \begin{bmatrix} 1 & 0 \\ 0 &1 \end{bmatrix} & 
+\sigma_{1} \equiv \sigma_{x} \equiv X \equiv \begin{bmatrix} 0 & 1 \\ 1 &0 \end{bmatrix} \\
+\sigma_{2} \equiv \sigma_{y} \equiv Y \equiv \begin{bmatrix} 0 & -i \\ i &0 \end{bmatrix} &
+\sigma_{3} \equiv \sigma_{z} \equiv Z \equiv \begin{bmatrix} 1 & 0 \\ 0 &-1 \end{bmatrix} \\
+\end{array}
+</script>
+</div>
+<h2 id="inner-products">Inner products</h2>
+<p>In quantum mechanical notation for the inner product <span class="arithmatex"><span class="MathJax_Preview">(|v\rangle,|w\rangle)</span><script type="math/tex">(|v\rangle,|w\rangle)</script></span> is <span class="arithmatex"><span class="MathJax_Preview">\langle v|w\rangle</span><script type="math/tex">\langle v|w\rangle</script></span>, where <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> are vectors in the inner product sapce. A function <span class="arithmatex"><span class="MathJax_Preview">(\cdot,\cdot)</span><script type="math/tex">(\cdot,\cdot)</script></span> from <span class="arithmatex"><span class="MathJax_Preview">V\times V</span><script type="math/tex">V\times V</script></span> to <span class="arithmatex"><span class="MathJax_Preview">\mathbb{C}</span><script type="math/tex">\mathbb{C}</script></span> is an inner product if </p>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">(\cdot,\cdot)</span><script type="math/tex">(\cdot,\cdot)</script></span> is linear in the second argument,</li>
+</ol>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\bigg(|v\rangle , \sum_{i}\lambda_{i}|w_{i}\rangle \bigg) = \sum_{i}\lambda_{i}(|v\rangle,|w]\rangle) = \sum_{i}\lambda_{i}\langle v|w\rangle.
+</div>
+<script type="math/tex; mode=display">
+\bigg(|v\rangle , \sum_{i}\lambda_{i}|w_{i}\rangle \bigg) = \sum_{i}\lambda_{i}(|v\rangle,|w]\rangle) = \sum_{i}\lambda_{i}\langle v|w\rangle.
+</script>
+</div>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">(|v\rangle,|w\rangle) = (|w\rangle,|v\rangle)^{*}</span><script type="math/tex">(|v\rangle,|w\rangle) = (|w\rangle,|v\rangle)^{*}</script></span>.</li>
+<li><span class="arithmatex"><span class="MathJax_Preview">(|v\rangle,|v\rangle) \geq 0</span><script type="math/tex">(|v\rangle,|v\rangle) \geq 0</script></span> with equality if and only if <span class="arithmatex"><span class="MathJax_Preview">|v\rangle = 0</span><script type="math/tex">|v\rangle = 0</script></span>.</li>
+</ol>
+<p>For example, <span class="arithmatex"><span class="MathJax_Preview">\mathbb{C}^{n}</span><script type="math/tex">\mathbb{C}^{n}</script></span> has an inner product defeined by </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+((y_{1},...,y_{n}),((z_{1},...,z_{n}))) \equiv \sum_{i}y_{i}^{*}z_{i} = \begin{bmatrix} y_{1}^{*} ... y_{n}^{*} \end{bmatrix} \begin{bmatrix} z_{1}\\ \vdots\\ z_{n} \end{bmatrix}.
+</div>
+<script type="math/tex; mode=display">
+((y_{1},...,y_{n}),((z_{1},...,z_{n}))) \equiv \sum_{i}y_{i}^{*}z_{i} = \begin{bmatrix} y_{1}^{*} ... y_{n}^{*} \end{bmatrix} \begin{bmatrix} z_{1}\\ \vdots\\ z_{n} \end{bmatrix}.
+</script>
+</div>
+<h3 id="orthogonal">Orthogonal</h3>
+<blockquote>
+<p>Vectors <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> are <em>orthogonal</em> if their inner product is zero.</p>
+</blockquote>
+<h3 id="norm">Norm</h3>
+<p>The norm of a vector <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> is defined by </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+|||v\rangle|| = \sqrt{\langle v|v\rangle}.
+</div>
+<script type="math/tex; mode=display">
+|||v\rangle|| = \sqrt{\langle v|v\rangle}.
+</script>
+</div>
+<h3 id="unit-vector">Unit vector</h3>
+<blockquote>
+<p>A <em>unit vector</em> is a vector <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> such that its <em>norm</em> is 1.
+We also say taht <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> is <em>normalized</em> if its <em>norm</em> is 1.</p>
+</blockquote>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">|w_{1}\rangle,...,|w_{d}\rangle</span><script type="math/tex">|w_{1}\rangle,...,|w_{d}\rangle</script></span> is a basis set for some vector space <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> with an inner product. The <em>GRAM-Schmidt</em> procedure can produce an orthonormal basis set <span class="arithmatex"><span class="MathJax_Preview">|v_{1}\rangle,...,|v_{d}\rangle</span><script type="math/tex">|v_{1}\rangle,...,|v_{d}\rangle</script></span> for the vector space <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>. Define <span class="arithmatex"><span class="MathJax_Preview">|v_{1}\rangle \equiv |w_{1}\rangle/|||w_{1}\rangle||</span><script type="math/tex">|v_{1}\rangle \equiv |w_{1}\rangle/|||w_{1}\rangle||</script></span>, and for <span class="arithmatex"><span class="MathJax_Preview">1\leq k \leq d-1</span><script type="math/tex">1\leq k \leq d-1</script></span> define <span class="arithmatex"><span class="MathJax_Preview">v_{k+1}</span><script type="math/tex">v_{k+1}</script></span> by</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+v_{k+1} = \frac{|w_{k+1}\rangle - \sum_{i=1}^{k}\langle v_{i}|w_{k+1}\rangle|v_{i}\rangle}{|||w_{k+1}\rangle - \sum_{i=1}^{k}\langle v_{i}|w_{k+1}\rangle|v_{i}\rangle||}.
+</div>
+<script type="math/tex; mode=display">
+v_{k+1} = \frac{|w_{k+1}\rangle - \sum_{i=1}^{k}\langle v_{i}|w_{k+1}\rangle|v_{i}\rangle}{|||w_{k+1}\rangle - \sum_{i=1}^{k}\langle v_{i}|w_{k+1}\rangle|v_{i}\rangle||}.
+</script>
+</div>
+<h3 id="matrix-representation">Matrix representation</h3>
+<p>The inner product on a Hilbert space can given a convenient matrix representation. Let <span class="arithmatex"><span class="MathJax_Preview">|w\rangle = \sum_{i}w_{i}|i\rangle</span><script type="math/tex">|w\rangle = \sum_{i}w_{i}|i\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|v\rangle = \sum_{j}v_{j}|j\rangle</span><script type="math/tex">|v\rangle = \sum_{j}v_{j}|j\rangle</script></span> be representations of vector <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> with respect to some orthonormal basis <span class="arithmatex"><span class="MathJax_Preview">|i\rangle</span><script type="math/tex">|i\rangle</script></span>. Then, since <span class="arithmatex"><span class="MathJax_Preview">\langle i |j\rangle = \delta_{ij}</span><script type="math/tex">\langle i |j\rangle = \delta_{ij}</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+\langle v|w\rangle = &amp; \bigg( \sum_{i}v_{i}|i\rangle, \sum_{j}w_{j}|j\rangle\bigg) = \sum_{ij}v_{i}^{*}w_{j}\delta_{ij} = \sum_{i}v_{i}^{*}w_{i} \\
+\ = &amp; \begin{bmatrix} v_{1}^{*} ... v_{n}^{*} \end{bmatrix} \begin{bmatrix} w_{1} \\ \vdots \\ w_{n}\end{bmatrix}
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+\langle v|w\rangle = & \bigg( \sum_{i}v_{i}|i\rangle, \sum_{j}w_{j}|j\rangle\bigg) = \sum_{ij}v_{i}^{*}w_{j}\delta_{ij} = \sum_{i}v_{i}^{*}w_{i} \\
+\ = & \begin{bmatrix} v_{1}^{*} ... v_{n}^{*} \end{bmatrix} \begin{bmatrix} w_{1} \\ \vdots \\ w_{n}\end{bmatrix}
+\end{array}
+</script>
+</div>
+<p>The inner product of two vectors is equal to the vector inner product between two matrix representations of those vectors, provided the representations are written with respect to the same orthonormal basis.</p>
+<h3 id="outer-product">Outer product</h3>
+<p>We can also represent linear operators which makes use of the inner product, known as the <em>inner product</em> representation. Suppose <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> is a vector in an inner product spave <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> is a vector in an inner product space <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>. Define <span class="arithmatex"><span class="MathJax_Preview">|w\rangle\langle v|</span><script type="math/tex">|w\rangle\langle v|</script></span> to be the linear operator <strong>from <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> to <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span></strong> whose action is defined by </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+(|w\rangle \langle v|)(|v'\rangle) \equiv |w\rangle \langle v|v'\rangle = \langle v|v' \rangle|w\rangle.
+</div>
+<script type="math/tex; mode=display">
+(|w\rangle \langle v|)(|v'\rangle) \equiv |w\rangle \langle v|v'\rangle = \langle v|v' \rangle|w\rangle.
+</script>
+</div>
+<blockquote>
+<p>When the <em>operator</em> <span class="arithmatex"><span class="MathJax_Preview">|w\rangle \langle v|</span><script type="math/tex">|w\rangle \langle v|</script></span> acts on <span class="arithmatex"><span class="MathJax_Preview">|v'\rangle</span><script type="math/tex">|v'\rangle</script></span>, it results of multiplying <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> by the complex number <span class="arithmatex"><span class="MathJax_Preview">\langle v|v' \rangle</span><script type="math/tex">\langle v|v' \rangle</script></span>.</p>
+</blockquote>
+<h3 id="completness-relation">Completness relation</h3>
+<p>Let <span class="arithmatex"><span class="MathJax_Preview">|i\rangle</span><script type="math/tex">|i\rangle</script></span> be any orthonormal basis for the vector space <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>, so an arbitrary vector <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> can be written <span class="arithmatex"><span class="MathJax_Preview">|v\rangle = \sum_{i}v_{i}|i\rangle</span><script type="math/tex">|v\rangle = \sum_{i}v_{i}|i\rangle</script></span> for some set of complex number <span class="arithmatex"><span class="MathJax_Preview">v_{i}</span><script type="math/tex">v_{i}</script></span>. Since <span class="arithmatex"><span class="MathJax_Preview">\langle i|v\rangle</span><script type="math/tex">\langle i|v\rangle</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\bigg( \sum_{i}|i\rangle\langle i|\bigg)|v\rangle = \sum_{i}|i\rangle\langle i|v\rangle = \sum_{i}v_{i}|i\rangle = |v\rangle.
+</div>
+<script type="math/tex; mode=display">
+\bigg( \sum_{i}|i\rangle\langle i|\bigg)|v\rangle = \sum_{i}|i\rangle\langle i|v\rangle = \sum_{i}v_{i}|i\rangle = |v\rangle.
+</script>
+</div>
+<p>since the last equation is true for all <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> it follows that </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\sum_{i}|i\rangle\langle i | = I, \ \text{completness relation}.
+</div>
+<script type="math/tex; mode=display">
+\sum_{i}|i\rangle\langle i | = I, \ \text{completness relation}.
+</script>
+</div>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">A: V \rightarrow W</span><script type="math/tex">A: V \rightarrow W</script></span> is a linear operator, <span class="arithmatex"><span class="MathJax_Preview">|v_{i}\rangle</span><script type="math/tex">|v_{i}\rangle</script></span> is an orthonormal basis for <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">|w_{j}\rangle</span><script type="math/tex">|w_{j}\rangle</script></span> and orthonormal basis for <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>. Using the completeness reltaion twice we obtain</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+A = &amp; I_{W}AI_{V}\\
+\ = &amp; \sum_{ij}|w_{j}\rangle\langle w_{j}|A|v_{i}\rangle\langle v_{i}|\\
+\ = &amp; \sum_{ij}\langle w_{j}|A|v_{i}\rangle|w_{j}\rangle\langle v_{i}|
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+A = & I_{W}AI_{V}\\
+\ = & \sum_{ij}|w_{j}\rangle\langle w_{j}|A|v_{i}\rangle\langle v_{i}|\\
+\ = & \sum_{ij}\langle w_{j}|A|v_{i}\rangle|w_{j}\rangle\langle v_{i}|
+\end{array}
+</script>
+</div>
+<p>which is the outer product representation for <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>. An A has matrix element <span class="arithmatex"><span class="MathJax_Preview">\langle w_{j}|A|v_{i}\rangle</span><script type="math/tex">\langle w_{j}|A|v_{i}\rangle</script></span> in the <span class="arithmatex"><span class="MathJax_Preview">i</span><script type="math/tex">i</script></span>-th column and <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span>-th row, respect to the inpur basis <span class="arithmatex"><span class="MathJax_Preview">|v_{i}\rangle</span><script type="math/tex">|v_{i}\rangle</script></span> and output basis <span class="arithmatex"><span class="MathJax_Preview">|w_{j}\rangle</span><script type="math/tex">|w_{j}\rangle</script></span>.</p>
+<h3 id="cauchy-schwarz-inequality">Cauchy-Schwarz inequality</h3>
+<p>%TODO</p>
+<h2 id="eigenvectors-and-eigenvalues">Eigenvectors and eigenvalues</h2>
+<h2 id="adjoints-and-hermitian-operators">Adjoints and Hermitian operators</h2>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is any linear opeartor on a Hilbert space, <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>. It turns out that there exist a unique linear operator <span class="arithmatex"><span class="MathJax_Preview">A^{\dagger}</span><script type="math/tex">A^{\dagger}</script></span> on <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> such that for all vectors <span class="arithmatex"><span class="MathJax_Preview">|v\rangle, |w\rangle \in V</span><script type="math/tex">|v\rangle, |w\rangle \in V</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+(|v\rangle,A|w\rangle) = (A^{\dagger}|v\rangle,|w\rangle).
+</div>
+<script type="math/tex; mode=display">
+(|v\rangle,A|w\rangle) = (A^{\dagger}|v\rangle,|w\rangle).
+</script>
+</div>
+<p>This operator is known as the <em>adjoint</em> or <em>Hermitian conjugate</em> of the operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>. </p>
+<blockquote>
+<p><span class="arithmatex"><span class="MathJax_Preview">(AB)^{\dagger} = B^{\dagger}A^{\dagger}</span><script type="math/tex">(AB)^{\dagger} = B^{\dagger}A^{\dagger}</script></span>. </p>
+</blockquote>
+<p>By convention, if <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> is a vector then we know <span class="arithmatex"><span class="MathJax_Preview">|v\rangle^{\dagger} \equiv \langle v|</span><script type="math/tex">|v\rangle^{\dagger} \equiv \langle v|</script></span>. Then we know that <span class="arithmatex"><span class="MathJax_Preview">(A|v\rangle)^{\dagger} = \langle v|A^{\dagger}</span><script type="math/tex">(A|v\rangle)^{\dagger} = \langle v|A^{\dagger}</script></span>.</p>
+<h3 id="projectors">Projectors</h3>
+<p>An operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> whose adjoint is <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is known as a <em>Hermitian</em> or <em>self-adjoint</em> operator. An important class of Hermitian operators is the <em>projectors</em>. Suppose <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> is a <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span>-dimensional vector subspace of the <span class="arithmatex"><span class="MathJax_Preview">i</span><script type="math/tex">i</script></span>-dimentional vector space <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>.</p>
+<p>By using Gram-Schmidt procedure it is possible to construct an orthonormal basis <span class="arithmatex"><span class="MathJax_Preview">|1\rangle,...,|d\rangle</span><script type="math/tex">|1\rangle,...,|d\rangle</script></span> for <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> such that <span class="arithmatex"><span class="MathJax_Preview">|1\rangle,...,|k\rangle</span><script type="math/tex">|1\rangle,...,|k\rangle</script></span> is an orthonormal basis for <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>. By definition,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+P \equiv \sum_{i=1}^{k}|i\rangle\langle i|
+</div>
+<script type="math/tex; mode=display">
+P \equiv \sum_{i=1}^{k}|i\rangle\langle i|
+</script>
+</div>
+<p>is the <em>projector</em> onth the subspace <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>. </p>
+<p>The <em>orthogonal complement</em> of <span class="arithmatex"><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span> is the operator <span class="arithmatex"><span class="MathJax_Preview">Q\equiv I-P</span><script type="math/tex">Q\equiv I-P</script></span>. <span class="arithmatex"><span class="MathJax_Preview">Q</span><script type="math/tex">Q</script></span> is a projector onto the vector space spanned by <span class="arithmatex"><span class="MathJax_Preview">|k+1\rangle,...,|d\rangle</span><script type="math/tex">|k+1\rangle,...,|d\rangle</script></span>, which we also refer to as the <em>orthogonal complement</em> of <span class="arithmatex"><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span>, and may denote by <span class="arithmatex"><span class="MathJax_Preview">Q</span><script type="math/tex">Q</script></span>. </p>
+<blockquote>
+<p>Any projector <span class="arithmatex"><span class="MathJax_Preview">P</span><script type="math/tex">P</script></span> satisfies <span class="arithmatex"><span class="MathJax_Preview">P^{2} = P</span><script type="math/tex">P^{2} = P</script></span>.</p>
+</blockquote>
+<h3 id="normal">Normal</h3>
+<p>An operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is said to be <em>normal</em> if <span class="arithmatex"><span class="MathJax_Preview">AA^{\dagger} = A^{\dagger}A</span><script type="math/tex">AA^{\dagger} = A^{\dagger}A</script></span>. A <em>spectral decomposition</em> theorm states that an operator is a normal operator if and only if it is diagonalizable.</p>
+<blockquote>
+<p>A normal matrix is Hermitian if and only if it has real eigenvales.</p>
+</blockquote>
+<h3 id="unitary">Unitary</h3>
+<p>A operator/matrix <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> is said to be <em>unitary</em> if <span class="arithmatex"><span class="MathJax_Preview">U^{\dagger}U = I</span><script type="math/tex">U^{\dagger}U = I</script></span>. A unitary operator also satisfies <span class="arithmatex"><span class="MathJax_Preview">UU^{\dagger} = I</span><script type="math/tex">UU^{\dagger} = I</script></span>, and therefore <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> is normal has a spectral decompostion. An unitary operators are important since they preserve inner products between vectors. To see this, let <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> be any two vectors. Then the inner product of <span class="arithmatex"><span class="MathJax_Preview">U|v\rangle</span><script type="math/tex">U|v\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">U|w\rangle</span><script type="math/tex">U|w\rangle</script></span> is the same as the inner product of <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+(U|v\rangle,U|w\rangle) = \langle v|U^{\dagger}U|w\rangle = \langle v|I|w\rangle = \langle v|w\rangle.
+</div>
+<script type="math/tex; mode=display">
+(U|v\rangle,U|w\rangle) = \langle v|U^{\dagger}U|w\rangle = \langle v|I|w\rangle = \langle v|w\rangle.
+</script>
+</div>
+<p>since <span class="arithmatex"><span class="MathJax_Preview">(U|v\rangle)^{\dagger} = \langle v|U^{\dagger}</span><script type="math/tex">(U|v\rangle)^{\dagger} = \langle v|U^{\dagger}</script></span>. This result suggests the following outer product representation of any unitary <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span>. Let <span class="arithmatex"><span class="MathJax_Preview">|v_{i}\rangle</span><script type="math/tex">|v_{i}\rangle</script></span> be any orthonormal basis set. Define <span class="arithmatex"><span class="MathJax_Preview">|w_{i}\rangle \equiv U|v_{i}\rangle</span><script type="math/tex">|w_{i}\rangle \equiv U|v_{i}\rangle</script></span>, so <span class="arithmatex"><span class="MathJax_Preview">|w_{i}\rangle</span><script type="math/tex">|w_{i}\rangle</script></span> is also an orthonormal basis set, since unitary operators preserve inner products. Note that <span class="arithmatex"><span class="MathJax_Preview">U = \sum_{i}|w_{i}\rangle\langle v_{i}|</span><script type="math/tex">U = \sum_{i}|w_{i}\rangle\langle v_{i}|</script></span>.</p>
+<h3 id="positive-operator">Positive operator</h3>
+<p>A positive operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is defined to be an operator such that for any vector <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span>, <span class="arithmatex"><span class="MathJax_Preview">(|v,\rangle, A|v\rangle)</span><script type="math/tex">(|v,\rangle, A|v\rangle)</script></span> is a real, non-negative number. If <span class="arithmatex"><span class="MathJax_Preview">(|v,\rangle, A|v\rangle)</span><script type="math/tex">(|v,\rangle, A|v\rangle)</script></span> is <em>strictly</em> greater than zero for all <span class="arithmatex"><span class="MathJax_Preview">|v\rangle \neq 0</span><script type="math/tex">|v\rangle \neq 0</script></span> then we say <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is <em>positive defininte</em>. </p>
+<blockquote>
+<p>Any positive operator is automatically Hermitian, and therefore by the spectral decomposition has diagonal representation <span class="arithmatex"><span class="MathJax_Preview">\sum_{i}\lambda_{i}|r\rangle\langle i|</span><script type="math/tex">\sum_{i}\lambda_{i}|r\rangle\langle i|</script></span>. with non-negative eigenvalues <span class="arithmatex"><span class="MathJax_Preview">\lambda_{i}</span><script type="math/tex">\lambda_{i}</script></span>.</p>
+<p>Any operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>, <span class="arithmatex"><span class="MathJax_Preview">A^{\dagger}A</span><script type="math/tex">A^{\dagger}A</script></span> is positive.</p>
+</blockquote>
+<h2 id="tensor-products">Tensor products</h2>
+<p>The <em>tensor product</em> is a way of putting vector spaces together to form larger vector spaces. </p>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> are vector spaces of dimension <span class="arithmatex"><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> and <span class="arithmatex"><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> respectively. For convenience we also suppose that <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> are Hilbert spaces. Then <span class="arithmatex"><span class="MathJax_Preview">V\otimes W</span><script type="math/tex">V\otimes W</script></span> is an <span class="arithmatex"><span class="MathJax_Preview">mn</span><script type="math/tex">mn</script></span> dimensional vector space. In particular, if <span class="arithmatex"><span class="MathJax_Preview">|i\rangle</span><script type="math/tex">|i\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|j\rangle</span><script type="math/tex">|j\rangle</script></span> are orthonormal bases for the spaces <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> then <span class="arithmatex"><span class="MathJax_Preview">|i\rangle \otimes |j\rangle</span><script type="math/tex">|i\rangle \otimes |j\rangle</script></span> is a basis for <span class="arithmatex"><span class="MathJax_Preview">V\otimes W</span><script type="math/tex">V\otimes W</script></span>. Be often use the abbriviationd notations for <span class="arithmatex"><span class="MathJax_Preview">|v\rangle|w\rangle</span><script type="math/tex">|v\rangle|w\rangle</script></span> as <span class="arithmatex"><span class="MathJax_Preview">|vw\rangle</span><script type="math/tex">|vw\rangle</script></span>. Here are some of the basic tensor properties:</p>
+<ol>
+<li>
+<p>For an arbitrary scaler <span class="arithmatex"><span class="MathJax_Preview">z</span><script type="math/tex">z</script></span> and elements <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> of <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> for <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>,
+$$
+z(|v\rangle\otimes|w\rangle) = (z|v\rangle)\otimes |w\rangle = |v\rangle \otimes (z|w\rangle).
+$$</p>
+</li>
+<li>
+<p>For arbitrary <span class="arithmatex"><span class="MathJax_Preview">|v_{1}\rangle</span><script type="math/tex">|v_{1}\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|v_{2}\rangle</span><script type="math/tex">|v_{2}\rangle</script></span> in <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> in <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>,
+$$
+(|v_{1}\rangle + |v_{2}\rangle) \otimes |w\rangle = |v_{1}\rangle \otimes |w\rangle + |v_{2}\rangle \otimes |w\rangle.
+$$</p>
+</li>
+<li>
+<p>For arbitrary <span class="arithmatex"><span class="MathJax_Preview">|v\rangle</span><script type="math/tex">|v\rangle</script></span> in <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w_{1}\rangle</span><script type="math/tex">|w_{1}\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w_{2}\rangle</span><script type="math/tex">|w_{2}\rangle</script></span> in <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>,
+$$
+|v\rangle \otimes (|w_{1}\rangle + |w_{2}\rangle) = |v\rangle \otimes |w_{1}\rangle + |v\rangle \otimes w_{2}\rangle.
+$$</p>
+</li>
+<li>
+<p>Suppose we have operators <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> and <span class="arithmatex"><span class="MathJax_Preview">v\rangle</span><script type="math/tex">v\rangle</script></span> and <span class="arithmatex"><span class="MathJax_Preview">|w\rangle</span><script type="math/tex">|w\rangle</script></span> are vectors in <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span>, respectively. Then we can defiine a linear operator <span class="arithmatex"><span class="MathJax_Preview">A\otimes B</span><script type="math/tex">A\otimes B</script></span> on <span class="arithmatex"><span class="MathJax_Preview">V\otimes W</span><script type="math/tex">V\otimes W</script></span> by the equation
+$$
+(A\otimes B)(|v\rangle \otimes |w\rangle) \equiv A|v\rangle \otimes B|w\rangle.
+$$
+The definition of <span class="arithmatex"><span class="MathJax_Preview">A\otimes B</span><script type="math/tex">A\otimes B</script></span> is then extended to all elements of <span class="arithmatex"><span class="MathJax_Preview">V\otimes W</span><script type="math/tex">V\otimes W</script></span>, that is,
+$$
+(A\otimes B)\bigg(\sum_{i}a_{i}|v_{i}\rangle \otimes |w_{i}\rangle\bigg) \equiv \sum_{i}a_{i}A|v_{i}\rangle \otimes B|w_{i}\rangle.
+$$</p>
+</li>
+</ol>
+<p>%TODO, Adding an exmple </p>
+<p>An arbitrary linear opeartor <span class="arithmatex"><span class="MathJax_Preview">C</span><script type="math/tex">C</script></span> mapping <span class="arithmatex"><span class="MathJax_Preview">V\otimes W</span><script type="math/tex">V\otimes W</script></span> to <span class="arithmatex"><span class="MathJax_Preview">V'\otimes W'</span><script type="math/tex">V'\otimes W'</script></span> can be represented as a linear combination of tensor products of operators mapping <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> to <span class="arithmatex"><span class="MathJax_Preview">V'</span><script type="math/tex">V'</script></span> and <span class="arithmatex"><span class="MathJax_Preview">W</span><script type="math/tex">W</script></span> to <span class="arithmatex"><span class="MathJax_Preview">W'</span><script type="math/tex">W'</script></span>,
+$$
+C = \sum_{i}c_{i}A_{i}\otimes B_{i}
+$$
+by definition
+$$
+\bigg(\sum_{i}c_{i}A_{i}\otimes B_{i} \bigg)|v\rangle \otimes |w\rangle \equiv \sum_{i}c_{i}A_{i}|v\rangle \otimes B_{i}|w\rangle.
+$$</p>
+<h3 id="kronecker-product">Kronecker product</h3>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is an <span class="arithmatex"><span class="MathJax_Preview">m</span><script type="math/tex">m</script></span> by <span class="arithmatex"><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> matrix, and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> is a <span class="arithmatex"><span class="MathJax_Preview">p</span><script type="math/tex">p</script></span> by <span class="arithmatex"><span class="MathJax_Preview">q</span><script type="math/tex">q</script></span> matrix. Then we have the matrix representation for <span class="arithmatex"><span class="MathJax_Preview">A\otimes B</span><script type="math/tex">A\otimes B</script></span>:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A\otimes B = 
+\begin{bmatrix}
+A_{11}B &amp; A_{11}B &amp; ... &amp; A_{1n}B \\
+A_{11}B &amp; A_{11}B &amp; ... &amp; A_{2n}B \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
+A_{m1}B &amp; A_{m1}B &amp; ... &amp; A_{mn}B 
+\end{bmatrix}
+</div>
+<script type="math/tex; mode=display">
+A\otimes B = 
+\begin{bmatrix}
+A_{11}B & A_{11}B & ... & A_{1n}B \\
+A_{11}B & A_{11}B & ... & A_{2n}B \\
+\vdots & \vdots & \vdots & \vdots \\
+A_{m1}B & A_{m1}B & ... & A_{mn}B 
+\end{bmatrix}
+</script>
+</div>
+<p>For example, the tensor product of vectors <span class="arithmatex"><span class="MathJax_Preview">(1,2)</span><script type="math/tex">(1,2)</script></span> and <span class="arithmatex"><span class="MathJax_Preview">(2,3)</span><script type="math/tex">(2,3)</script></span> is the vector </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{bmatrix} 1\\ 2 \end{bmatrix} \otimes \begin{bmatrix} 2\\ 3 \end{bmatrix} = 
+\begin{bmatrix} 1 \times 2 \\ 1\times 3\\ 2 \times 2\\ 2\times 3 \end{bmatrix} =
+\begin{bmatrix} 2\\ 3\\ 4\\ 6 \end{bmatrix} 
+</div>
+<script type="math/tex; mode=display">
+\begin{bmatrix} 1\\ 2 \end{bmatrix} \otimes \begin{bmatrix} 2\\ 3 \end{bmatrix} = 
+\begin{bmatrix} 1 \times 2 \\ 1\times 3\\ 2 \times 2\\ 2\times 3 \end{bmatrix} =
+\begin{bmatrix} 2\\ 3\\ 4\\ 6 \end{bmatrix} 
+</script>
+</div>
+<p>The tensor of the Pauli-X and Pauli-Y is</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+X\otimes Y = \begin{bmatrix} 0\cdot Y &amp; 1\cdot Y \\ 1\cdot Y &amp; 0\cdot Y  \end{bmatrix}
+= \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; -i \\ 0 &amp; 0 &amp; i &amp; 0 \\ 0 &amp; -i &amp; 0 &amp; 0 \\ i &amp; 0 &amp; 0 &amp; 0 \\ \end{bmatrix}
+</div>
+<script type="math/tex; mode=display">
+X\otimes Y = \begin{bmatrix} 0\cdot Y & 1\cdot Y \\ 1\cdot Y & 0\cdot Y  \end{bmatrix}
+= \begin{bmatrix} 0 & 0 & 0 & -i \\ 0 & 0 & i & 0 \\ 0 & -i & 0 & 0 \\ i & 0 & 0 & 0 \\ \end{bmatrix}
+</script>
+</div>
+<p>Finally, We introduce the useful notation <span class="arithmatex"><span class="MathJax_Preview">|\psi\rangle^{\otimes k}</span><script type="math/tex">|\psi\rangle^{\otimes k}</script></span>, which means <span class="arithmatex"><span class="MathJax_Preview">|\psi\rangle</span><script type="math/tex">|\psi\rangle</script></span> tensored with itself <span class="arithmatex"><span class="MathJax_Preview">k</span><script type="math/tex">k</script></span> times. For example, <span class="arithmatex"><span class="MathJax_Preview">|\psi\rangle^{\otimes 2} = |\psi\rangle |\psi\rangle</span><script type="math/tex">|\psi\rangle^{\otimes 2} = |\psi\rangle |\psi\rangle</script></span>.</p>
+<blockquote>
+<p><span class="arithmatex"><span class="MathJax_Preview">(A\otimes B)* = A* \otimes B*</span><script type="math/tex">(A\otimes B)* = A* \otimes B*</script></span>; <span class="arithmatex"><span class="MathJax_Preview">(A \otimes B)^{T} = A^{T} \otimes B^{T}</span><script type="math/tex">(A \otimes B)^{T} = A^{T} \otimes B^{T}</script></span>; <span class="arithmatex"><span class="MathJax_Preview">(A\otimes B)^{\dagger} = A^{\dagger} \otimes B^{\dagger}</span><script type="math/tex">(A\otimes B)^{\dagger} = A^{\dagger} \otimes B^{\dagger}</script></span>.</p>
+<p>The tensor product of two unitary operators is unitary.</p>
+<p>The tensor product of two Hermitian operators is Hermitian.</p>
+<p>The tensor product of two positive operators is positive.</p>
+<p>The tensor product of two projectors is a projector.</p>
+</blockquote>
+<p>A Hadamard operator on one qubit may be written as </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+H = \frac{1}{\sqrt{2}} \bigg[ (|0\rangle +|1\rangle) \langle 0| + (|0\rangle -|1\rangle) \langle 1|\bigg].
+</div>
+<script type="math/tex; mode=display">
+H = \frac{1}{\sqrt{2}} \bigg[ (|0\rangle +|1\rangle) \langle 0| + (|0\rangle -|1\rangle) \langle 1|\bigg].
+</script>
+</div>
+<p>The Hadamard transform on <span class="arithmatex"><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span> qubits, <span class="arithmatex"><span class="MathJax_Preview">H^{\otimes n}</span><script type="math/tex">H^{\otimes n}</script></span>, can be written as </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+H^{\otimes n} = \frac{1}{\sqrt{2^{n}}}\sum_{x,y}(-1)^{x\cdot y}|x\rangle \langle y|.
+</div>
+<script type="math/tex; mode=display">
+H^{\otimes n} = \frac{1}{\sqrt{2^{n}}}\sum_{x,y}(-1)^{x\cdot y}|x\rangle \langle y|.
+</script>
+</div>
+<h2 id="operator-functions">Operator functions</h2>
+<p>%TODO
+Given a function <span class="arithmatex"><span class="MathJax_Preview">f</span><script type="math/tex">f</script></span> from the complex numbers to the complex numbers, it is possible to define a corresponding matrix function on normal matrices by the following construction. Let <span class="arithmatex"><span class="MathJax_Preview">A = \sum_{a}a|a\rangle\langle a|</span><script type="math/tex">A = \sum_{a}a|a\rangle\langle a|</script></span> be a spectral decomposition for a normal operator <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>. Define 
+$$
+f(A)\equiv \sum_{a}f(a)|a\rangle \langle a|
+$$
+Since <span class="arithmatex"><span class="MathJax_Preview">f(A)</span><script type="math/tex">f(A)</script></span> is uniquely defined. </p>
+<h3 id="trace">Trace</h3>
+<p>The trace of <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is defined to be the sum of its diagonal elements,
+$$
+\text{tr}(A) \equiv \sum_{i} A_{ii}.
+$$</p>
+<p>The trace is easily seen to be <em>cyclic</em>, <span class="arithmatex"><span class="MathJax_Preview">\text{tr}(AB) = \text{tr}(BA)</span><script type="math/tex">\text{tr}(AB) = \text{tr}(BA)</script></span>, and <em>linear</em>, <span class="arithmatex"><span class="MathJax_Preview">\text{tr}(A+B) = \text{tr}(A) + \text{tr}(B), \text{tr}(zA) = z\text{A}</span><script type="math/tex">\text{tr}(A+B) = \text{tr}(A) + \text{tr}(B), \text{tr}(zA) = z\text{A}</script></span>, where <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are arbitrary matrices and <span class="arithmatex"><span class="MathJax_Preview">z</span><script type="math/tex">z</script></span> is a complex number. From the cyclic property it follows that the trace of a matrix is invariant under the unitary <em>similarity transformation</em> <span class="arithmatex"><span class="MathJax_Preview">A \mapsto UAU^{\dagger}</span><script type="math/tex">A \mapsto UAU^{\dagger}</script></span>, as <span class="arithmatex"><span class="MathJax_Preview">\text{tr}(UAU^{\dagger}) = \text{tr}(UU^{\dagger}A) = \text{tr} = \text{tr}(A)</span><script type="math/tex">\text{tr}(UAU^{\dagger}) = \text{tr}(UU^{\dagger}A) = \text{tr} = \text{tr}(A)</script></span>. Thus, it makes sense to define the trace of an <em>operator</em> <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> to be the trace of any matrix representation of <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>. </p>
+<p>Suppose <span class="arithmatex"><span class="MathJax_Preview">|\psi\rangle</span><script type="math/tex">|\psi\rangle</script></span> is a unit vector and <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> us an arbitrary operator. To evaluate <span class="arithmatex"><span class="MathJax_Preview">\text{tr}(A|\psi\rangle\langle\psi|)</span><script type="math/tex">\text{tr}(A|\psi\rangle\langle\psi|)</script></span> use the Gram-Schmidt procedure to extend <span class="arithmatex"><span class="MathJax_Preview">|\psi\rangle</span><script type="math/tex">|\psi\rangle</script></span> to an orthonormal basis <span class="arithmatex"><span class="MathJax_Preview">|i\rangle</span><script type="math/tex">|i\rangle</script></span> which includes <span class="arithmatex"><span class="MathJax_Preview">|\psi\rangle</span><script type="math/tex">|\psi\rangle</script></span> as the first element. Then we have </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+\text{tr}(A|\psi\rangle\langle\psi|) &amp; = \sum_{i}\langle i|A|\psi\rangle\langle\psi|i\rangle\\
+\ &amp; = \langle \psi|A|\psi\rangle.
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+\text{tr}(A|\psi\rangle\langle\psi|) & = \sum_{i}\langle i|A|\psi\rangle\langle\psi|i\rangle\\
+\ & = \langle \psi|A|\psi\rangle.
+\end{array}
+</script>
+</div>
+<p>The result <span class="arithmatex"><span class="MathJax_Preview">\text{tr}(A|\psi\rangle\langle\psi|) = \langle \psi|A|\rangle</span><script type="math/tex">\text{tr}(A|\psi\rangle\langle\psi|) = \langle \psi|A|\rangle</script></span> is useful in evaluating the trace of an operator.</p>
+<h2 id="the-commutator-and-anti-commutator">The commutator and anti-commutator</h2>
+<p>The <em>commutator</em> between two operators <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> is defined to be </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+[A,B] \equiv AB-BA.
+</div>
+<script type="math/tex; mode=display">
+[A,B] \equiv AB-BA.
+</script>
+</div>
+<p>If <span class="arithmatex"><span class="MathJax_Preview">[A,B] = 0</span><script type="math/tex">[A,B] = 0</script></span>, then we say <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> <em>commutes</em> with <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span>.</p>
+<p>The <em>anti-commutator</em> of two operators <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> is defined by </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\{A,B \} \equiv AB+BA
+</div>
+<script type="math/tex; mode=display">
+\{A,B \} \equiv AB+BA
+</script>
+</div>
+<p>We say <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> <em>anti-commutes</em> with <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> if <span class="arithmatex"><span class="MathJax_Preview">\{A,B\} = 0</span><script type="math/tex">\{A,B\} = 0</script></span></p>
+<p>It turns out that many important properties of pairs of operators can be deducted from their commutator and anti-commutator. The most useful relation is the following connection between the commutator and the property of being able to <em>simultaneously diagonalize</em> Hermitian operators <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span>.</p>
+<p>Hertimian operators <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span>, write <span class="arithmatex"><span class="MathJax_Preview">A = \sum_{i}a_{i}|i\rangle\langle i|</span><script type="math/tex">A = \sum_{i}a_{i}|i\rangle\langle i|</script></span>, <span class="arithmatex"><span class="MathJax_Preview">B = \sum_{i}b_{i}|i\rangle\langle i|</span><script type="math/tex">B = \sum_{i}b_{i}|i\rangle\langle i|</script></span>, where <span class="arithmatex"><span class="MathJax_Preview">|i\rangle</span><script type="math/tex">|i\rangle</script></span> is some common orthonormal set of eigenvectors for <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span>.</p>
+<blockquote>
+<p>(Simultaneous diagonalization theorem) Suppose <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are Hermitian operators. Then <span class="arithmatex"><span class="MathJax_Preview">[A,B] =0</span><script type="math/tex">[A,B] =0</script></span> if and only if there exists an orthonormal basis such that <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are diagonal with respect to that basis. We say that <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are <em>simultaneous diagonalizable</em> in this case. </p>
+</blockquote>
+<p>In plain text, if <span class="arithmatex"><span class="MathJax_Preview">[A,B] = 0</span><script type="math/tex">[A,B] = 0</script></span> there exist an orthonormal basis such that both <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are diagonal with respect to that basis.</p>
+<p>For example, if we want to determine if Pauli-X and Pauli-Y matrix are commute=.</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+[X,Y] &amp; = XY-YX\\
+ &amp; = 2iZ,
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+[X,Y] & = XY-YX\\
+ & = 2iZ,
+\end{array}
+</script>
+</div>
+<p>so <span class="arithmatex"><span class="MathJax_Preview">X</span><script type="math/tex">X</script></span> and <span class="arithmatex"><span class="MathJax_Preview">Y</span><script type="math/tex">Y</script></span> do not commute. Any we know that <span class="arithmatex"><span class="MathJax_Preview">X</span><script type="math/tex">X</script></span> and <span class="arithmatex"><span class="MathJax_Preview">Y</span><script type="math/tex">Y</script></span> doesn't have common eigenvectors, as we expect from the simultaneous diagonalization theorm.</p>
+<blockquote>
+<p>If <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are diagonal in the same orthonormal basis then <span class="arithmatex"><span class="MathJax_Preview">[A,B] =0</span><script type="math/tex">[A,B] =0</script></span></p>
+</blockquote>
+<h3 id="commutation-relations-for-the-pauli-matrices">Commutation relations for the Pauli matrices</h3>
+<p>We have </p>
+<ol>
+<li><span class="arithmatex"><span class="MathJax_Preview">[X,Y] = 2iZ</span><script type="math/tex">[X,Y] = 2iZ</script></span></li>
+<li><span class="arithmatex"><span class="MathJax_Preview">[Y,Z] = 2iX</span><script type="math/tex">[Y,Z] = 2iX</script></span></li>
+<li><span class="arithmatex"><span class="MathJax_Preview">[Z,X] = 2iY</span><script type="math/tex">[Z,X] = 2iY</script></span></li>
+</ol>
+<p>we can use <span class="arithmatex"><span class="MathJax_Preview">\epsilon_{jkl}</span><script type="math/tex">\epsilon_{jkl}</script></span>, the antisymmetric tensor on three indices, for which <span class="arithmatex"><span class="MathJax_Preview">\epsilon_{jkl} =0</span><script type="math/tex">\epsilon_{jkl} =0</script></span> expect  for <span class="arithmatex"><span class="MathJax_Preview">\epsilon_{123} = \epsilon_{231} = \epsilon_{312} = 1</span><script type="math/tex">\epsilon_{123} = \epsilon_{231} = \epsilon_{312} = 1</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">\epsilon_{321} = \epsilon_{213} = \epsilon_{132} = -1</span><script type="math/tex">\epsilon_{321} = \epsilon_{213} = \epsilon_{132} = -1</script></span>:</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+[\sigma_{j},\sigma_{k}] = 2i\sum_{l=1}^{3}\epsilon_{jkl}\sigma_{l}.
+</div>
+<script type="math/tex; mode=display">
+[\sigma_{j},\sigma_{k}] = 2i\sum_{l=1}^{3}\epsilon_{jkl}\sigma_{l}.
+</script>
+</div>
+<blockquote>
+<p><span class="arithmatex"><span class="MathJax_Preview">\{\sigma_{i}, \sigma_{j}\} = 0</span><script type="math/tex">\{\sigma_{i}, \sigma_{j}\} = 0</script></span> where <span class="arithmatex"><span class="MathJax_Preview">i\neq j</span><script type="math/tex">i\neq j</script></span> are both chosen from the set 1,2,3. For i = (0,1,2,3), <span class="arithmatex"><span class="MathJax_Preview">\sigma_{i}^{2} = I</span><script type="math/tex">\sigma_{i}^{2} = I</script></span></p>
+</blockquote>
+<p>Here are some properties:</p>
+<blockquote>
+<p><span class="arithmatex"><span class="MathJax_Preview">AB = \frac{[A,B]+\{A,B\}}{2}.</span><script type="math/tex">AB = \frac{[A,B]+\{A,B\}}{2}.</script></span></p>
+<p>For<span class="arithmatex"><span class="MathJax_Preview">j,k = 1,2,3,</span><script type="math/tex">j,k = 1,2,3,</script></span> <span class="arithmatex"><span class="MathJax_Preview">\sigma_{j}\sigma_{k} = \delta_{jk}I + i\sum_{l=1}^{3} \epsilon_{jkl}\sigma_{l}</span><script type="math/tex">\sigma_{j}\sigma_{k} = \delta_{jk}I + i\sum_{l=1}^{3} \epsilon_{jkl}\sigma_{l}</script></span>.</p>
+<p><span class="arithmatex"><span class="MathJax_Preview">[A,B]^{\dagger} = [B^{\dagger}, A^{\dagger}]</span><script type="math/tex">[A,B]^{\dagger} = [B^{\dagger}, A^{\dagger}]</script></span>.</p>
+<p>If <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> and <span class="arithmatex"><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> are Hermitian operators, <span class="arithmatex"><span class="MathJax_Preview">i[A,B]</span><script type="math/tex">i[A,B]</script></span> is also a Hermitian.</p>
+</blockquote>
+<h2 id="the-polar-and-singular-value-decomposition">The polar and singular value decomposition</h2>
+<h3 id="polar-decomposition">Polar decomposition</h3>
+<p>The polar and singular value decompositions are useful ways of breaking linear operators up into simpler parts. In particular, these decompositions allow us to break general linear operators up into products of unitary operators and positive operators.</p>
+<div class="admonition note">
+<p class="admonition-title">Polar decomposition</p>
+<p>Let <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> be a linear operator on a vector space <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>. Then there exists unitary <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> and positive operators <span class="arithmatex"><span class="MathJax_Preview">J</span><script type="math/tex">J</script></span> and <span class="arithmatex"><span class="MathJax_Preview">K</span><script type="math/tex">K</script></span> such that </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A = UJ = KU,
+</div>
+<script type="math/tex; mode=display">
+A = UJ = KU,
+</script>
+</div>
+<p>where the unique positive operators <span class="arithmatex"><span class="MathJax_Preview">J</span><script type="math/tex">J</script></span> and <span class="arithmatex"><span class="MathJax_Preview">K</span><script type="math/tex">K</script></span> satisfying these equations are defined by <span class="arithmatex"><span class="MathJax_Preview">J\equiv \sqrt{A^{\dagger}A}</span><script type="math/tex">J\equiv \sqrt{A^{\dagger}A}</script></span> and <span class="arithmatex"><span class="MathJax_Preview">K\equiv \sqrt{A^{\dagger}A}</span><script type="math/tex">K\equiv \sqrt{A^{\dagger}A}</script></span>. If <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span> is invertible then <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> is unique.</p>
+</div>
+<p>We call the expression <span class="arithmatex"><span class="MathJax_Preview">A=UJ</span><script type="math/tex">A=UJ</script></span> the <em>left polar decomposition</em> of <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>, and <span class="arithmatex"><span class="MathJax_Preview">A=KU</span><script type="math/tex">A=KU</script></span> the <em>right polar decomposition</em>. For example, give <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A = 
+\begin{bmatrix}
+0 &amp; 2 \\ 0 &amp; 0
+\end{bmatrix}
+</div>
+<script type="math/tex; mode=display">
+A = 
+\begin{bmatrix}
+0 & 2 \\ 0 & 0
+\end{bmatrix}
+</script>
+</div>
+<p>We can calcualte <span class="arithmatex"><span class="MathJax_Preview">J = \sqrt{A^{\dagger}A}</span><script type="math/tex">J = \sqrt{A^{\dagger}A}</script></span>,</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A^{\dagger}A = \begin{bmatrix} 0 &amp; 0\\ 2 &amp; 0 \end{bmatrix} \begin{bmatrix} 0 &amp; 2\\ 0 &amp; 0 \end{bmatrix} = \begin{bmatrix} 0 &amp; 0\\ 0 &amp; 4 \end{bmatrix}
+</div>
+<script type="math/tex; mode=display">
+A^{\dagger}A = \begin{bmatrix} 0 & 0\\ 2 & 0 \end{bmatrix} \begin{bmatrix} 0 & 2\\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0\\ 0 & 4 \end{bmatrix}
+</script>
+</div>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+J = \sqrt{A^{\dagger}A} = \begin{bmatrix} 0 &amp; 0\\ 0 &amp; 2 \end{bmatrix}
+</div>
+<script type="math/tex; mode=display">
+J = \sqrt{A^{\dagger}A} = \begin{bmatrix} 0 & 0\\ 0 & 2 \end{bmatrix}
+</script>
+</div>
+<p>Since <span class="arithmatex"><span class="MathJax_Preview">A = UJ</span><script type="math/tex">A = UJ</script></span>, we know </p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+\begin{array}{rl}
+U = AJ^{-1} = &amp; \begin{bmatrix} 0 &amp; 2\\ 0 &amp; 0 \end{bmatrix} = \begin{bmatrix} 0 &amp; 0\\ 0 &amp; \frac{1}{2} \end{bmatrix}\\
+\ = &amp; \begin{bmatrix} 0 &amp; 0\\ 1 &amp; 0 \end{bmatrix}
+\end{array}
+</div>
+<script type="math/tex; mode=display">
+\begin{array}{rl}
+U = AJ^{-1} = & \begin{bmatrix} 0 & 2\\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0\\ 0 & \frac{1}{2} \end{bmatrix}\\
+\ = & \begin{bmatrix} 0 & 0\\ 1 & 0 \end{bmatrix}
+\end{array}
+</script>
+</div>
+<p>The matrix <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> must be a unitary matrix.</p>
+<h3 id="singluar-decompostion">Singluar Decompostion</h3>
+<div class="admonition note">
+<p class="admonition-title">Singluar Decompostion</p>
+<p>Let A be a square matrix. Then there exist unitary matrices <span class="arithmatex"><span class="MathJax_Preview">U</span><script type="math/tex">U</script></span> and <span class="arithmatex"><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span> , and a diagonal matrix D with non-negative entries such that</p>
+<div class="arithmatex">
+<div class="MathJax_Preview">
+A = UDV
+</div>
+<script type="math/tex; mode=display">
+A = UDV
+</script>
+</div>
+<p>The diagonal elements of <span class="arithmatex"><span class="MathJax_Preview">D</span><script type="math/tex">D</script></span> are called the singular values of <span class="arithmatex"><span class="MathJax_Preview">A</span><script type="math/tex">A</script></span>. SVD works for all matrices, real or complex.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2024-2025 <a href="https://github.com/pcchouCR97" target="_blank" rel="noopener">Po-Chih Chou</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pcchouCR97/mkdocs-material-tutorial" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"></path></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/po-chih-chou-0638941ab/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "search.highlight", "search.share", "math", "content.tooltips"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
